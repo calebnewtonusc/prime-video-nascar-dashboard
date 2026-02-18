@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Prime Video NASCAR Dashboard | Q1 2026",
-  description: "Amazon Prime Video NASCAR Cup Series Analytics Dashboard",
+  title: "Prime Video · NASCAR Q1 2026 Analytics",
+  description:
+    "Amazon Prime Video NASCAR Cup Series Go-To-Market Analytics Dashboard — Q1 2026",
 };
 
 export default function RootLayout({
@@ -13,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#0F1117] text-[#F9FAFB]">{children}</body>
+      <body style={{ background: "#080C14", color: "#F9FAFB" }}>{children}</body>
     </html>
   );
 }

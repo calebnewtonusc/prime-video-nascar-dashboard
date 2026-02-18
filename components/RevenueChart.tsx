@@ -10,10 +10,10 @@ const revenueData = [
 ];
 
 const momMetrics = [
-  { label: "vs Jan (Prime Subs)", delta: "+$0.8M", positive: true },
-  { label: "vs Jan (Advertising)", delta: "+$0.3M", positive: true },
-  { label: "vs Jan (International)", delta: "+$0.1M", positive: true },
-  { label: "vs Jan (Merchandise)", delta: "-$0.02M", positive: false },
+  { label: "Prime Subs", delta: "+$0.8M", positive: true },
+  { label: "Advertising", delta: "+$0.3M", positive: true },
+  { label: "International", delta: "+$0.1M", positive: true },
+  { label: "Merchandise", delta: "-$0.02M", positive: false },
 ];
 
 interface TooltipPayloadItem {
@@ -31,39 +31,14 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
   if (!active || !payload || !payload.length) return null;
   const item = payload[0];
   return (
-    <div
-      style={{ background: "#252D3D", border: "1px solid #374151" }}
-      className="rounded-lg p-3 text-sm shadow-xl"
-    >
+    <div style={{ background: "#1F2937", border: "1px solid #374151" }} className="rounded-lg p-3 shadow-xl">
       <div className="flex items-center gap-2 mb-1">
-        <span className="w-2.5 h-2.5 rounded-full" style={{ background: item.payload.color }} />
-        <span className="font-semibold text-white">{item.name}</span>
+        <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: item.payload.color }} />
+        <span className="font-semibold text-white text-xs">{item.name}</span>
       </div>
-      <p className="text-gray-300">
-        Revenue: <span className="text-white font-bold">${item.value}M</span>
-      </p>
-      <p className="text-gray-300">
-        Share: <span className="text-white font-bold">{item.payload.pct}%</span>
-      </p>
+      <p className="text-gray-300 text-xs">Revenue: <span className="text-white font-bold">${item.value}M</span></p>
+      <p className="text-gray-300 text-xs">Share: <span className="text-white font-bold">{item.payload.pct}%</span></p>
     </div>
-  );
-}
-
-interface CenterLabelProps {
-  cx?: number;
-  cy?: number;
-}
-
-function CenterLabel({ cx = 0, cy = 0 }: CenterLabelProps) {
-  return (
-    <>
-      <text x={cx} y={cy - 10} textAnchor="middle" fill="#F9FAFB" fontSize={22} fontWeight={700}>
-        $12.8M
-      </text>
-      <text x={cx} y={cy + 14} textAnchor="middle" fill="#9CA3AF" fontSize={12}>
-        Total Revenue
-      </text>
-    </>
   );
 }
 
@@ -71,93 +46,66 @@ export default function RevenueChart() {
   const total = revenueData.reduce((s, d) => s + d.value, 0).toFixed(1);
 
   return (
-    <div
-      style={{ background: "#1A1F2E", border: "1px solid #252D3D" }}
-      className="rounded-xl p-6 w-full"
-    >
-      {/* Header */}
+    <div style={{ background: "#111827", border: "1px solid #1F2937" }} className="rounded-xl p-6 w-full h-full">
       <div className="mb-4">
-        <div className="flex items-center gap-3">
-          <h2 className="text-xl font-bold text-white">Revenue Breakdown</h2>
-          <span
-            className="text-xs font-semibold px-2 py-0.5 rounded"
-            style={{ background: "#FF990022", color: "#FF9900", border: "1px solid #FF990044" }}
-          >
-            Q1 2026
-          </span>
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-bold text-white">Revenue Breakdown</h2>
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide" style={{ background: "rgba(255,153,0,0.12)", color: "#FF9900", border: "1px solid rgba(255,153,0,0.25)" }}>Q1 2026</span>
         </div>
-        <p className="text-sm text-gray-400 mt-0.5">Q1 2026 &bull; All Sources</p>
+        <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>All revenue sources &bull; Feb &ndash; Mar</p>
       </div>
 
-      {/* Donut chart */}
-      <div className="flex flex-col items-center">
-        <ResponsiveContainer width="100%" height={280}>
+      {/* Donut with absolute center text overlay — recharts does not support SVG children for center labels */}
+      <div className="relative" style={{ height: 220 }}>
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={revenueData}
               cx="50%"
               cy="50%"
-              innerRadius={80}
-              outerRadius={120}
+              innerRadius={72}
+              outerRadius={100}
               paddingAngle={3}
               dataKey="value"
               strokeWidth={0}
+              startAngle={90}
+              endAngle={-270}
             >
               {revenueData.map((entry) => (
-                <Cell key={entry.name} fill={entry.color} />
+                <Cell key={entry.name} fill={entry.color} opacity={0.9} />
               ))}
             </Pie>
             <Tooltip content={<CustomTooltip />} />
-            <CenterLabel cx={undefined} cy={undefined} />
           </PieChart>
         </ResponsiveContainer>
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+          <span className="text-[26px] font-black metric-value" style={{ color: "#F9FAFB", lineHeight: 1 }}>${total}M</span>
+          <span className="text-[11px] mt-1" style={{ color: "#6B7280" }}>Total Revenue</span>
+        </div>
       </div>
 
-      {/* Legend */}
-      <div className="grid grid-cols-2 gap-x-6 gap-y-2 mt-1">
+      <div className="space-y-2 mt-2">
         {revenueData.map((item) => (
-          <div key={item.name} className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: item.color }} />
-            <span className="text-xs text-gray-400 truncate">{item.name}</span>
-            <span className="ml-auto text-xs font-semibold text-white">{item.pct}%</span>
+          <div key={item.name} className="flex items-center gap-2.5">
+            <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: item.color }} />
+            <span className="text-[11px] flex-1 truncate" style={{ color: "#9CA3AF" }}>{item.name}</span>
+            <span className="text-[12px] font-bold text-white metric-value">${item.value}M</span>
+            <span className="text-[10px] font-semibold w-8 text-right" style={{ color: item.color }}>{item.pct}%</span>
           </div>
         ))}
       </div>
 
-      {/* Divider */}
-      <div className="border-t mt-4 mb-4" style={{ borderColor: "#252D3D" }} />
-
-      {/* MoM growth metrics */}
-      <div>
-        <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">Month-over-Month vs January</p>
-        <div className="grid grid-cols-2 gap-2">
+      <div className="border-t mt-4 pt-4" style={{ borderColor: "#1F2937" }}>
+        <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: "#6B7280" }}>MoM vs January</p>
+        <div className="grid grid-cols-2 gap-1.5">
           {momMetrics.map((m) => (
-            <div
-              key={m.label}
-              className="flex items-center justify-between px-3 py-2 rounded-lg"
-              style={{ background: "#0F1117" }}
-            >
-              <span className="text-xs text-gray-400 truncate pr-2">{m.label}</span>
-              <span
-                className="text-xs font-bold flex-shrink-0"
-                style={{ color: m.positive ? "#10B981" : "#EF4444" }}
-              >
-                {m.delta}
-              </span>
+            <div key={m.label} className="flex items-center justify-between px-2.5 py-1.5 rounded-lg" style={{ background: "#080C14" }}>
+              <span className="text-[10px]" style={{ color: "#6B7280" }}>{m.label}</span>
+              <span className="text-[11px] font-bold metric-value" style={{ color: m.positive ? "#10B981" : "#EF4444" }}>{m.delta}</span>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Footer total */}
-      <div
-        className="mt-4 flex items-center justify-between px-4 py-3 rounded-lg"
-        style={{ background: "#0F1117", border: "1px solid #252D3D" }}
-      >
-        <span className="text-sm text-gray-400 font-medium">Q1 2026 Total</span>
-        <span className="text-lg font-bold" style={{ color: "#1399FF" }}>
-          ${total}M
-        </span>
       </div>
     </div>
   );

@@ -70,10 +70,10 @@ interface CustomYAxisTickProps {
   x?: number;
   y?: number;
   payload?: { value: string };
-  index?: number;
+
 }
 
-function CustomYAxisTick({ x, y, payload, index }: CustomYAxisTickProps) {
+function CustomYAxisTick({ x, y, payload }: CustomYAxisTickProps) {
   if (!payload) return null;
   const driver = drivers.find((d) => d.name === payload.value);
   const color = driver?.color ?? "#9CA3AF";

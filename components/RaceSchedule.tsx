@@ -131,7 +131,7 @@ function StatusBadge({ status }: { status: RaceStatus }) {
 }
 
 function RatingStars({ rating }: { rating: number }) {
-  const full = Math.floor(rating / 1);
+
   return (
     <div className="flex items-center gap-1">
       <Star size={12} className="fill-yellow-400 text-yellow-400" />
