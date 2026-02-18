@@ -1,40 +1,41 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TABS = [
-  { label: "Overview", href: "/" },
-  { label: "Viewership", href: "/viewership" },
-  { label: "Revenue", href: "/revenue" },
-  { label: "Marketing", href: "/marketing" },
+  { label: "Overview",    href: "/" },
+  { label: "Viewership",  href: "/viewership" },
+  { label: "Revenue",     href: "/revenue" },
+  { label: "Marketing",   href: "/marketing" },
   { label: "AI Insights", href: "/ai-insights" },
 ];
 
 export default function NavTabs() {
-  const pathname = usePathname();
+  const path = usePathname();
   return (
-    <div className="flex items-center gap-1 overflow-x-auto">
-      {TABS.map((tab) => {
-        const active = tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
+    <nav className="flex items-center gap-0" style={{ borderTop: "1px solid #1A2437" }}>
+      {TABS.map(t => {
+        const active = t.href === "/" ? path === "/" : path.startsWith(t.href);
         return (
           <Link
-            key={tab.href}
-            href={tab.href}
-            className="px-4 py-2.5 text-[12px] font-semibold whitespace-nowrap border-b-2 transition-all duration-150"
+            key={t.href}
+            href={t.href}
             style={{
-              color: active ? "#1399FF" : "#6B7280",
-              borderColor: active ? "#1399FF" : "transparent",
+              padding: "9px 16px",
+              fontSize: 12,
+              fontWeight: active ? 600 : 500,
+              color: active ? "#E8ECF4" : "#4E5E74",
+              borderBottom: active ? "2px solid #00A8FF" : "2px solid transparent",
+              marginBottom: -1,
+              transition: "color 0.15s, border-color 0.15s",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
             }}
           >
-            {tab.label}
+            {t.label}
           </Link>
         );
       })}
-      <div className="ml-auto flex items-center gap-2 pb-2 pl-4">
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded" style={{ background: "#1F2937", color: "#6B7280" }}>CONFIDENTIAL</span>
-        <span className="text-[10px]" style={{ color: "#374151" }}>Amazon Prime Video © 2026</span>
-      </div>
-    </div>
+    </nav>
   );
 }

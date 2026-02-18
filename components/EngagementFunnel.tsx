@@ -1,194 +1,75 @@
 "use client";
 
-interface FunnelStage {
-  label: string;
-  value: number;
-  displayValue: string;
-  percentage: number;
-  color: string;
-  conversionFrom?: string;
-}
-
-const stages: FunnelStage[] = [
-  {
-    label: "Ad Impressions",
-    value: 450_000_000,
-    displayValue: "450M",
-    percentage: 100,
-    color: "#1399FF",
-  },
-  {
-    label: "Platform Visits",
-    value: 38_000_000,
-    displayValue: "38M",
-    percentage: 8.4,
-    color: "#60B8FF",
-    conversionFrom: "8.4% of impressions",
-  },
-  {
-    label: "Race Page Views",
-    value: 12_000_000,
-    displayValue: "12M",
-    percentage: 2.7,
-    color: "#FF9900",
-    conversionFrom: "31.6% of visits",
-  },
-  {
-    label: "Trial Starts",
-    value: 1_800_000,
-    displayValue: "1.8M",
-    percentage: 0.4,
-    color: "#10B981",
-    conversionFrom: "15.0% of page views",
-  },
-  {
-    label: "Subscriptions",
-    value: 342_000,
-    displayValue: "342K",
-    percentage: 0.076,
-    color: "#F59E0B",
-    conversionFrom: "19.0% of trials",
-  },
+const funnel = [
+  { stage: "Impressions",        count: 31_200_000, pct: 100,   convRate: null,   color: "#00A8FF" },
+  { stage: "Landing Page Visits",count: 4_368_000,  pct: 14.0,  convRate: 14.0,   color: "#00A8FF" },
+  { stage: "Trial Starts",       count: 874_000,    pct: 2.80,  convRate: 20.0,   color: "#7C6FFF" },
+  { stage: "Trial Completions",  count: 612_000,    pct: 1.96,  convRate: 70.0,   color: "#7C6FFF" },
+  { stage: "Paid Conversions",   count: 342_000,    pct: 1.10,  convRate: 55.9,   color: "#00C896" },
+  { stage: "Retained at 30 Days",count: 263_000,    pct: 0.84,  convRate: 76.9,   color: "#00C896" },
 ];
 
-const MIN_WIDTH = 30;
-const MAX_WIDTH = 100;
-
-function getWidth(percentage: number): number {
-  const scale = Math.log10(percentage + 0.001) / Math.log10(100.001);
-  return MIN_WIDTH + scale * (MAX_WIDTH - MIN_WIDTH);
-}
+const insights = [
+  { label: "Trial→Paid CVR",      value: "55.9%", benchmark: "48% industry avg", good: true },
+  { label: "30-Day Retention",    value: "76.9%", benchmark: "72% Q1 2025",       good: true },
+  { label: "Impression→Trial",    value: "2.80%", benchmark: "2.1% benchmark",    good: true },
+  { label: "Cost Per Conversion", value: "$3.87", benchmark: "$5.20 competitor",  good: true },
+];
 
 export default function EngagementFunnel() {
   return (
-    <div
-      className="rounded-xl p-6"
-      style={{ backgroundColor: "#1A1F2E", border: "1px solid #252D3D" }}
-    >
-      {/* Header */}
-      <div className="mb-6">
-        <h2 className="text-lg font-bold text-[#F9FAFB] leading-tight">
-          Q1 Acquisition Funnel
-        </h2>
-        <p className="text-xs text-[#9CA3AF] mt-1">
-          Impressions &rarr; Subscriptions
-        </p>
+    <div className="rounded-[10px] overflow-hidden h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+      <div className="px-5 py-4" style={{ borderBottom: "1px solid #1A2437" }}>
+        <h2 style={{ fontSize: 15, fontWeight: 700, color: "#E8ECF4" }}>Conversion Funnel</h2>
+        <p style={{ fontSize: 11, color: "#4E5E74", marginTop: 2 }}>Impressions to paid subscribers · Q1 2026</p>
       </div>
 
-      {/* Funnel */}
-      <div className="flex flex-col items-center gap-0">
-        {stages.map((stage, i) => {
-          const widthPct = getWidth(stage.percentage);
-          const nextStage = stages[i + 1];
-          const dropoffPct =
-            nextStage && stage.value > 0
-              ? (((stage.value - nextStage.value) / stage.value) * 100).toFixed(
-                  1
-                )
-              : null;
-
-          return (
-            <div key={stage.label} className="w-full flex flex-col items-center">
-              {/* Trapezoid bar */}
-              <div className="relative w-full flex items-center justify-center">
-                {/* Bar */}
-                <div
-                  className="relative flex items-center justify-between px-4 py-3 transition-all duration-300"
-                  style={{
-                    width: `${widthPct}%`,
-                    backgroundColor: stage.color,
-                    clipPath: nextStage
-                      ? `polygon(2% 0%, 98% 0%, ${100 - (widthPct - getWidth(nextStage.percentage)) / 2 / widthPct * 100}% 100%, ${(widthPct - getWidth(nextStage.percentage)) / 2 / widthPct * 100}% 100%)`
-                      : "polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%)",
-                    minHeight: "52px",
-                    borderRadius: i === 0 ? "8px 8px 0 0" : i === stages.length - 1 ? "0 0 8px 8px" : "0",
-                  }}
-                >
-                  <span className="text-white text-sm font-semibold drop-shadow">
-                    {stage.label}
-                  </span>
-                  <div className="text-right">
-                    <span className="text-white text-sm font-bold drop-shadow">
-                      {stage.displayValue}
+      <div className="p-5">
+        {/* Funnel rows */}
+        <div className="space-y-2 mb-5">
+          {funnel.map((stage, i) => {
+            const barWidth = `${stage.pct === 100 ? 100 : Math.max((stage.pct / 14) * 100, 4)}%`;
+            return (
+              <div key={stage.stage}>
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <span style={{ fontSize: 10, fontWeight: 700, color: "#4E5E74", width: 14 }}>{i + 1}</span>
+                    <span style={{ fontSize: 12, color: i === 0 ? "#E8ECF4" : i < 4 ? "#8B97AA" : "#00C896", fontWeight: i === 0 || i === 4 || i === 5 ? 600 : 400 }}>{stage.stage}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {stage.convRate !== null && (
+                      <span style={{ fontSize: 10, color: "#4E5E74" }}>CVR: <span style={{ color: "#8B97AA", fontWeight: 600 }}>{stage.convRate}%</span></span>
+                    )}
+                    <span style={{ fontSize: 12, fontWeight: 700, color: "#E8ECF4", fontVariantNumeric: "tabular-nums", minWidth: 80, textAlign: "right" }}>
+                      {stage.count >= 1_000_000
+                        ? `${(stage.count / 1_000_000).toFixed(2)}M`
+                        : `${(stage.count / 1_000).toFixed(0)}K`}
                     </span>
-                    <span className="text-white/70 text-xs ml-1">
-                      ({stage.percentage}%)
+                    <span style={{ fontSize: 10, color: stage.color, fontWeight: 600, minWidth: 42, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
+                      {stage.pct.toFixed(2)}%
                     </span>
                   </div>
+                </div>
+                <div style={{ height: 6, background: "#1A2437", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: barWidth, background: stage.color, borderRadius: 3, opacity: i === 0 ? 1 : 0.8, transition: "width 0.5s ease" }} />
                 </div>
               </div>
-
-              {/* Conversion rate connector */}
-              {dropoffPct && (
-                <div className="flex items-center gap-2 py-1.5">
-                  <div
-                    className="h-px flex-1"
-                    style={{ backgroundColor: "#252D3D" }}
-                  />
-                  <div
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-medium"
-                    style={{
-                      backgroundColor: "#0F1117",
-                      border: "1px solid #252D3D",
-                    }}
-                  >
-                    <svg
-                      className="w-3 h-3"
-                      style={{ color: "#EF4444" }}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                      />
-                    </svg>
-                    <span style={{ color: "#EF4444" }}>
-                      {dropoffPct}% drop-off
-                    </span>
-                    <span style={{ color: "#9CA3AF" }}>
-                      &bull; {nextStage?.conversionFrom}
-                    </span>
-                  </div>
-                  <div
-                    className="h-px flex-1"
-                    style={{ backgroundColor: "#252D3D" }}
-                  />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Summary row */}
-      <div
-        className="mt-5 grid grid-cols-3 gap-3 pt-4"
-        style={{ borderTop: "1px solid #252D3D" }}
-      >
-        <div className="text-center">
-          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">
-            Top-of-Funnel
-          </p>
-          <p className="text-base font-bold text-[#1399FF] mt-0.5">450M</p>
-          <p className="text-[10px] text-[#9CA3AF]">Impressions</p>
+            );
+          })}
         </div>
-        <div className="text-center">
-          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">
-            Overall Conv.
-          </p>
-          <p className="text-base font-bold text-[#10B981] mt-0.5">0.076%</p>
-          <p className="text-[10px] text-[#9CA3AF]">Imp. to Sub</p>
-        </div>
-        <div className="text-center">
-          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-wider">
-            New Subscribers
-          </p>
-          <p className="text-base font-bold text-[#F59E0B] mt-0.5">342K</p>
-          <p className="text-[10px] text-[#9CA3AF]">Q1 Total</p>
+
+        {/* Key metrics */}
+        <div style={{ borderTop: "1px solid #1A2437", paddingTop: 14 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4E5E74", marginBottom: 10 }}>vs Benchmarks</p>
+          <div className="grid grid-cols-2 gap-2">
+            {insights.map(m => (
+              <div key={m.label} className="px-3 py-2.5 rounded-lg" style={{ background: "#060A12" }}>
+                <p style={{ fontSize: 15, fontWeight: 800, color: m.good ? "#00C896" : "#FF4F5B", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>{m.value}</p>
+                <p style={{ fontSize: 11, color: "#E8ECF4", fontWeight: 600 }}>{m.label}</p>
+                <p style={{ fontSize: 10, color: "#4E5E74", marginTop: 1 }}>{m.benchmark}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

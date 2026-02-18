@@ -1,83 +1,91 @@
-import { Radio, ChevronDown, BarChart2 } from "lucide-react";
+import { Radio, ChevronDown } from "lucide-react";
 import NavTabs from "@/components/NavTabs";
 import ExportButton from "@/components/ExportButton";
 
+const quickStats = [
+  { label: "Q1 Viewers",   value: "16.4M", delta: "+23%", up: true  },
+  { label: "New Subs",     value: "342K",  delta: "+31%", up: true  },
+  { label: "Revenue",      value: "$12.8M",delta: "+18%", up: true  },
+];
+
 export default function Header() {
   return (
-    <header
-      className="relative w-full sticky top-0 z-50"
-      style={{ backgroundColor: "#080C14", borderBottom: "1px solid #1F2937" }}
-    >
-      {/* Top accent gradient stripe */}
-      <div
-        className="h-0.5 w-full"
-        style={{
-          background:
-            "linear-gradient(90deg, #CC0000 0%, #1399FF 35%, #FF9900 65%, #10B981 100%)",
-        }}
-      />
+    <header className="sticky top-0 z-50 w-full" style={{ background: "#060A12", borderBottom: "1px solid #1A2437" }}>
+      {/* 2px blue accent stripe */}
+      <div style={{ height: 2, background: "linear-gradient(90deg, #00A8FF 0%, #0076CC 60%, transparent 100%)" }} />
 
       <div className="max-w-[1600px] mx-auto px-6">
-        {/* Main row */}
-        <div className="flex items-center justify-between h-16 gap-6">
-          {/* Branding */}
-          <div className="flex items-center gap-5 flex-shrink-0">
+        <div className="flex items-center justify-between gap-6" style={{ height: 56 }}>
+
+          {/* Left: branding */}
+          <div className="flex items-center gap-4 flex-shrink-0">
             <div className="flex flex-col leading-none select-none">
-              <span className="text-[10px] font-black uppercase tracking-[0.26em]" style={{ color: "#1399FF" }}>prime</span>
-              <span className="text-[20px] font-extrabold tracking-tight -mt-0.5" style={{ color: "#F9FAFB" }}>video</span>
+              <span style={{ fontSize: 9, fontWeight: 900, letterSpacing: "0.24em", color: "#00A8FF", textTransform: "uppercase" }}>prime</span>
+              <span style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-0.03em", color: "#E8ECF4", marginTop: -1 }}>video</span>
             </div>
 
-            <div className="h-8 w-px" style={{ background: "linear-gradient(180deg, transparent, #374151, transparent)" }} />
+            <div style={{ width: 1, height: 28, background: "linear-gradient(180deg, transparent, #243044, transparent)" }} />
 
             <div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: "rgba(204,0,0,0.15)", border: "1px solid rgba(204,0,0,0.3)" }}>
-                  <BarChart2 size={12} style={{ color: "#FF4444" }} />
-                </div>
-                <span className="text-[13px] font-bold text-white tracking-wide">NASCAR Cup Series Analytics</span>
-                <span className="text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest" style={{ background: "rgba(204,0,0,0.12)", color: "#FF6666", border: "1px solid rgba(204,0,0,0.22)" }}>Q1 2026</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#E8ECF4", letterSpacing: "-0.01em" }}>
+                  NASCAR Cup Series Analytics
+                </span>
+                <span className="badge badge-muted" style={{ fontSize: 10, padding: "1px 6px" }}>Q1 2026</span>
+                <span className="badge" style={{ background: "rgba(255,79,91,0.1)", color: "#FF4F5B", border: "1px solid rgba(255,79,91,0.22)", fontSize: 10, padding: "1px 6px", borderRadius: 4, fontWeight: 700 }}>CONFIDENTIAL</span>
               </div>
-              <p className="text-[11px] mt-0.5 ml-8" style={{ color: "#6B7280" }}>Go-To-Market Strategy &middot; Performance &amp; Audience Intelligence</p>
+              <p style={{ fontSize: 11, color: "#4E5E74", marginTop: 2 }}>
+                Go-To-Market Strategy · Performance &amp; Audience Intelligence
+              </p>
             </div>
           </div>
 
-          {/* Center quick-stats */}
-          <div className="hidden xl:flex items-center gap-8">
-            {[
-              { label: "Total Q1 Viewers", value: "16.4M", delta: "+23%", color: "#1399FF" },
-              { label: "New Subscribers", value: "342K", delta: "+31%", color: "#FF9900" },
-              { label: "Q1 Revenue", value: "$12.8M", delta: "+18%", color: "#10B981" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="flex items-center gap-1.5 justify-center">
-                  <span className="text-[16px] font-black metric-value" style={{ color: stat.color }}>{stat.value}</span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: `${stat.color}15`, color: stat.color }}>{stat.delta}</span>
+          {/* Center: KPIs (hidden on small screens) */}
+          <div className="hidden xl:flex items-center gap-6">
+            {quickStats.map(s => (
+              <div key={s.label} className="text-center">
+                <div className="flex items-center justify-center gap-1.5">
+                  <span style={{ fontSize: 17, fontWeight: 800, letterSpacing: "-0.03em", color: "#E8ECF4", fontVariantNumeric: "tabular-nums" }}>
+                    {s.value}
+                  </span>
+                  <span style={{
+                    fontSize: 10, fontWeight: 700, padding: "1px 5px", borderRadius: 3,
+                    background: s.up ? "rgba(0,200,150,0.1)" : "rgba(255,79,91,0.1)",
+                    color: s.up ? "#00C896" : "#FF4F5B",
+                    border: `1px solid ${s.up ? "rgba(0,200,150,0.2)" : "rgba(255,79,91,0.2)"}`,
+                  }}>
+                    {s.delta}
+                  </span>
                 </div>
-                <p className="text-[10px] mt-0.5" style={{ color: "#6B7280" }}>{stat.label}</p>
+                <p style={{ fontSize: 10, color: "#4E5E74", marginTop: 1 }}>{s.label}</p>
               </div>
             ))}
           </div>
 
-          {/* Right controls */}
-          <div className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)" }}>
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+          {/* Right: controls */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Live indicator */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
+              style={{ background: "rgba(0,200,150,0.07)", border: "1px solid rgba(0,200,150,0.18)" }}>
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "#00C896" }} />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: "#00C896" }} />
               </span>
-              <Radio size={12} style={{ color: "#10B981" }} />
-              <span className="text-[11px] font-semibold" style={{ color: "#10B981" }}>Live</span>
+              <Radio size={11} style={{ color: "#00C896" }} />
+              <span style={{ fontSize: 11, fontWeight: 600, color: "#00C896" }}>Live</span>
             </div>
 
-            <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] transition-colors hover:text-white" style={{ background: "#111827", border: "1px solid #1F2937", color: "#9CA3AF" }}>
-              Feb – Mar 2026 <ChevronDown size={12} />
+            <button
+              className="flex items-center gap-1.5 rounded-lg text-[12px] transition-colors"
+              style={{ background: "#0C1220", border: "1px solid #1A2437", color: "#8B97AA", padding: "6px 10px" }}
+            >
+              Feb – Mar 2026 <ChevronDown size={11} />
             </button>
 
             <ExportButton />
           </div>
         </div>
 
-        {/* Nav tabs */}
         <NavTabs />
       </div>
     </header>

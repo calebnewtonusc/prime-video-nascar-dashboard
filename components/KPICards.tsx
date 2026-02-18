@@ -1,292 +1,176 @@
 "use client";
 
-import { Eye, Users, DollarSign, Clock, TrendingUp, TrendingDown } from "lucide-react";
-import clsx from "clsx";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
+interface Spark { v: number; }
 
-interface SparkPoint {
-  value: number;
-}
-
-interface KPICardData {
-  id: string;
+interface KPI {
   label: string;
+  sub: string;
   value: string;
-  change: string;
-  changeLabel: string;
-  trending: "up" | "down";
-  icon: React.ElementType;
-  iconColor: string;
-  iconBg: string;
-  accentColor: string;
-  sparkline: SparkPoint[];
+  raw: number;
+  unit: "M" | "K" | "$" | "%" | "x" | "min" | "pts";
+  vsYoY: number;    // % change vs Q1 2025
+  vsQoQ: number;    // % change vs Q4 2025
+  spark: Spark[];
+  color: string;
 }
 
-// ---------------------------------------------------------------------------
-// Static data
-// ---------------------------------------------------------------------------
-
-const KPI_DATA: KPICardData[] = [
+const KPIS: KPI[] = [
   {
-    id: "viewers",
-    label: "Total Q1 Viewers",
-    value: "16.4M",
-    change: "+23%",
-    changeLabel: "vs Q1 2025",
-    trending: "up",
-    icon: Eye,
-    iconColor: "#1399FF",
-    iconBg: "#1399FF18",
-    accentColor: "#1399FF",
-    sparkline: [
-      { value: 60 },
-      { value: 55 },
-      { value: 68 },
-      { value: 72 },
-      { value: 65 },
-      { value: 80 },
-      { value: 88 },
-      { value: 100 },
-    ],
+    label: "Total Q1 Viewers", sub: "Unique viewers",
+    value: "16.4M", raw: 16.4, unit: "M",
+    vsYoY: 23.1, vsQoQ: 8.4,
+    color: "#00A8FF",
+    spark: [{ v: 60 },{ v: 55 },{ v: 68 },{ v: 72 },{ v: 65 },{ v: 80 },{ v: 88 },{ v: 100 }],
   },
   {
-    id: "subscribers",
-    label: "New Subscribers",
-    value: "342K",
-    change: "+31%",
-    changeLabel: "vs Q1 2025",
-    trending: "up",
-    icon: Users,
-    iconColor: "#FF9900",
-    iconBg: "#FF990018",
-    accentColor: "#FF9900",
-    sparkline: [
-      { value: 50 },
-      { value: 58 },
-      { value: 54 },
-      { value: 67 },
-      { value: 73 },
-      { value: 78 },
-      { value: 90 },
-      { value: 100 },
-    ],
+    label: "New Subscribers", sub: "Q1 net adds",
+    value: "342K", raw: 342, unit: "K",
+    vsYoY: 31.0, vsQoQ: 12.5,
+    color: "#FF9900",
+    spark: [{ v: 50 },{ v: 58 },{ v: 54 },{ v: 67 },{ v: 73 },{ v: 78 },{ v: 90 },{ v: 100 }],
   },
   {
-    id: "revenue",
-    label: "Total Revenue",
-    value: "$12.8M",
-    change: "+18%",
-    changeLabel: "vs Q1 2025",
-    trending: "up",
-    icon: DollarSign,
-    iconColor: "#10B981",
-    iconBg: "#10B98118",
-    accentColor: "#10B981",
-    sparkline: [
-      { value: 62 },
-      { value: 70 },
-      { value: 66 },
-      { value: 74 },
-      { value: 71 },
-      { value: 82 },
-      { value: 91 },
-      { value: 100 },
-    ],
+    label: "Total Revenue", sub: "All streams",
+    value: "$12.8M", raw: 12.8, unit: "$",
+    vsYoY: 18.5, vsQoQ: 6.2,
+    color: "#00C896",
+    spark: [{ v: 62 },{ v: 70 },{ v: 66 },{ v: 74 },{ v: 71 },{ v: 82 },{ v: 91 },{ v: 100 }],
   },
   {
-    id: "watchtime",
-    label: "Avg Watch Time",
-    value: "127 min",
-    change: "+8%",
-    changeLabel: "vs Q1 2025",
-    trending: "up",
-    icon: Clock,
-    iconColor: "#A78BFA",
-    iconBg: "#A78BFA18",
-    accentColor: "#A78BFA",
-    sparkline: [
-      { value: 72 },
-      { value: 68 },
-      { value: 75 },
-      { value: 80 },
-      { value: 78 },
-      { value: 85 },
-      { value: 93 },
-      { value: 100 },
-    ],
+    label: "Avg Watch Time", sub: "Per session",
+    value: "127 min", raw: 127, unit: "min",
+    vsYoY: 8.1, vsQoQ: 3.7,
+    color: "#7C6FFF",
+    spark: [{ v: 72 },{ v: 68 },{ v: 75 },{ v: 80 },{ v: 78 },{ v: 85 },{ v: 93 },{ v: 100 }],
+  },
+  {
+    label: "Subscriber ARPU", sub: "Monthly avg",
+    value: "$37.42", raw: 37.42, unit: "$",
+    vsYoY: 5.8, vsQoQ: 2.1,
+    color: "#FF9900",
+    spark: [{ v: 80 },{ v: 82 },{ v: 79 },{ v: 84 },{ v: 86 },{ v: 88 },{ v: 94 },{ v: 100 }],
+  },
+  {
+    label: "Ad Revenue CPM", sub: "Effective CPM",
+    value: "$22.40", raw: 22.40, unit: "$",
+    vsYoY: 14.2, vsQoQ: 4.8,
+    color: "#00A8FF",
+    spark: [{ v: 65 },{ v: 70 },{ v: 68 },{ v: 75 },{ v: 80 },{ v: 84 },{ v: 90 },{ v: 100 }],
+  },
+  {
+    label: "30-Day Churn", sub: "Subscriber churn",
+    value: "2.3%", raw: 2.3, unit: "%",
+    vsYoY: -18.2, vsQoQ: -4.4,
+    color: "#00C896",
+    spark: [{ v: 100 },{ v: 95 },{ v: 90 },{ v: 85 },{ v: 80 },{ v: 78 },{ v: 74 },{ v: 70 }],
+  },
+  {
+    label: "Engagement Score", sub: "Content rating",
+    value: "87 / 100", raw: 87, unit: "pts",
+    vsYoY: 9.4, vsQoQ: 3.2,
+    color: "#7C6FFF",
+    spark: [{ v: 58 },{ v: 62 },{ v: 65 },{ v: 71 },{ v: 75 },{ v: 80 },{ v: 84 },{ v: 100 }],
   },
 ];
 
-// ---------------------------------------------------------------------------
-// MiniSparkline — pure SVG, zero external deps
-// ---------------------------------------------------------------------------
-
-function MiniSparkline({
-  data,
-  color,
-}: {
-  data: SparkPoint[];
-  color: string;
-}) {
-  const width = 80;
-  const height = 32;
-  const values = data.map((d) => d.value);
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-
-  const points = values
-    .map((v, i) => {
-      const x = (i / (values.length - 1)) * width;
-      const y = height - ((v - min) / range) * (height - 4) - 2;
-      return `${x},${y}`;
-    })
-    .join(" ");
-
-  const areaPoints = [
-    `0,${height}`,
-    ...values.map((v, i) => {
-      const x = (i / (values.length - 1)) * width;
-      const y = height - ((v - min) / range) * (height - 4) - 2;
-      return `${x},${y}`;
-    }),
-    `${width},${height}`,
-  ].join(" ");
-
+function Sparkline({ data, color }: { data: Spark[]; color: string }) {
+  const W = 72; const H = 28;
+  const vals = data.map(d => d.v);
+  const min = Math.min(...vals); const max = Math.max(...vals);
+  const rng = max - min || 1;
+  const pts = vals.map((v, i) => {
+    const x = (i / (vals.length - 1)) * W;
+    const y = H - ((v - min) / rng) * (H - 4) - 2;
+    return [x, y] as [number, number];
+  });
+  const polyline = pts.map(([x, y]) => `${x},${y}`).join(" ");
+  const area = [`0,${H}`, ...pts.map(([x, y]) => `${x},${y}`), `${W},${H}`].join(" ");
+  const gid = `sg-${color.replace("#", "")}`;
   return (
-    <svg
-      width={width}
-      height={height}
-      viewBox={`0 0 ${width} ${height}`}
-      className="overflow-visible"
-      aria-hidden="true"
-    >
-      {/* Gradient fill beneath the line */}
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} aria-hidden>
       <defs>
-        <linearGradient
-          id={`spark-grad-${color.replace("#", "")}`}
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-        >
-          <stop offset="0%" stopColor={color} stopOpacity="0.35" />
-          <stop offset="100%" stopColor={color} stopOpacity="0.02" />
+        <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <polygon
-        points={areaPoints}
-        fill={`url(#spark-grad-${color.replace("#", "")})`}
-      />
-      <polyline
-        points={points}
-        fill="none"
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* Terminal dot */}
+      <polygon points={area} fill={`url(#${gid})`} />
+      <polyline points={polyline} fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
       {(() => {
-        const last = values[values.length - 1];
-        const lx = width;
-        const ly = height - ((last - min) / range) * (height - 4) - 2;
-        return (
-          <circle cx={lx} cy={ly} r="3" fill={color} />
-        );
+        const [lx, ly] = pts[pts.length - 1];
+        return <circle cx={lx} cy={ly} r="2.5" fill={color} />;
       })()}
     </svg>
   );
 }
 
-// ---------------------------------------------------------------------------
-// KPICard
-// ---------------------------------------------------------------------------
-
-function KPICard({ card }: { card: KPICardData }) {
-  const TrendIcon = card.trending === "up" ? TrendingUp : TrendingDown;
-  const trendColor = card.trending === "up" ? "#10B981" : "#EF4444";
-  const IconComponent = card.icon;
-
+function Delta({ val, suffix = "%" }: { val: number; suffix?: string }) {
+  const up = val >= 0;
+  const Icon = up ? ArrowUpRight : ArrowDownRight;
   return (
-    <div
-      className="relative flex flex-col gap-4 rounded-xl p-5 transition-all duration-200 hover:scale-[1.015] hover:shadow-xl cursor-default"
+    <span
+      className="inline-flex items-center gap-0.5 text-[11px] font-bold px-1.5 py-0.5 rounded"
       style={{
-        backgroundColor: "#1A1F2E",
-        border: "1px solid #252D3D",
-        borderLeft: `3px solid ${card.accentColor}`,
-        boxShadow: `0 4px 24px rgba(0,0,0,0.35)`,
+        background: up ? "rgba(0,200,150,0.1)" : "rgba(255,79,91,0.1)",
+        color: up ? "#00C896" : "#FF4F5B",
+        border: `1px solid ${up ? "rgba(0,200,150,0.2)" : "rgba(255,79,91,0.2)"}`,
       }}
     >
-      {/* Top row: icon + sparkline */}
-      <div className="flex items-start justify-between">
-        {/* Icon badge */}
-        <div
-          className="flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0"
-          style={{ backgroundColor: card.iconBg }}
-        >
-          <IconComponent size={20} style={{ color: card.iconColor }} strokeWidth={2} />
-        </div>
+      <Icon size={9} strokeWidth={3} />
+      {Math.abs(val).toFixed(1)}{suffix}
+    </span>
+  );
+}
 
-        {/* Sparkline */}
-        <div className="opacity-80">
-          <MiniSparkline data={card.sparkline} color={card.accentColor} />
+function KPICard({ k }: { k: KPI }) {
+  return (
+    <div
+      className="flex flex-col gap-3 p-4 rounded-[10px] relative overflow-hidden"
+      style={{
+        background: "#0C1220",
+        border: "1px solid #1A2437",
+        borderLeft: `2px solid ${k.color}`,
+      }}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <p className="text-[11px] font-semibold" style={{ color: "#4E5E74" }}>{k.sub.toUpperCase()}</p>
+          <p className="text-[12px] font-medium mt-0.5 truncate" style={{ color: "#8B97AA" }}>{k.label}</p>
         </div>
+        <Sparkline data={k.spark} color={k.color} />
       </div>
 
-      {/* Metric value */}
       <div>
         <p
-          className="text-[32px] font-extrabold leading-none tracking-tight"
-          style={{ color: "#F9FAFB" }}
+          className="text-[28px] font-extrabold leading-none t-num"
+          style={{ color: "#E8ECF4", letterSpacing: "-0.03em" }}
         >
-          {card.value}
-        </p>
-        <p
-          className="text-[13px] mt-1.5 font-medium"
-          style={{ color: "#9CA3AF" }}
-        >
-          {card.label}
+          {k.value}
         </p>
       </div>
 
-      {/* Change badge */}
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-2">
+        <Delta val={k.vsYoY} />
+        <span className="text-[11px]" style={{ color: "#4E5E74" }}>YoY</span>
+        <span className="text-[11px]" style={{ color: "#4E5E74" }}>·</span>
         <span
-          className={clsx(
-            "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[12px] font-bold"
-          )}
-          style={{
-            backgroundColor: card.trending === "up" ? "#10B98120" : "#EF444420",
-            color: trendColor,
-            border: `1px solid ${card.trending === "up" ? "#10B98140" : "#EF444440"}`,
-          }}
+          className="text-[11px] font-semibold"
+          style={{ color: k.vsQoQ >= 0 ? "#00C896" : "#FF4F5B" }}
         >
-          <TrendIcon size={11} strokeWidth={2.5} />
-          {card.change}
-        </span>
-        <span className="text-[12px]" style={{ color: "#6B7280" }}>
-          {card.changeLabel}
+          {k.vsQoQ >= 0 ? "+" : ""}{k.vsQoQ.toFixed(1)}% QoQ
         </span>
       </div>
     </div>
   );
 }
 
-// ---------------------------------------------------------------------------
-// KPICards — exported grid
-// ---------------------------------------------------------------------------
-
 export default function KPICards() {
   return (
     <section aria-label="Key performance indicators">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {KPI_DATA.map((card) => (
-          <KPICard key={card.id} card={card} />
-        ))}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {KPIS.map(k => <KPICard key={k.label} k={k} />)}
       </div>
     </section>
   );

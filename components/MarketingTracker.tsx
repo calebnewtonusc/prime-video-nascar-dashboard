@@ -1,444 +1,246 @@
 "use client";
-
-type CampaignStatus = "COMPLETED" | "ACTIVE";
+import { useState, useMemo } from "react";
+import { ArrowUpDown, ArrowUp, ArrowDown, Search, Download } from "lucide-react";
 
 interface Campaign {
+  id: string;
   name: string;
   channel: string;
-  budget: string;
-  budgetRaw: number;
-  impressions: string;
-  clicks: string;
-  conversions: string;
-  conversionsRaw: number;
-  cpa: string;
-  cpaRaw: number;
-  roas: string;
-  roasRaw: number;
-  status: CampaignStatus;
-  isBest: boolean;
+  status: "Active" | "Completed" | "Paused";
+  budget: number;     // $K
+  spend: number;      // $K
+  impressions: number; // M
+  clicks: number;     // K
+  conversions: number; // K
+  cpa: number;        // $
+  roas: number;       // x
+  ctr: number;        // %
 }
 
-const campaigns: Campaign[] = [
-  {
-    name: "Daytona Takeover",
-    channel: "Social Media",
-    budget: "$280K",
-    budgetRaw: 280,
-    impressions: "48M",
-    clicks: "890K",
-    conversions: "62K",
-    conversionsRaw: 62,
-    cpa: "$4.52",
-    cpaRaw: 4.52,
-    roas: "8.2x",
-    roasRaw: 8.2,
-    status: "COMPLETED",
-    isBest: false,
-  },
-  {
-    name: "NASCAR Everywhere",
-    channel: "Programmatic",
-    budget: "$195K",
-    budgetRaw: 195,
-    impressions: "82M",
-    clicks: "420K",
-    conversions: "28K",
-    conversionsRaw: 28,
-    cpa: "$6.96",
-    cpaRaw: 6.96,
-    roas: "5.8x",
-    roasRaw: 5.8,
-    status: "ACTIVE",
-    isBest: false,
-  },
-  {
-    name: "Speed & Drama",
-    channel: "TV Spots",
-    budget: "$440K",
-    budgetRaw: 440,
-    impressions: "28M",
-    clicks: "-",
-    conversions: "41K",
-    conversionsRaw: 41,
-    cpa: "$10.73",
-    cpaRaw: 10.73,
-    roas: "4.1x",
-    roasRaw: 4.1,
-    status: "COMPLETED",
-    isBest: false,
-  },
-  {
-    name: "Driver Fanbase",
-    channel: "Influencer",
-    budget: "$120K",
-    budgetRaw: 120,
-    impressions: "18M",
-    clicks: "1.2M",
-    conversions: "31K",
-    conversionsRaw: 31,
-    cpa: "$3.87",
-    cpaRaw: 3.87,
-    roas: "9.4x",
-    roasRaw: 9.4,
-    status: "ACTIVE",
-    isBest: false,
-  },
-  {
-    name: "Race Day Email",
-    channel: "Email",
-    budget: "$18K",
-    budgetRaw: 18,
-    impressions: "8.4M",
-    clicks: "980K",
-    conversions: "48K",
-    conversionsRaw: 48,
-    cpa: "$0.38",
-    cpaRaw: 0.38,
-    roas: "31.2x",
-    roasRaw: 31.2,
-    status: "ACTIVE",
-    isBest: true,
-  },
+const CAMPAIGNS: Campaign[] = [
+  { id:"c1", name:"Daytona 500 Launch",      channel:"Email",         status:"Completed", budget:280, spend:271, impressions:12.4, clicks:840, conversions:94.2, cpa:2.88, roas:31.2, ctr:6.77 },
+  { id:"c2", name:"Driver Fanbase Series",   channel:"Social/Influencer",status:"Active",budget:120, spend:89,  impressions:8.1,  clicks:320, conversions:23.0, cpa:3.87, roas:22.4, ctr:3.95 },
+  { id:"c3", name:"Streaming Awareness Q1",  channel:"TV/CTV",        status:"Active",   budget:800, spend:744, impressions:31.2, clicks:210, conversions:18.2, cpa:40.88,roas:4.1,  ctr:0.67 },
+  { id:"c4", name:"NASCAR Fantasy League",   channel:"App/Push",      status:"Active",   budget:45,  spend:38,  impressions:2.8,  clicks:420, conversions:31.4, cpa:1.21, roas:18.7, ctr:15.0 },
+  { id:"c5", name:"Chase Elliott Spotlight", channel:"YouTube",       status:"Completed", budget:60,  spend:58,  impressions:5.2,  clicks:280, conversions:14.8, cpa:3.92, roas:19.3, ctr:5.38 },
+  { id:"c6", name:"International Expansion", channel:"Display/Prog",  status:"Active",   budget:200, spend:141, impressions:18.6, clicks:190, conversions:9.4,  cpa:15.00,roas:7.8,  ctr:1.02 },
+  { id:"c7", name:"Podcast Sponsorships",    channel:"Audio/Podcast", status:"Active",   budget:85,  spend:72,  impressions:3.4,  clicks:96,  conversions:8.2,  cpa:8.78, roas:12.4, ctr:2.82 },
+  { id:"c8", name:"Race Day Push Alerts",    channel:"App/Push",      status:"Completed",budget:30,  spend:28,  impressions:1.9,  clicks:340, conversions:28.6, cpa:0.98, roas:24.8, ctr:17.9 },
+  { id:"c9", name:"Prime Bundle Upsell",     channel:"Email",         status:"Active",   budget:95,  spend:61,  impressions:4.8,  clicks:510, conversions:52.1, cpa:1.17, roas:29.4, ctr:10.6 },
+  { id:"c10",name:"Bristol Dirt Countdown",  channel:"Social/Influencer",status:"Active",budget:40,  spend:22,  impressions:3.1,  clicks:148, conversions:11.2, cpa:1.96, roas:20.1, ctr:4.77 },
 ];
 
-const STATUS_STYLES: Record<CampaignStatus, { bg: string; text: string; dot: string }> = {
-  COMPLETED: { bg: "rgba(16,185,129,0.12)", text: "#10B981", dot: "#10B981" },
-  ACTIVE: { bg: "rgba(19,153,255,0.12)", text: "#1399FF", dot: "#1399FF" },
+type SortKey = keyof Campaign;
+
+const STATUS_STYLE: Record<string, { bg: string; color: string; border: string }> = {
+  Active:    { bg: "rgba(0,200,150,0.1)",  color: "#00C896", border: "rgba(0,200,150,0.25)" },
+  Completed: { bg: "rgba(0,168,255,0.1)",  color: "#00A8FF", border: "rgba(0,168,255,0.25)" },
+  Paused:    { bg: "rgba(245,158,11,0.1)", color: "#F59E0B", border: "rgba(245,158,11,0.25)" },
 };
 
-const CHANNEL_ICONS: Record<string, string> = {
-  "Social Media": "S",
-  Programmatic: "P",
-  "TV Spots": "T",
-  Influencer: "I",
-  Email: "E",
+const CHANNEL_COLORS: Record<string, string> = {
+  "Email": "#00A8FF",
+  "Social/Influencer": "#7C6FFF",
+  "TV/CTV": "#FF4F5B",
+  "App/Push": "#00C896",
+  "YouTube": "#FF9900",
+  "Display/Prog": "#8B97AA",
+  "Audio/Podcast": "#F59E0B",
 };
 
-function RoasBar({ value, max }: { value: number; max: number }) {
-  const pct = Math.min((value / max) * 100, 100);
-  const color =
-    pct >= 80 ? "#10B981" : pct >= 50 ? "#FF9900" : pct >= 30 ? "#F59E0B" : "#EF4444";
-
+function BudgetBar({ spend, budget }: { spend: number; budget: number }) {
+  const pct = Math.min((spend / budget) * 100, 100);
+  const over = spend > budget * 0.95;
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-sm font-bold" style={{ color, minWidth: "40px" }}>
-        {value}x
-      </span>
-      <div
-        className="flex-1 h-1.5 rounded-full overflow-hidden"
-        style={{ backgroundColor: "rgba(255,255,255,0.08)", minWidth: "60px" }}
-      >
-        <div
-          className="h-full rounded-full"
-          style={{
-            width: `${pct}%`,
-            backgroundColor: color,
-            boxShadow: `0 0 4px ${color}60`,
-          }}
-        />
+    <div className="flex items-center gap-2" style={{ minWidth: 120 }}>
+      <div className="progress-bar flex-1" style={{ height: 4, background: "#1A2437", borderRadius: 2, overflow: "hidden" }}>
+        <div style={{
+          height: "100%", borderRadius: 2,
+          width: `${pct}%`,
+          background: over ? "#FF4F5B" : "#00A8FF",
+          transition: "width 0.5s ease",
+        }} />
       </div>
+      <span style={{ fontSize: 11, color: over ? "#FF4F5B" : "#8B97AA", minWidth: 36, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
+        {pct.toFixed(0)}%
+      </span>
     </div>
   );
 }
 
-const totalBudget = campaigns.reduce((s, c) => s + c.budgetRaw, 0);
-const totalConversions = campaigns.reduce((s, c) => s + c.conversionsRaw, 0);
-const totalCPAAvg =
-  campaigns.reduce((s, c) => s + c.cpaRaw, 0) / campaigns.length;
-const bestROAS = Math.max(...campaigns.map((c) => c.roasRaw));
-const maxRoas = bestROAS;
+function RoasCell({ roas }: { roas: number }) {
+  const color = roas >= 20 ? "#00C896" : roas >= 10 ? "#00A8FF" : roas >= 5 ? "#F59E0B" : "#FF4F5B";
+  return (
+    <div className="flex items-center gap-1.5">
+      <div style={{ width: 28, height: 4, background: "#1A2437", borderRadius: 2, overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${Math.min((roas / 35) * 100, 100)}%`, background: color, borderRadius: 2 }} />
+      </div>
+      <span style={{ color, fontSize: 12, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>{roas.toFixed(1)}x</span>
+    </div>
+  );
+}
 
 export default function MarketingTracker() {
-  return (
-    <div
-      className="rounded-xl p-6"
-      style={{ backgroundColor: "#1A1F2E", border: "1px solid #252D3D" }}
-    >
-      {/* Header */}
-      <div className="mb-5">
-        <h2 className="text-lg font-bold text-[#F9FAFB] leading-tight">
-          Go-To-Market Campaign Tracker
-        </h2>
-        <p className="text-xs text-[#9CA3AF] mt-1">Q1 2026 NASCAR Launch</p>
-      </div>
+  const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "roas", dir: -1 });
+  const [search, setSearch] = useState("");
 
-      {/* Summary stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        {[
-          {
-            label: "Total Spend",
-            value: `$${totalBudget}K`,
-            color: "#1399FF",
-            sub: "5 campaigns",
-          },
-          {
-            label: "Total Conversions",
-            value: `${totalConversions}K`,
-            color: "#10B981",
-            sub: "subscribers acquired",
-          },
-          {
-            label: "Avg CPA",
-            value: `$${totalCPAAvg.toFixed(2)}`,
-            color: "#FF9900",
-            sub: "blended average",
-          },
-          {
-            label: "Best ROAS",
-            value: `${bestROAS}x`,
-            color: "#F59E0B",
-            sub: "Race Day Email",
-          },
-        ].map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-lg p-3"
-            style={{ backgroundColor: "#0F1117", border: "1px solid #252D3D" }}
-          >
-            <p className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-1">
-              {stat.label}
-            </p>
-            <p className="text-lg font-bold" style={{ color: stat.color }}>
-              {stat.value}
-            </p>
-            <p className="text-[10px] text-[#9CA3AF] mt-0.5">{stat.sub}</p>
+  const sorted = useMemo(() => {
+    return [...CAMPAIGNS]
+      .filter(c => c.name.toLowerCase().includes(search.toLowerCase()) || c.channel.toLowerCase().includes(search.toLowerCase()))
+      .sort((a, b) => {
+        const av = a[sort.key]; const bv = b[sort.key];
+        if (typeof av === "number" && typeof bv === "number") return (av - bv) * sort.dir;
+        return String(av).localeCompare(String(bv)) * sort.dir;
+      });
+  }, [sort, search]);
+
+  const totalSpend  = CAMPAIGNS.reduce((s, c) => s + c.spend, 0);
+  const totalConv   = CAMPAIGNS.reduce((s, c) => s + c.conversions, 0);
+  const avgRoas     = (CAMPAIGNS.reduce((s, c) => s + c.roas * c.spend, 0) / totalSpend);
+  const totalImpr   = CAMPAIGNS.reduce((s, c) => s + c.impressions, 0);
+
+  function toggleSort(key: SortKey) {
+    setSort(s => s.key === key ? { key, dir: s.dir === -1 ? 1 : -1 } : { key, dir: -1 });
+  }
+
+  function SortIcon({ k }: { k: SortKey }) {
+    if (sort.key !== k) return <ArrowUpDown size={9} style={{ opacity: 0.4 }} />;
+    return sort.dir === -1 ? <ArrowDown size={9} style={{ color: "#00A8FF" }} /> : <ArrowUp size={9} style={{ color: "#00A8FF" }} />;
+  }
+
+  function exportCSV() {
+    const rows = [
+      ["Campaign","Channel","Status","Budget ($K)","Spend ($K)","Impressions (M)","Clicks (K)","Conversions (K)","CPA ($)","ROAS (x)","CTR (%)"],
+      ...CAMPAIGNS.map(c => [c.name,c.channel,c.status,c.budget,c.spend,c.impressions,c.clicks,c.conversions,c.cpa,c.roas,c.ctr]),
+    ];
+    const csv = rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    a.download = "prime-video-nascar-marketing-q1-2026.csv";
+    a.click();
+  }
+
+  return (
+    <div className="rounded-[10px] overflow-hidden" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+      {/* Header */}
+      <div className="flex items-center justify-between gap-4 px-5 py-4" style={{ borderBottom: "1px solid #1A2437" }}>
+        <div>
+          <h2 style={{ fontSize: 15, fontWeight: 700, color: "#E8ECF4" }}>Campaign Attribution</h2>
+          <p style={{ fontSize: 11, color: "#4E5E74", marginTop: 2 }}>Q1 2026 · {CAMPAIGNS.length} campaigns · Sorted by ROAS</p>
+        </div>
+        <div className="flex items-center gap-3">
+          {/* Summary stats */}
+          <div className="hidden lg:flex items-center gap-4 px-4 py-2 rounded-lg" style={{ background: "#060A12", border: "1px solid #1A2437" }}>
+            <div className="text-center">
+              <p style={{ fontSize: 10, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em" }}>Total Spend</p>
+              <p style={{ fontSize: 14, fontWeight: 700, color: "#E8ECF4", fontVariantNumeric: "tabular-nums" }}>${totalSpend.toFixed(0)}K</p>
+            </div>
+            <div style={{ width: 1, height: 28, background: "#1A2437" }} />
+            <div className="text-center">
+              <p style={{ fontSize: 10, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em" }}>Conversions</p>
+              <p style={{ fontSize: 14, fontWeight: 700, color: "#E8ECF4", fontVariantNumeric: "tabular-nums" }}>{totalConv.toFixed(1)}K</p>
+            </div>
+            <div style={{ width: 1, height: 28, background: "#1A2437" }} />
+            <div className="text-center">
+              <p style={{ fontSize: 10, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em" }}>Blended ROAS</p>
+              <p style={{ fontSize: 14, fontWeight: 700, color: "#00C896", fontVariantNumeric: "tabular-nums" }}>{avgRoas.toFixed(1)}x</p>
+            </div>
+            <div style={{ width: 1, height: 28, background: "#1A2437" }} />
+            <div className="text-center">
+              <p style={{ fontSize: 10, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em" }}>Impressions</p>
+              <p style={{ fontSize: 14, fontWeight: 700, color: "#E8ECF4", fontVariantNumeric: "tabular-nums" }}>{totalImpr.toFixed(1)}M</p>
+            </div>
           </div>
-        ))}
+
+          <div className="relative">
+            <Search size={12} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#4E5E74" }} />
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search campaigns..."
+              style={{
+                background: "#060A12", border: "1px solid #1A2437", borderRadius: 6,
+                color: "#E8ECF4", fontSize: 12, padding: "6px 10px 6px 28px",
+                outline: "none", width: 180,
+              }}
+            />
+          </div>
+          <button
+            onClick={exportCSV}
+            className="flex items-center gap-1.5"
+            style={{ background: "#060A12", border: "1px solid #1A2437", borderRadius: 6, color: "#8B97AA", fontSize: 12, padding: "6px 12px", cursor: "pointer" }}
+          >
+            <Download size={11} />
+            Export
+          </button>
+        </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="data-table" style={{ width: "100%" }}>
           <thead>
-            <tr style={{ borderBottom: "1px solid #252D3D" }}>
-              {[
-                "Campaign",
-                "Channel",
-                "Budget",
-                "Impressions",
-                "Clicks",
-                "Conv.",
-                "CPA",
-                "ROAS",
-                "Status",
-              ].map((h) => (
-                <th
-                  key={h}
-                  className="py-2.5 px-3 text-left text-[10px] font-semibold uppercase tracking-wider cursor-pointer select-none"
-                  style={{ color: "#9CA3AF" }}
-                >
+            <tr>
+              {([
+                ["name",        "Campaign"],
+                ["channel",     "Channel"],
+                ["status",      "Status"],
+                ["spend",       "Spend"],
+                ["budget",      "Budget Util."],
+                ["impressions", "Impr. (M)"],
+                ["ctr",         "CTR"],
+                ["conversions", "Conv. (K)"],
+                ["cpa",         "CPA"],
+                ["roas",        "ROAS"],
+              ] as [SortKey, string][]).map(([key, label]) => (
+                <th key={key} onClick={() => toggleSort(key)} style={{ paddingLeft: key === "name" ? 20 : 12, cursor: "pointer" }}>
                   <span className="flex items-center gap-1">
-                    {h}
-                    <svg
-                      className="w-3 h-3 opacity-40"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 16V4m0 0L3 8m4-4l4 4m6 8v-8m0 8l4-4m-4 4l-4-4"
-                      />
-                    </svg>
+                    {label} <SortIcon k={key} />
                   </span>
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {campaigns.map((c, i) => {
-              const statusStyle = STATUS_STYLES[c.status];
+            {sorted.map(c => {
+              const st = STATUS_STYLE[c.status];
+              const chColor = CHANNEL_COLORS[c.channel] ?? "#8B97AA";
               return (
-                <tr
-                  key={c.name}
-                  className="transition-colors"
-                  style={{
-                    borderBottom:
-                      i < campaigns.length - 1
-                        ? "1px solid #252D3D"
-                        : undefined,
-                    backgroundColor: c.isBest
-                      ? "rgba(245,158,11,0.06)"
-                      : "transparent",
-                  }}
-                >
-                  {/* Campaign name */}
-                  <td className="py-3 px-3">
-                    <div className="flex items-center gap-2">
-                      {c.isBest && (
-                        <span
-                          className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
-                          style={{
-                            backgroundColor: "rgba(245,158,11,0.2)",
-                            color: "#F59E0B",
-                            border: "1px solid rgba(245,158,11,0.4)",
-                          }}
-                        >
-                          Best
-                        </span>
-                      )}
-                      <span className="font-semibold text-[#F9FAFB] whitespace-nowrap">
-                        {c.name}
-                      </span>
-                    </div>
+                <tr key={c.id}>
+                  <td style={{ paddingLeft: 20, fontWeight: 600, color: "#E8ECF4", fontSize: 12, maxWidth: 220 }}>
+                    <span className="truncate block">{c.name}</span>
                   </td>
-
-                  {/* Channel */}
-                  <td className="py-3 px-3">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="inline-flex items-center justify-center w-5 h-5 rounded text-[9px] font-bold text-white"
-                        style={{ backgroundColor: "#252D3D" }}
-                      >
-                        {CHANNEL_ICONS[c.channel]}
-                      </span>
-                      <span className="text-[#9CA3AF] text-xs whitespace-nowrap">
-                        {c.channel}
-                      </span>
-                    </div>
+                  <td>
+                    <span style={{ fontSize: 11, color: chColor, fontWeight: 600 }}>{c.channel}</span>
                   </td>
-
-                  {/* Budget */}
-                  <td className="py-3 px-3 text-[#F9FAFB] font-medium whitespace-nowrap">
-                    {c.budget}
-                  </td>
-
-                  {/* Impressions */}
-                  <td className="py-3 px-3 text-[#9CA3AF] whitespace-nowrap">
-                    {c.impressions}
-                  </td>
-
-                  {/* Clicks */}
-                  <td className="py-3 px-3 text-[#9CA3AF] whitespace-nowrap">
-                    {c.clicks}
-                  </td>
-
-                  {/* Conversions */}
-                  <td className="py-3 px-3 text-[#F9FAFB] font-medium whitespace-nowrap">
-                    {c.conversions}
-                  </td>
-
-                  {/* CPA */}
-                  <td
-                    className="py-3 px-3 font-semibold whitespace-nowrap"
-                    style={{
-                      color:
-                        c.cpaRaw <= 1
-                          ? "#10B981"
-                          : c.cpaRaw <= 5
-                          ? "#FF9900"
-                          : "#9CA3AF",
-                    }}
-                  >
-                    {c.cpa}
-                  </td>
-
-                  {/* ROAS bar */}
-                  <td className="py-3 px-3 min-w-[120px]">
-                    <RoasBar value={c.roasRaw} max={maxRoas} />
-                  </td>
-
-                  {/* Status */}
-                  <td className="py-3 px-3">
-                    <span
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
-                      style={{
-                        backgroundColor: statusStyle.bg,
-                        color: statusStyle.text,
-                      }}
-                    >
-                      <span
-                        className="inline-block w-1.5 h-1.5 rounded-full"
-                        style={{
-                          backgroundColor: statusStyle.dot,
-                          boxShadow:
-                            c.status === "ACTIVE"
-                              ? `0 0 4px ${statusStyle.dot}`
-                              : undefined,
-                        }}
-                      />
+                  <td>
+                    <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 4, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", background: st.bg, color: st.color, border: `1px solid ${st.border}` }}>
                       {c.status}
                     </span>
                   </td>
+                  <td style={{ fontVariantNumeric: "tabular-nums", fontWeight: 600, fontSize: 12 }}>${c.spend}K</td>
+                  <td style={{ minWidth: 140 }}><BudgetBar spend={c.spend} budget={c.budget} /></td>
+                  <td style={{ fontVariantNumeric: "tabular-nums", color: "#8B97AA", fontSize: 12 }}>{c.impressions.toFixed(1)}</td>
+                  <td style={{ fontVariantNumeric: "tabular-nums", color: "#8B97AA", fontSize: 12 }}>{c.ctr.toFixed(2)}%</td>
+                  <td style={{ fontVariantNumeric: "tabular-nums", fontSize: 12 }}>{c.conversions.toFixed(1)}</td>
+                  <td style={{ fontVariantNumeric: "tabular-nums", color: c.cpa < 5 ? "#00C896" : c.cpa < 15 ? "#8B97AA" : "#FF4F5B", fontWeight: 600, fontSize: 12 }}>${c.cpa.toFixed(2)}</td>
+                  <td><RoasCell roas={c.roas} /></td>
                 </tr>
               );
             })}
-
-            {/* Totals row */}
-            <tr
-              style={{
-                borderTop: "2px solid #252D3D",
-                backgroundColor: "rgba(19,153,255,0.04)",
-              }}
-            >
-              <td className="py-3 px-3">
-                <span className="text-xs font-bold text-[#9CA3AF] uppercase tracking-wider">
-                  Total
-                </span>
-              </td>
-              <td className="py-3 px-3">
-                <span className="text-xs text-[#9CA3AF]">5 Campaigns</span>
-              </td>
-              <td className="py-3 px-3 font-bold text-[#F9FAFB]">
-                ${totalBudget}K
-              </td>
-              <td className="py-3 px-3 text-[#9CA3AF]">185M</td>
-              <td className="py-3 px-3 text-[#9CA3AF]">3.5M+</td>
-              <td className="py-3 px-3 font-bold text-[#F9FAFB]">
-                {totalConversions}K
-              </td>
-              <td
-                className="py-3 px-3 font-bold"
-                style={{ color: "#FF9900" }}
-              >
-                ${totalCPAAvg.toFixed(2)}
-              </td>
-              <td className="py-3 px-3">
-                <RoasBar value={11.74} max={maxRoas} />
-              </td>
-              <td className="py-3 px-3">
-                <span className="text-xs text-[#9CA3AF]">Blended avg</span>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
 
-      {/* Footer */}
-      <div
-        className="mt-4 pt-3 flex items-center justify-between"
-        style={{ borderTop: "1px solid #252D3D" }}
-      >
-        <p className="text-[10px] text-[#9CA3AF]">
-          Data as of Feb 17, 2026 &bull; Conversions = paid subscriptions
-          attributed within 30-day window
-        </p>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5">
-            <span
-              className="inline-block w-2 h-2 rounded-sm"
-              style={{ backgroundColor: "#10B981" }}
-            />
-            <span className="text-[10px] text-[#9CA3AF]">High ROAS</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span
-              className="inline-block w-2 h-2 rounded-sm"
-              style={{ backgroundColor: "#FF9900" }}
-            />
-            <span className="text-[10px] text-[#9CA3AF]">Mid ROAS</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span
-              className="inline-block w-2 h-2 rounded-sm"
-              style={{ backgroundColor: "#EF4444" }}
-            />
-            <span className="text-[10px] text-[#9CA3AF]">Low ROAS</span>
-          </div>
-        </div>
+      {/* Footer insight */}
+      <div className="flex items-center gap-2 px-5 py-3" style={{ borderTop: "1px solid #1A2437", background: "#060A12" }}>
+        <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4, background: "rgba(0,200,150,0.1)", color: "#00C896", border: "1px solid rgba(0,200,150,0.2)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          AI Recommendation
+        </span>
+        <span style={{ fontSize: 11, color: "#8B97AA" }}>
+          Email and App/Push channels are outperforming TV/CTV by <strong style={{ color: "#E8ECF4" }}>7.6x ROAS</strong>.{" "}
+          Reallocating 25% of TV budget could yield an estimated <strong style={{ color: "#00C896" }}>+$680K</strong> in incremental conversions.
+        </span>
       </div>
     </div>
   );

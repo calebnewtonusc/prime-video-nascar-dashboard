@@ -11,57 +11,85 @@ import CompetitorBenchmark from "@/components/CompetitorBenchmark";
 import AIInsights from "@/components/AIInsights";
 import MarketingTracker from "@/components/MarketingTracker";
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3 mb-3">
+      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#4E5E74" }}>
+        {children}
+      </span>
+      <div style={{ flex: 1, height: 1, background: "#1A2437" }} />
+    </div>
+  );
+}
+
 export default function Page() {
   return (
-    <div className="min-h-screen" style={{ background: "#080C14" }}>
+    <div style={{ minHeight: "100vh", background: "#060A12" }}>
       <Header />
 
-      <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
+      <main className="max-w-[1600px] mx-auto px-6 py-5 space-y-8">
 
-        {/* Executive Summary */}
+        {/* Strategic Priorities */}
         <ExecSummary />
 
-        {/* KPI Cards */}
-        <KPICards />
+        {/* KPIs */}
+        <section>
+          <SectionLabel>Performance Overview · Q1 2026</SectionLabel>
+          <KPICards />
+        </section>
 
-        {/* Main charts row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <ViewershipChart />
+        {/* Primary Charts */}
+        <section>
+          <SectionLabel>Viewership &amp; Revenue</SectionLabel>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="lg:col-span-2"><ViewershipChart /></div>
+            <div><RevenueChart /></div>
           </div>
-          <div>
-            <RevenueChart />
+        </section>
+
+        {/* Race + Driver */}
+        <section>
+          <SectionLabel>Race Schedule &amp; Driver Popularity</SectionLabel>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <RaceSchedule />
+            <DriverLeaderboard />
           </div>
-        </div>
+        </section>
 
-        {/* Race schedule + driver leaderboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <RaceSchedule />
-          <DriverLeaderboard />
-        </div>
+        {/* Audience */}
+        <section>
+          <SectionLabel>Audience Intelligence</SectionLabel>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <GeographicBreakdown />
+            <EngagementFunnel />
+          </div>
+        </section>
 
-        {/* Geographic breakdown + Funnel */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <GeographicBreakdown />
-          <EngagementFunnel />
-        </div>
+        {/* Competitive */}
+        <section>
+          <SectionLabel>Competitive Landscape</SectionLabel>
+          <CompetitorBenchmark />
+        </section>
 
-        {/* Competitive landscape — full width */}
-        <CompetitorBenchmark />
+        {/* AI */}
+        <section>
+          <SectionLabel>AI &amp; Predictive Insights</SectionLabel>
+          <AIInsights />
+        </section>
 
-        {/* AI Insights — full width */}
-        <AIInsights />
+        {/* Marketing */}
+        <section>
+          <SectionLabel>Marketing Performance</SectionLabel>
+          <MarketingTracker />
+        </section>
 
-        {/* Marketing tracker — full width */}
-        <MarketingTracker />
-
-        <footer className="text-center py-6 border-t" style={{ borderColor: "#1F2937" }}>
-          <p className="text-[11px]" style={{ color: "#4B5563" }}>
-            Amazon Prime Video &middot; NASCAR Cup Series Analytics &middot; Q1 2026 &middot;{" "}
-            <span style={{ color: "#374151" }}>CONFIDENTIAL</span>
+        <footer className="text-center py-5" style={{ borderTop: "1px solid #1A2437" }}>
+          <p style={{ fontSize: 11, color: "#4E5E74" }}>
+            Amazon Prime Video · NASCAR Cup Series Analytics · Q1 2026 ·{" "}
+            <span style={{ color: "#2E3F56" }}>CONFIDENTIAL — INTERNAL USE ONLY</span>
           </p>
-          <p className="text-[11px] mt-1" style={{ color: "#374151" }}>
-            Data as of Feb 18, 2026 &middot; Powered by Amazon Bedrock AI
+          <p style={{ fontSize: 10, color: "#2E3F56", marginTop: 4 }}>
+            Data refreshed: Feb 18, 2026 09:14 UTC · Powered by Amazon Bedrock AI · Build 2026.02.18
           </p>
         </footer>
       </main>

@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Prime Video · NASCAR Q1 2026 Analytics",
-  description:
-    "Amazon Prime Video NASCAR Cup Series Go-To-Market Analytics Dashboard — Q1 2026",
+  title: "NASCAR Analytics | Amazon Prime Video",
+  description: "Q1 2026 Go-To-Market Strategy — Performance & Audience Intelligence",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body style={{ background: "#080C14", color: "#F9FAFB" }}>{children}</body>
+    <html lang="en" className={inter.variable}>
+      <body>{children}</body>
     </html>
   );
 }
