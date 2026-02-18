@@ -67,7 +67,7 @@ export default function DriverLeaderboard() {
             <XAxis type="number" domain={[0, 3200]} tick={{ fill: "#4E5E74", fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={v => `${(v / 1000).toFixed(1)}K`} />
             <YAxis type="category" dataKey="name" width={170} tick={props => <YTick {...props} />} tickLine={false} axisLine={false} />
             <Tooltip content={<Tip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
-            <Bar dataKey="index" radius={[0, 3, 3, 0]} maxBarSize={18}>
+            <Bar isAnimationActive={false} dataKey="index" radius={[0, 3, 3, 0]} maxBarSize={18}>
               {drivers.map(d => (
                 <Cell key={d.name} fill={d.rank === 1 ? "#00A8FF" : d.rank <= 3 ? "#0076CC" : "#1A2437"} stroke={d.rank <= 3 ? "none" : "#243044"} strokeWidth={1} />
               ))}

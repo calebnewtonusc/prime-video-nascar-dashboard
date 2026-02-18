@@ -57,7 +57,7 @@ export default function GeographicBreakdown() {
               <XAxis dataKey="market" tick={{ fill: "#4E5E74", fontSize: 9 }} tickLine={false} axisLine={false} tickFormatter={v => v.split(",")[0]} />
               <YAxis tick={{ fill: "#4E5E74", fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={v => `${v}`} />
               <Tooltip content={<GeoTip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
-              <Bar dataKey="viewers" radius={[3, 3, 0, 0]} maxBarSize={32}>
+              <Bar isAnimationActive={false} dataKey="viewers" radius={[3, 3, 0, 0]} maxBarSize={32}>
                 {markets.map(m => <Cell key={m.market} fill={m.yoy > 40 ? "#00C896" : "#00A8FF"} />)}
               </Bar>
             </BarChart>

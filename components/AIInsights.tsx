@@ -185,7 +185,7 @@ export default function AIInsights() {
                     tickFormatter={v => v.split("(")[0].trim()}
                   />
                   <Tooltip content={<ChurnTip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
-                  <Bar dataKey="risk" radius={[0, 3, 3, 0]} maxBarSize={16}>
+                  <Bar isAnimationActive={false} dataKey="risk" radius={[0, 3, 3, 0]} maxBarSize={16}>
                     {churnRisk.map(d => <Cell key={d.segment} fill={d.color} />)}
                   </Bar>
                 </BarChart>
