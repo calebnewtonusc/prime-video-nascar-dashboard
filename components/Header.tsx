@@ -1,4 +1,6 @@
-import { Download, Radio, ChevronDown, BarChart2 } from "lucide-react";
+import { Radio, ChevronDown, BarChart2 } from "lucide-react";
+import NavTabs from "@/components/NavTabs";
+import ExportButton from "@/components/ExportButton";
 
 export default function Header() {
   return (
@@ -71,32 +73,12 @@ export default function Header() {
               Feb – Mar 2026 <ChevronDown size={12} />
             </button>
 
-            <button
-              className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-[12px] font-bold text-white transition-all hover:brightness-110 active:scale-95"
-              style={{ background: "linear-gradient(135deg, #1399FF, #0D7FCC)", boxShadow: "0 0 14px rgba(19,153,255,0.3), 0 2px 6px rgba(0,0,0,0.4)" }}
-            >
-              <Download size={13} strokeWidth={2.5} />
-              Export
-            </button>
+            <ExportButton />
           </div>
         </div>
 
         {/* Nav tabs */}
-        <div className="flex items-center gap-1 overflow-x-auto">
-          {["Overview", "Viewership", "Revenue", "Marketing", "AI Insights"].map((tab) => (
-            <button
-              key={tab}
-              className="px-4 py-2.5 text-[12px] font-semibold whitespace-nowrap transition-colors border-b-2"
-              style={{ color: tab === "Overview" ? "#1399FF" : "#6B7280", borderColor: tab === "Overview" ? "#1399FF" : "transparent" }}
-            >
-              {tab}
-            </button>
-          ))}
-          <div className="ml-auto flex items-center gap-2 pb-2 pl-4">
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded" style={{ background: "#1F2937", color: "#6B7280" }}>CONFIDENTIAL</span>
-            <span className="text-[10px]" style={{ color: "#374151" }}>Amazon Prime Video &copy; 2026</span>
-          </div>
-        </div>
+        <NavTabs />
       </div>
     </header>
   );
