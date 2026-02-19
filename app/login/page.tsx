@@ -76,10 +76,10 @@ function LoginForm() {
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 14 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/prime-video-logo.png" alt="Prime Video" style={{ height: 30, width: "auto" }} />
-            <div style={{ width: 1, height: 28, background: "#1A2437", flexShrink: 0 }} />
+            <img src="/prime-video-logo.png" alt="Prime Video" style={{ height: 48, width: "auto" }} />
+            <div style={{ width: 1, height: 44, background: "#1A2437", flexShrink: 0 }} />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/nascar-logo-white.png" alt="NASCAR" style={{ height: 22, width: "auto" }} />
+            <img src="/nascar-logo-white.png" alt="NASCAR" style={{ height: 36, width: "auto" }} />
           </div>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 8px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.08em", background: "rgba(255,153,0,0.1)", color: "#FF9900", border: "1px solid rgba(255,153,0,0.2)" }}>
