@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const API_KEY    = process.env.OLLAMA_API_KEY ?? "";
-const OLLAMA_BASE = process.env.OLLAMA_BASE_URL ?? "https://ollama.com";
+const OLLAMA_BASE = process.env.OLLAMA_BASE_URL ?? "https://api.ollama.com";
 
 // ── Full Q1 2026 NASCAR data context injected into every request ──────────────
 const SYSTEM_PROMPT = `You are an expert AI analytics assistant embedded in Amazon Prime Video's NASCAR Cup Series Q1 2026 analytics dashboard. You have deep knowledge of all the data below and act as a strategic advisor to Amazon's content & marketing teams.

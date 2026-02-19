@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const API_KEY    = process.env.OLLAMA_API_KEY ?? "";
-const OLLAMA_BASE = process.env.OLLAMA_BASE_URL ?? "https://ollama.com";
+const OLLAMA_BASE = process.env.OLLAMA_BASE_URL ?? "https://api.ollama.com";
 
 export async function GET() {
   if (!API_KEY) {
