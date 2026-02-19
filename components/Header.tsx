@@ -125,7 +125,7 @@ export default function Header() {
             />
             <div className="hidden sm:block" style={{ width: 1, height: 22, background: "#1A2437", flexShrink: 0 }} />
             <div className="hidden sm:flex items-center gap-2 min-w-0">
-              <Image src="/nascar-logo-white.png" alt="NASCAR" width={130} height={26} style={{ objectFit: "contain", height: 26, width: "auto" }} className="flex-shrink-0" />
+              <Image src="/nascar-logo-white.png" alt="NASCAR" width={160} height={32} style={{ objectFit: "contain", height: 32, width: "auto" }} className="flex-shrink-0" />
               <span className="hidden lg:inline" style={{ fontSize: 9, fontWeight: 800, padding: "2px 6px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.07em", background: "rgba(255,79,91,0.12)", color: "#FF4F5B", border: "1px solid rgba(255,79,91,0.2)", whiteSpace: "nowrap" }}>
                 Confidential
               </span>
