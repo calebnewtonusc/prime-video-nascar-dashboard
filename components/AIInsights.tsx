@@ -112,8 +112,8 @@ export default function AIInsights() {
             {models.filter(m => m.healthy).length}/{models.length} Healthy
           </span>
         </div>
-        <div className="overflow-x-auto">
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+        <div className="overflow-x-auto" style={{ WebkitOverflowScrolling: "touch" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 560 }}>
             <thead>
               <tr style={{ background: "#060A12" }}>
                 {["Model", "Accuracy", "F1 Score", "Data Drift", "Status"].map(h => (

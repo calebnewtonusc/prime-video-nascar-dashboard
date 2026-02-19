@@ -58,7 +58,7 @@ export default function RaceSchedule() {
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 640 }}>
           <thead>
             <tr style={{ background: "#060A12" }}>
               {["Race", "Date", "Track", "Viewers", "TV Rating", "Stream Share", "Status"].map(h => (

@@ -46,7 +46,7 @@ export default function KPIStrip() {
     return (
       <div style={{ background: "#0A0F1E", borderBottom: "1px solid #1A2437" }}>
         <div className="max-w-[1600px] mx-auto px-6">
-          <div className="grid grid-cols-4 lg:grid-cols-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
             {Array.from({ length: 8 }).map((_, i) => (
               <KPISkeletonCell key={`skeleton-${i}`} last={i === 7} />
             ))}
@@ -60,7 +60,7 @@ export default function KPIStrip() {
     <>
       <div style={{ background: "#0A0F1E", borderBottom: "1px solid #1A2437" }}>
         <div className="max-w-[1600px] mx-auto px-6">
-          <div className="grid grid-cols-4 lg:grid-cols-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
             {data.kpis.map((k, i) => {
               const up = k.delta > 0;
               const positive = k.invertDelta ? !up : up;

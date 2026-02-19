@@ -178,7 +178,7 @@ export default function MarketingTracker() {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="data-table" style={{ width: "100%" }}>
+        <table className="data-table" style={{ width: "100%", minWidth: 900 }}>
           <thead>
             <tr>
               {([

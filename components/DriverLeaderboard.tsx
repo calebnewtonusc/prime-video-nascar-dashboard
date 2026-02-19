@@ -60,7 +60,7 @@ export default function DriverLeaderboard() {
           <p style={{ fontSize: 11, color: "#4E5E74", marginTop: 2 }}>Q1 2026 · Profile views + watch time, normalized to 3,000</p>
         </div>
       </div>
-      <div style={{ height: 340 }}>
+      <div style={{ height: 320 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={drivers} layout="vertical" margin={{ top: 4, right: 48, left: 170, bottom: 4 }}>
             <CartesianGrid horizontal={false} strokeDasharray="2 4" stroke="#1A2437" />

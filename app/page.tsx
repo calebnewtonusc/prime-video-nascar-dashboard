@@ -49,7 +49,7 @@ export default function Page() {
         <div className="pb-2">
           <SectionHeader label="Viewership & Revenue" sublabel="Live data · Updates every 60s" />
         </div>
-        <div className="grid gap-4 pb-5" style={{ gridTemplateColumns: "minmax(0,3fr) minmax(0,2fr)" }}>
+        <div className="grid gap-4 pb-5 grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           <ViewershipChart />
           <div className="flex flex-col gap-4">
             <RevenueChart />

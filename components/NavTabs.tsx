@@ -13,7 +13,7 @@ const TABS = [
 export default function NavTabs() {
   const path = usePathname();
   return (
-    <nav className="flex items-center gap-0" style={{ borderTop: "1px solid #1A2437" }}>
+    <nav className="flex items-center overflow-x-auto" style={{ borderTop: "1px solid #1A2437", scrollbarWidth: "none", msOverflowStyle: "none" }}>
       {TABS.map(t => {
         const active = t.href === "/" ? path === "/" : path.startsWith(t.href);
         return (
@@ -30,6 +30,7 @@ export default function NavTabs() {
               transition: "color 0.15s, border-color 0.15s",
               textDecoration: "none",
               whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             {t.label}
