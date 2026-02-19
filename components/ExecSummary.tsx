@@ -62,10 +62,10 @@ const priorities = [
 
 export default function ExecSummary() {
   return (
-    <div style={{ background: "#0C1220", border: "1px solid #1A2437", borderRadius: 12, overflow: "hidden" }}>
+    <div style={{ background: "#0C1220", border: "1px solid #1A2437", borderRadius: 12, overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.28)" }}>
       {/* Section header */}
       <div
-        className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-5"
         style={{ borderBottom: "1px solid #1A2437", background: "#060A12" }}
       >
         <div>
@@ -93,7 +93,7 @@ export default function ExecSummary() {
           return (
             <div
               key={item.number}
-              className="card-hover p-5 flex flex-col gap-4"
+              className="card-hover p-6 flex flex-col gap-5"
               style={{
                 borderTop: "1px solid #1A2437",
                 borderLeft: `3px solid ${item.tagColor}`,

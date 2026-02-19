@@ -51,9 +51,10 @@ export default function AIAnalyst() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const bottomRef  = useRef<HTMLDivElement>(null);
-  const inputRef   = useRef<HTMLTextAreaElement>(null);
-  const abortRef   = useRef<AbortController | null>(null);
+  const bottomRef    = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef     = useRef<HTMLTextAreaElement>(null);
+  const abortRef     = useRef<AbortController | null>(null);
 
   // ── Health check ────────────────────────────────────────────────────────────
 
@@ -77,8 +78,8 @@ export default function AIAnalyst() {
   // ── Auto-scroll ──────────────────────────────────────────────────────────────
 
   useEffect(() => {
-    if (messages.length > 0) {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > 0 && containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -389,6 +390,7 @@ export default function AIAnalyst() {
         <>
           {/* Messages or empty state */}
           <div
+            ref={containerRef}
             style={{
               minHeight: 300, maxHeight: 440,
               overflowY: "auto",

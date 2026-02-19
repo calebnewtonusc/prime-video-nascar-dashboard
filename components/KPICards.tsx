@@ -127,11 +127,12 @@ function Delta({ val, suffix = "%" }: { val: number; suffix?: string }) {
 function KPICard({ k }: { k: KPI }) {
   return (
     <div
-      className="kpi-card flex flex-col gap-3 p-4 rounded-[10px] relative overflow-hidden"
+      className="kpi-card flex flex-col gap-4 p-5 rounded-[10px] relative overflow-hidden"
       style={{
         background: "#0C1220",
         border: "1px solid #1A2437",
         borderLeft: `2px solid ${k.color}`,
+        boxShadow: "0 2px 12px rgba(0,0,0,0.22)",
       }}
     >
       <div className="flex items-start justify-between gap-2">
@@ -169,7 +170,7 @@ function KPICard({ k }: { k: KPI }) {
 export default function KPICards() {
   return (
     <section aria-label="Key performance indicators">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {KPIS.map(k => <KPICard key={k.label} k={k} />)}
       </div>
     </section>

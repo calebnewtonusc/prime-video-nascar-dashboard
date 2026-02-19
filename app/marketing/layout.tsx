@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
-import KPIStrip from "@/components/KPIStrip";
 
 export const metadata: Metadata = {
   title: "Marketing | NASCAR Analytics · Prime Video",
@@ -8,11 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <Header />
-      <KPIStrip />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

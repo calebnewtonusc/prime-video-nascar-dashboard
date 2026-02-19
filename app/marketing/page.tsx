@@ -225,6 +225,45 @@ function RoasBar({ value, max }: { value: number; max: number }) {
   );
 }
 
+// ─── Sort Icon ────────────────────────────────────────────────────────────────
+
+function SortIcon({ field, sortField, sortDir }: { field: SortField; sortField: SortField; sortDir: SortDir }) {
+  if (field === "none") {
+    return (
+      <svg
+        className="w-3 h-3 opacity-25"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M7 16V4m0 0L3 8m4-4l4 4m6 8v-8m0 8l4-4m-4 4l-4-4"
+        />
+      </svg>
+    );
+  }
+  const isActive = sortField === field;
+  const isAsc = isActive && sortDir === "asc";
+  return (
+    <svg
+      className="w-3 h-3 transition-opacity"
+      style={{ opacity: isActive ? 1 : 0.35, color: isActive ? "#1399FF" : "currentColor" }}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      {isAsc ? (
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+      ) : (
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      )}
+    </svg>
+  );
+}
+
 // ─── Sortable Campaign Table (client component) ───────────────────────────────
 
 function CampaignTable() {
@@ -331,43 +370,6 @@ function CampaignTable() {
     { key: "status", label: "Status", sortable: "none" },
   ];
 
-  function SortIcon({ field }: { field: SortField }) {
-    if (field === "none") {
-      return (
-        <svg
-          className="w-3 h-3 opacity-25"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M7 16V4m0 0L3 8m4-4l4 4m6 8v-8m0 8l4-4m-4 4l-4-4"
-          />
-        </svg>
-      );
-    }
-    const isActive = sortField === field;
-    const isAsc = isActive && sortDir === "asc";
-    return (
-      <svg
-        className="w-3 h-3 transition-opacity"
-        style={{ opacity: isActive ? 1 : 0.35, color: isActive ? "#1399FF" : "currentColor" }}
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        {isAsc ? (
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-        ) : (
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        )}
-      </svg>
-    );
-  }
-
   return (
     <div
       className="rounded-xl p-6"
@@ -431,7 +433,7 @@ function CampaignTable() {
                 >
                   <span className="inline-flex items-center gap-1">
                     {col.label}
-                    <SortIcon field={col.sortable} />
+                    <SortIcon field={col.sortable} sortField={sortField} sortDir={sortDir} />
                   </span>
                 </th>
               ))}
@@ -840,7 +842,6 @@ export default function MarketingPage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Header />
-
       <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
         {/* Page title */}
         <div>

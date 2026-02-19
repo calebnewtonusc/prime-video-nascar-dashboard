@@ -507,7 +507,6 @@ export default function RevenuePage() {
   return (
     <div className="min-h-screen" style={{ background: "#080C14" }}>
       <Header />
-
       <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
 
         {/* A) Page header */}
