@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, AlertCircle, Loader2 } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const redirect = params.get("redirect") || "/";
@@ -70,10 +70,11 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div>
-              <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>
+              <label htmlFor="email" style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>
                 Amazon Email
               </label>
               <input
+                id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -91,12 +92,13 @@ export default function LoginPage() {
 
             <div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                <label style={{ fontSize: 11, fontWeight: 700, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                <label htmlFor="password" style={{ fontSize: 11, fontWeight: 700, color: "#4E5E74", textTransform: "uppercase", letterSpacing: "0.07em" }}>
                   Password
                 </label>
                 <span style={{ fontSize: 11, color: "#4E5E74" }}>Demo: Prime2026!</span>
               </div>
               <input
+                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -145,5 +147,17 @@ export default function LoginPage() {
 
       <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: "100vh", background: "#060A12", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#00A8FF", animation: "pulse 1s infinite" }} />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

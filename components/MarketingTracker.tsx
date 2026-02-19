@@ -80,6 +80,11 @@ function RoasCell({ roas }: { roas: number }) {
   );
 }
 
+function SortIcon({ k, sort }: { k: SortKey; sort: { key: SortKey; dir: number } }) {
+  if (sort.key !== k) return <ArrowUpDown size={9} style={{ opacity: 0.4 }} />;
+  return sort.dir === -1 ? <ArrowDown size={9} style={{ color: "#00A8FF" }} /> : <ArrowUp size={9} style={{ color: "#00A8FF" }} />;
+}
+
 export default function MarketingTracker() {
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "roas", dir: -1 });
   const [search, setSearch] = useState("");
@@ -101,11 +106,6 @@ export default function MarketingTracker() {
 
   function toggleSort(key: SortKey) {
     setSort(s => s.key === key ? { key, dir: s.dir === -1 ? 1 : -1 } : { key, dir: -1 });
-  }
-
-  function SortIcon({ k }: { k: SortKey }) {
-    if (sort.key !== k) return <ArrowUpDown size={9} style={{ opacity: 0.4 }} />;
-    return sort.dir === -1 ? <ArrowDown size={9} style={{ color: "#00A8FF" }} /> : <ArrowUp size={9} style={{ color: "#00A8FF" }} />;
   }
 
   function exportCSV() {
@@ -195,7 +195,7 @@ export default function MarketingTracker() {
               ] as [SortKey, string][]).map(([key, label]) => (
                 <th key={key} onClick={() => toggleSort(key)} style={{ paddingLeft: key === "name" ? 20 : 12, cursor: "pointer" }}>
                   <span className="flex items-center gap-1">
-                    {label} <SortIcon k={key} />
+                    {label} <SortIcon k={key} sort={sort} />
                   </span>
                 </th>
               ))}

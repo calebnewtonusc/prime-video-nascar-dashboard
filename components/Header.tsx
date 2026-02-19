@@ -4,6 +4,7 @@ import { Radio, ChevronDown, LogOut, User, RefreshCw } from "lucide-react";
 import NavTabs from "@/components/NavTabs";
 import ExportButton from "@/components/ExportButton";
 import { useRouter } from "next/navigation";
+import NotificationPanel from "@/components/NotificationPanel";
 
 // Date range options — mirrors Amazon BI tool standard ranges
 const DATE_RANGES = [
@@ -169,6 +170,7 @@ export default function Header() {
               )}
             </div>
 
+            <NotificationPanel />
             <ExportButton />
 
             {/* User menu */}

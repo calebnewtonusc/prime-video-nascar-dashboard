@@ -6,6 +6,7 @@ import {
   Tooltip, ResponsiveContainer, Cell, LabelList,
 } from "recharts";
 import type { RaceViewershipRecord } from "@/app/api/viewership/route";
+import ErrorCard from "@/components/ErrorCard";
 
 interface ApiResponse {
   races: RaceViewershipRecord[];
@@ -73,7 +74,7 @@ function ChartSkeleton() {
   return (
     <div style={{ height: 340, display: "flex", alignItems: "flex-end", gap: 12, padding: "28px 16px 20px 40px" }}>
       {[180, 60, 50, 70, 55, 65].map((h, i) => (
-        <div key={i} style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${i * 80}ms` }} />
+        <div key={`vs-skeleton-${i}`} style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${i * 80}ms` }} />
       ))}
     </div>
   );
@@ -91,7 +92,9 @@ export default function ViewershipChart() {
     return () => window.removeEventListener("dateRangeChange", onDateChange);
   }, []);
 
-  const { data, isLoading } = useSWR(`/api/viewership${dateParams}`, fetcher, { refreshInterval: 60_000 });
+  const { data, isLoading, error, mutate } = useSWR(`/api/viewership${dateParams}`, fetcher, { refreshInterval: 60_000 });
+
+  if (error) return <ErrorCard title="Viewership data unavailable" onRetry={() => mutate()} height={460} />;
 
   return (
     <div className="rounded-[10px] p-5 h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
@@ -124,7 +127,7 @@ export default function ViewershipChart() {
         ) : (
           <div style={{ display: "flex", gap: 20 }}>
             {[0, 1, 2].map((i) => (
-              <div key={i} style={{ textAlign: "right" }}>
+              <div key={`vs-skeleton-${i}`} style={{ textAlign: "right" }}>
                 <div style={{ height: 8, width: 40, borderRadius: 3, background: "#1A2437", marginBottom: 4 }} />
                 <div style={{ height: 18, width: 52, borderRadius: 3, background: "#243044" }} />
               </div>

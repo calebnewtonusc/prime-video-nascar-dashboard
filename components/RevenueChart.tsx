@@ -2,6 +2,7 @@
 import useSWR from "swr";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import type { RevenueStream } from "@/app/api/revenue/route";
+import ErrorCard from "@/components/ErrorCard";
 
 interface ApiResponse {
   streams: RevenueStream[];
@@ -35,14 +36,16 @@ function Skeleton() {
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <div style={{ height: 220, borderRadius: 8, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite" }} />
       {[0, 1, 2, 3].map((i) => (
-        <div key={i} style={{ height: 16, borderRadius: 3, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${i * 80}ms` }} />
+        <div key={`rev-skeleton-${i}`} style={{ height: 16, borderRadius: 3, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${i * 80}ms` }} />
       ))}
     </div>
   );
 }
 
 export default function RevenueChart() {
-  const { data, isLoading } = useSWR("/api/revenue", fetcher, { refreshInterval: 60_000 });
+  const { data, isLoading, error, mutate } = useSWR("/api/revenue", fetcher, { refreshInterval: 60_000 });
+
+  if (error) return <ErrorCard title="Revenue data unavailable" onRetry={() => mutate()} height={460} />;
 
   return (
     <div className="rounded-[10px] p-5" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>

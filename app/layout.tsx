@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SWRProvider } from "@/components/SWRProvider";
+import SessionWarning from "@/components/SessionWarning";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,7 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <SWRProvider>{children}</SWRProvider>
+        <SWRProvider>
+          {children}
+          <SessionWarning />
+        </SWRProvider>
       </body>
     </html>
   );

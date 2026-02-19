@@ -1,3 +1,6 @@
+"use client";
+import { useEffect, useState } from "react";
+
 const RACES = [
   { name: "Daytona 500",         track: "Daytona Int'l",   date: "Feb 16", viewers: 8.2, tvRating: 4.1, streamShare: 38, status: "Completed", winner: "C. Elliott" },
   { name: "Ambetter Health 400", track: "Atlanta Motor",   date: "Feb 23", viewers: 1.9, tvRating: 0.8, streamShare: 41, status: "Completed", winner: "W. Byron"   },
@@ -13,7 +16,29 @@ const STATUS_COLORS: Record<string, { bg: string; color: string; border: string 
   Live:      { bg: "rgba(0,200,150,0.08)",  color: "#00C896", border: "rgba(0,200,150,0.2)" },
 };
 
+function useCountdown(targetDate: Date) {
+  const [timeLeft, setTimeLeft] = useState("");
+  useEffect(() => {
+    function update() {
+      const diff = targetDate.getTime() - Date.now();
+      if (diff <= 0) { setTimeLeft("LIVE"); return; }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setTimeLeft(`${d}d ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`);
+    }
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, [targetDate]);
+  return timeLeft;
+}
+
 export default function RaceSchedule() {
+  const nextRaceDate = new Date("2026-03-23T14:00:00-05:00");
+  const countdown = useCountdown(nextRaceDate);
+
   return (
     <div className="rounded-[10px] overflow-hidden h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
       <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #1A2437" }}>
@@ -26,6 +51,10 @@ export default function RaceSchedule() {
           <span style={{ fontSize: 14, fontWeight: 700, color: "#00C896", fontVariantNumeric: "tabular-nums" }}>
             {Math.round(RACES.filter(r => r.streamShare).reduce((s, r) => s + (r.streamShare ?? 0), 0) / RACES.filter(r => r.streamShare).length)}%
           </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 10px", borderRadius: 6, background: "rgba(0,168,255,0.07)", border: "1px solid rgba(0,168,255,0.15)" }}>
+            <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#4E5E74" }}>Next Race</span>
+            <span style={{ fontSize: 12, fontWeight: 800, color: "#00A8FF", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>{countdown}</span>
+          </div>
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -67,9 +96,16 @@ export default function RaceSchedule() {
                     ) : <span style={{ color: "#4E5E74" }}>—</span>}
                   </td>
                   <td style={{ padding: "10px 12px" }}>
-                    <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 4, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", background: s.bg, color: s.color, border: `1px solid ${s.border}` }}>
-                      {r.status}
-                    </span>
+                    {r.status === "Live" ? (
+                      <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 4, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", background: s.bg, color: s.color, border: `1px solid ${s.border}`, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#00C896", display: "inline-block", animation: "pulse 1.5s ease-in-out infinite" }} />
+                        LIVE NOW
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 4, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", background: s.bg, color: s.color, border: `1px solid ${s.border}` }}>
+                        {r.status}
+                      </span>
+                    )}
                   </td>
                 </tr>
               );
@@ -77,6 +113,7 @@ export default function RaceSchedule() {
           </tbody>
         </table>
       </div>
+      <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }`}</style>
     </div>
   );
 }

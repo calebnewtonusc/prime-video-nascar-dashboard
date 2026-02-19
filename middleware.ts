@@ -16,6 +16,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Data API routes are gated by the same session cookie — allow through
+  // and let each route handler validate as needed.
+  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
+  }
+
   // Check session cookie
   const sessionToken = request.cookies.get(SESSION_COOKIE)?.value;
   if (!sessionToken) {
