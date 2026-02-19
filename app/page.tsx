@@ -12,6 +12,7 @@ import AIInsights from "@/components/AIInsights";
 import GeographicBreakdown from "@/components/GeographicBreakdown";
 import EngagementFunnel from "@/components/EngagementFunnel";
 import ExecSummary from "@/components/ExecSummary";
+import AIAnalyst from "@/components/AIAnalyst";
 
 function SectionHeader({ label, count, sublabel }: { label: string; count?: string; sublabel?: string }) {
   return (
@@ -90,7 +91,15 @@ export default function Page() {
           <AIInsights />
         </div>
 
-        {/* ── Row 5: Geographic + Funnel ── */}
+        {/* ── Row 5: AI Analyst chat ── */}
+        <div className="pb-2">
+          <SectionHeader label="AI Analyst" sublabel="Ollama · Local LLM · Ask anything about the data" />
+        </div>
+        <div className="pb-5">
+          <AIAnalyst />
+        </div>
+
+        {/* ── Row 6: Geographic + Funnel ── */}
         <div className="pb-2">
           <SectionHeader label="Audience Intelligence" sublabel="Geographic breakdown · Conversion funnel" />
         </div>

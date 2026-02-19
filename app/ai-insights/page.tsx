@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/components/Header";
+import AIAnalyst from "@/components/AIAnalyst";
 import {
   BarChart,
   Bar,
@@ -520,6 +521,9 @@ export default function AIInsightsPage() {
             Live Analysis
           </div>
         </div>
+
+        {/* ── AI Analyst chat ── */}
+        <AIAnalyst />
 
         {/* Model health status bar */}
         <ModelHealthBar />
