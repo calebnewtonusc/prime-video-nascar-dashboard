@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Header from "@/components/Header";
+import MarketingTracker from "@/components/MarketingTracker";
 import {
   PieChart,
   Pie,
@@ -878,6 +879,9 @@ export default function MarketingPage() {
             color="#F59E0B"
           />
         </div>
+
+        {/* Full campaign attribution tracker */}
+        <MarketingTracker />
 
         {/* Sortable table */}
         <CampaignTable />

@@ -48,7 +48,7 @@ export default function RevenueChart() {
   if (error) return <ErrorCard title="Revenue data unavailable" onRetry={() => mutate()} height={460} />;
 
   return (
-    <div className="rounded-[10px] p-5" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+    <div className="card-hover rounded-[10px] p-5" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
         <div>
           <h2 style={{ fontSize: 14, fontWeight: 700, color: "#E8ECF4" }}>Revenue Breakdown</h2>

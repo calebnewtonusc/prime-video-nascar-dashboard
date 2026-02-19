@@ -127,7 +127,7 @@ function Delta({ val, suffix = "%" }: { val: number; suffix?: string }) {
 function KPICard({ k }: { k: KPI }) {
   return (
     <div
-      className="flex flex-col gap-3 p-4 rounded-[10px] relative overflow-hidden"
+      className="kpi-card flex flex-col gap-3 p-4 rounded-[10px] relative overflow-hidden"
       style={{
         background: "#0C1220",
         border: "1px solid #1A2437",

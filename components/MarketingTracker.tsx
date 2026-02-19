@@ -121,7 +121,7 @@ export default function MarketingTracker() {
   }
 
   return (
-    <div className="rounded-[10px] overflow-hidden" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+    <div className="card-hover rounded-[10px] overflow-hidden" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
       {/* Header */}
       <div className="flex items-center justify-between gap-4 px-5 py-4" style={{ borderBottom: "1px solid #1A2437" }}>
         <div>

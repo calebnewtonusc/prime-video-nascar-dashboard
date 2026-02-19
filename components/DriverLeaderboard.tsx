@@ -53,7 +53,7 @@ function YTick({ x, y, payload }: TickProps) {
 
 export default function DriverLeaderboard() {
   return (
-    <div className="rounded-[10px] p-5 h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+    <div className="card-hover rounded-[10px] p-5 h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
       <div className="flex items-start justify-between mb-4">
         <div>
           <h2 style={{ fontSize: 15, fontWeight: 700, color: "#E8ECF4" }}>Driver Popularity Index</h2>

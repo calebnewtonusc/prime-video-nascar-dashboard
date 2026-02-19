@@ -71,12 +71,13 @@ export default function KPIStrip() {
                   onClick={() => setSelected(k)}
                   className="flex flex-col justify-center py-2.5 px-3 text-left"
                   style={{
+                    minHeight: 52, background: "none",
+                    border: "none",
                     borderRight: i < data.kpis.length - 1 ? "1px solid #1A2437" : "none",
-                    minHeight: 52, background: "none", border: "none",
                     cursor: "pointer",
-                    transition: "background 0.1s",
+                    transition: "background 0.15s",
                   }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)")}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(0,168,255,0.04)")}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "none")}
                 >
                   <div style={{ display: "flex", alignItems: "center" }}>

@@ -18,7 +18,7 @@ const insights = [
 
 export default function EngagementFunnel() {
   return (
-    <div className="rounded-[10px] overflow-hidden h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+    <div className="card-hover rounded-[10px] overflow-hidden h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
       <div className="px-5 py-4" style={{ borderBottom: "1px solid #1A2437" }}>
         <h2 style={{ fontSize: 15, fontWeight: 700, color: "#E8ECF4" }}>Conversion Funnel</h2>
         <p style={{ fontSize: 11, color: "#4E5E74", marginTop: 2 }}>Impressions to paid subscribers · Q1 2026</p>

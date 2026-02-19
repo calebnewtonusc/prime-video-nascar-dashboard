@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import AIAnalyst from "@/components/AIAnalyst";
+import AIInsights from "@/components/AIInsights";
 import {
   BarChart,
   Bar,
@@ -540,6 +541,9 @@ export default function AIInsightsPage() {
 
         {/* Model performance table */}
         <ModelPerformanceTable />
+
+        {/* Predictive signals + action buttons */}
+        <AIInsights />
 
         <footer className="text-center py-6 border-t" style={{ borderColor: "#1F2937" }}>
           <p className="text-[11px]" style={{ color: "#4B5563" }}>

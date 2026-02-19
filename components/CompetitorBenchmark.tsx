@@ -8,7 +8,7 @@ const platforms = [
 
 export default function CompetitorBenchmark() {
   return (
-    <div className="rounded-[10px] overflow-hidden" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+    <div className="card-hover rounded-[10px] overflow-hidden" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
       <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: "1px solid #1A2437" }}>
         <div>
           <h2 style={{ fontSize: 13, fontWeight: 700, color: "#E8ECF4" }}>Market Share</h2>

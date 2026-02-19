@@ -87,13 +87,13 @@ export default function ExecSummary() {
       </div>
 
       {/* Priority cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#1A2437]">
         {priorities.map((item, i) => {
           const Icon = item.icon;
           return (
             <div
               key={item.number}
-              className="p-5 flex flex-col gap-4"
+              className="card-hover p-5 flex flex-col gap-4"
               style={{
                 borderTop: "1px solid #1A2437",
                 borderLeft: `3px solid ${item.tagColor}`,

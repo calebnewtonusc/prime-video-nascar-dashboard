@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import Header from "@/components/Header";
+import RevenueChart from "@/components/RevenueChart";
+import CompetitorBenchmark from "@/components/CompetitorBenchmark";
 import { ArrowLeft, TrendingUp } from "lucide-react";
 import {
   BarChart,
@@ -554,16 +556,22 @@ export default function RevenuePage() {
           />
         </div>
 
-        {/* C) Monthly revenue trend */}
+        {/* C) Revenue overview charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <RevenueChart />
+          <CompetitorBenchmark />
+        </div>
+
+        {/* D) Monthly revenue trend */}
         <MonthlyRevenueTrend />
 
-        {/* D) Revenue per race + Subscriber waterfall */}
+        {/* E) Revenue per race + Subscriber waterfall */}
         <div className="grid grid-cols-2 gap-6">
           <RevenuePerRaceChart />
           <SubscriberWaterfall />
         </div>
 
-        {/* E) Ad revenue breakdown + International growth */}
+        {/* F) Ad revenue breakdown + International growth */}
         <div className="grid grid-cols-2 gap-6">
           <AdRevenueChart />
           <InternationalRevenue />

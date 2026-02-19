@@ -74,7 +74,7 @@ function ChartSkeleton() {
   return (
     <div style={{ height: 340, display: "flex", alignItems: "flex-end", gap: 12, padding: "28px 16px 20px 40px" }}>
       {[180, 60, 50, 70, 55, 65].map((h, i) => (
-        <div key={`vs-skeleton-${i}`} style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${i * 80}ms` }} />
+        <div key={`vs-skeleton-${i}`} className="animate-skeleton" style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animationDelay: `${i * 80}ms` }} />
       ))}
     </div>
   );
@@ -97,7 +97,7 @@ export default function ViewershipChart() {
   if (error) return <ErrorCard title="Viewership data unavailable" onRetry={() => mutate()} height={460} />;
 
   return (
-    <div className="rounded-[10px] p-5 h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
+    <div className="card-hover rounded-[10px] p-5 h-full" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
       {/* Header */}
       <div className="flex items-start justify-between mb-4 gap-4">
         <div>
@@ -177,7 +177,6 @@ export default function ViewershipChart() {
         </p>
       </div>
 
-      <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }`}</style>
     </div>
   );
 }

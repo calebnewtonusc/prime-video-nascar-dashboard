@@ -72,18 +72,20 @@ function LoginForm() {
       <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #00A8FF 0%, #0047AB 100%)" }} />
 
       <div style={{ width: "100%", maxWidth: 420 }}>
-        {/* Logo */}
+        {/* Logo — matches Header.tsx branding exactly */}
         <div style={{ textAlign: "center", marginBottom: 36 }}>
-          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: 6, marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: "0.2em", color: "#00A8FF", textTransform: "uppercase" }}>prime</span>
-            <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.03em", color: "#E8ECF4" }}>video</span>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 14 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/prime-video-logo.png" alt="Prime Video" style={{ height: 30, width: "auto" }} />
+            <div style={{ width: 1, height: 28, background: "#1A2437", flexShrink: 0 }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/nascar-logo-white.png" alt="NASCAR" style={{ height: 22, width: "auto" }} />
           </div>
-          <p style={{ fontSize: 13, fontWeight: 700, color: "#E8ECF4", marginBottom: 2 }}>NASCAR Cup Series Analytics</p>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 6 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 8px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.08em", background: "rgba(255,153,0,0.1)", color: "#FF9900", border: "1px solid rgba(255,153,0,0.2)" }}>
               Demo Environment
             </span>
-            <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.08em", background: "rgba(255,79,91,0.1)", color: "#FF4F5B", border: "1px solid rgba(255,79,91,0.2)" }}>
+            <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 8px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.08em", background: "rgba(255,79,91,0.12)", color: "#FF4F5B", border: "1px solid rgba(255,79,91,0.2)" }}>
               Confidential
             </span>
           </div>
@@ -208,7 +210,6 @@ function LoginForm() {
         </div>
       </div>
 
-      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

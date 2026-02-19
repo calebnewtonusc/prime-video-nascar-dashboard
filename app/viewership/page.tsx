@@ -1,4 +1,10 @@
 "use client";
+import Header from "@/components/Header";
+import ViewershipChart from "@/components/ViewershipChart";
+import RaceSchedule from "@/components/RaceSchedule";
+import DriverLeaderboard from "@/components/DriverLeaderboard";
+import GeographicBreakdown from "@/components/GeographicBreakdown";
+import EngagementFunnel from "@/components/EngagementFunnel";
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell, PieChart, Pie,
@@ -40,19 +46,38 @@ const sessions = [
   { duration: "180+",    count: 9,  color: "#00C896" },
 ];
 
+function SectionDivider({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div style={{ width: 2, height: 14, borderRadius: 2, background: "linear-gradient(180deg, #00A8FF 0%, #0047AB 100%)", flexShrink: 0 }} />
+      <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#00A8FF" }}>
+        {label}
+      </span>
+      <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, #1A2437 0%, transparent 100%)" }} />
+    </div>
+  );
+}
+
 export default function ViewershipPage() {
   const totalViews = weekly.reduce((s, w) => s + w.viewers, 0).toFixed(1);
   const peakWeek = weekly.reduce((m, w) => w.viewers > m.viewers ? w : m, weekly[0]);
 
   return (
     <div style={{ minHeight: "100vh", background: "#060A12" }}>
-      <div className="max-w-[1600px] mx-auto px-6 py-5 space-y-4">
+      <Header />
+      <div className="max-w-[1600px] mx-auto px-6 py-5 space-y-5">
+
+        {/* Page title */}
         <div className="flex items-center gap-3">
           <h1 style={{ fontSize: 18, fontWeight: 700, color: "#E8ECF4" }}>Viewership Analytics</h1>
           <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 3, background: "rgba(0,168,255,0.1)", color: "#00A8FF", border: "1px solid rgba(0,168,255,0.2)", textTransform: "uppercase", letterSpacing: "0.07em" }}>Q1 2026</span>
         </div>
 
-        {/* Weekly trend + Device */}
+        {/* ── Race-by-Race Viewership ── */}
+        <ViewershipChart />
+
+        {/* ── Weekly Trend + Device Breakdown ── */}
+        <SectionDivider label="Weekly Trends & Platform" />
         <div className="grid gap-4" style={{ gridTemplateColumns: "minmax(0,3fr) minmax(0,2fr)" }}>
           <div className="rounded-[10px] p-5" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
             <div className="flex items-start justify-between mb-4">
@@ -124,7 +149,7 @@ export default function ViewershipPage() {
           </div>
         </div>
 
-        {/* Demographics + Session duration */}
+        {/* ── Demographics + Session Duration ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="rounded-[10px] p-5" style={{ background: "#0C1220", border: "1px solid #1A2437" }}>
             <h2 style={{ fontSize: 14, fontWeight: 700, color: "#E8ECF4", marginBottom: 4 }}>Age Demographics</h2>
@@ -180,6 +205,21 @@ export default function ViewershipPage() {
             </div>
           </div>
         </div>
+
+        {/* ── Race Intelligence ── */}
+        <SectionDivider label="Race Intelligence" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <RaceSchedule />
+          <DriverLeaderboard />
+        </div>
+
+        {/* ── Audience Intelligence ── */}
+        <SectionDivider label="Audience Intelligence" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-4">
+          <GeographicBreakdown />
+          <EngagementFunnel />
+        </div>
+
       </div>
     </div>
   );
