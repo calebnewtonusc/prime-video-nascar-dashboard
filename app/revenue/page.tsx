@@ -528,7 +528,7 @@ export default function RevenuePage() {
         </div>
 
         {/* B) 4 KPI cards */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <KpiCard
             label="Q1 Revenue"
             value="$12.8M"
