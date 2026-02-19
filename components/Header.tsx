@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import { Radio, ChevronDown, LogOut, User, RefreshCw, Menu, X } from "lucide-react";
 import NavTabs from "@/components/NavTabs";
 import ExportButton from "@/components/ExportButton";
@@ -114,10 +115,14 @@ export default function Header() {
 
           {/* Branding */}
           <div className="flex items-center gap-2 md:gap-4 flex-shrink-0 min-w-0">
-            <div className="flex items-baseline gap-1.5 select-none flex-shrink-0">
-              <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: "0.2em", color: "#00A8FF", textTransform: "uppercase" }}>prime</span>
-              <span style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.03em", color: "#E8ECF4" }}>video</span>
-            </div>
+            <Image
+              src="/prime-video-logo.png"
+              alt="Prime Video"
+              width={110}
+              height={40}
+              style={{ objectFit: "contain" }}
+              className="flex-shrink-0"
+            />
             <div className="hidden sm:block" style={{ width: 1, height: 22, background: "#1A2437", flexShrink: 0 }} />
             <div className="hidden sm:flex items-center gap-2 min-w-0">
               <span className="hidden md:block" style={{ fontSize: 13, fontWeight: 700, color: "#E8ECF4", whiteSpace: "nowrap" }}>NASCAR Cup Series Analytics</span>
