@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const ollamaRes = await fetch(`${OLLAMA_BASE}/v1/chat/completions`, {
+    const ollamaRes = await fetch(`${OLLAMA_BASE}/api/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -114,8 +114,7 @@ export async function POST(req: NextRequest) {
         model,
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...trimmedMessages],
         stream: true,
-        temperature: 0.65,
-        max_tokens: 512,
+        options: { temperature: 0.65, num_predict: 512 },
       }),
     });
 

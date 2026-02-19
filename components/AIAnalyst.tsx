@@ -128,7 +128,8 @@ export default function AIAnalyst() {
         return;
       }
 
-      // Stream parsing (OpenAI-compatible SSE from Ollama /v1/chat/completions)
+      // Stream parsing — Ollama native NDJSON format from /api/chat
+      // Each line: {"message":{"role":"assistant","content":"..."},"done":false}
       const reader  = res.body!.getReader();
       const decoder = new TextDecoder();
       let buf  = "";
@@ -143,19 +144,18 @@ export default function AIAnalyst() {
         buf = lines.pop() ?? "";
 
         for (const line of lines) {
-          if (!line.startsWith("data: ")) continue;
-          const raw = line.slice(6).trim();
-          if (raw === "[DONE]") continue;
+          const trimmed = line.trim();
+          if (!trimmed) continue;
           try {
-            const chunk = JSON.parse(raw);
-            const delta = chunk.choices?.[0]?.delta?.content ?? "";
+            const chunk = JSON.parse(trimmed);
+            const delta = chunk.message?.content ?? "";
             full += delta;
             setMessages((prev) => [
               ...prev.slice(0, -1),
-              { role: "assistant", content: full, streaming: true },
+              { role: "assistant", content: full, streaming: !chunk.done },
             ]);
           } catch {
-            // skip malformed SSE chunk
+            // skip malformed chunk
           }
         }
       }
