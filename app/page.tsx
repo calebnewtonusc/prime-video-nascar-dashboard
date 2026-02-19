@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import KPIStrip from "@/components/KPIStrip";
 import KPICards from "@/components/KPICards";
+import DemoBanner from "@/components/DemoBanner";
 import ViewershipChart from "@/components/ViewershipChart";
 import RevenueChart from "@/components/RevenueChart";
 import CompetitorBenchmark from "@/components/CompetitorBenchmark";
@@ -36,12 +37,19 @@ export default function Page() {
     <div style={{ minHeight: "100vh", background: "#060A12" }}>
       <Header />
       <KPIStrip />
+      <DemoBanner />
 
-      <main className="max-w-[1600px] mx-auto px-6">
+      <main className="max-w-[1600px] mx-auto px-4 md:px-6">
+
+        {/* ── GTM Recommendations — FIRST: strategy before data ── */}
+        <div className="pt-5 pb-4">
+          <SectionHeader label="GTM Recommendations" count="3 Priority Actions" sublabel="Q2 2026 Execution Plan" />
+          <ExecSummary />
+        </div>
 
         {/* ── KPI Summary Cards ── */}
-        <div className="pt-5 pb-4">
-          <SectionHeader label="Performance Metrics" count="Q1 2026" sublabel="vs Q1 2025" />
+        <div className="pb-4">
+          <SectionHeader label="Performance Metrics" count="Q1 2026" sublabel="vs Q1 2025 · Live" />
           <KPICards />
         </div>
 
@@ -84,29 +92,21 @@ export default function Page() {
 
         {/* ── Row 5: Geographic + Funnel ── */}
         <div className="pb-2">
-          <SectionHeader label="Audience Intelligence" sublabel="Geographic · Conversion funnel" />
+          <SectionHeader label="Audience Intelligence" sublabel="Geographic breakdown · Conversion funnel" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-5">
           <GeographicBreakdown />
           <EngagementFunnel />
         </div>
 
-        {/* ── Row 6: Strategic summary ── */}
-        <div className="pb-2">
-          <SectionHeader label="Strategic Priorities" count="3 Action Items" />
-        </div>
-        <div className="pb-4">
-          <ExecSummary />
-        </div>
-
         <footer className="py-5" style={{ borderTop: "1px solid #1A2437" }}>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <p style={{ fontSize: 11, color: "#4E5E74" }}>
               Amazon Prime Video · NASCAR Cup Series Analytics · Q1 2026 ·{" "}
               <span style={{ color: "#2E3F56" }}>CONFIDENTIAL — INTERNAL USE ONLY</span>
             </p>
-            <p style={{ fontSize: 10, color: "#2E3F56" }}>
-              Data refreshed: Feb 19, 2026 09:14 UTC · Amazon Bedrock AI · Build 2026.02.19
+            <p style={{ fontSize: 10, color: "#2E3F56", whiteSpace: "nowrap" }}>
+              Built by Prime Video Strategy Team · Amazon Bedrock AI · Build 2026.02.19
             </p>
           </div>
         </footer>
