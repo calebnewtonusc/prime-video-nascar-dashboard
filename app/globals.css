@@ -165,6 +165,15 @@ body {
   transform: translateY(-1px);
 }
 
+/* ── Nav card hover (main page) ─────────────────────── */
+.nav-card {
+  transition: border-color 0.15s, background 0.15s;
+}
+.nav-card:hover {
+  border-color: #243D5A !important;
+  background: #0D1B2E !important;
+}
+
 /* KPI card: subtle lift on hover */
 .kpi-card {
   transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;

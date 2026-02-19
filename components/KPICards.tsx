@@ -111,14 +111,14 @@ function Delta({ val, suffix = "%" }: { val: number; suffix?: string }) {
   const Icon = up ? ArrowUpRight : ArrowDownRight;
   return (
     <span
-      className="inline-flex items-center gap-0.5 text-[11px] font-bold px-1.5 py-0.5 rounded"
+      className="inline-flex items-center gap-0.5 text-[11px] font-semibold px-1.5 py-0.5 rounded"
       style={{
-        background: up ? "rgba(0,200,150,0.1)" : "rgba(255,79,91,0.1)",
-        color: up ? "#00C896" : "#FF4F5B",
-        border: `1px solid ${up ? "rgba(0,200,150,0.2)" : "rgba(255,79,91,0.2)"}`,
+        background: up ? "rgba(19,138,96,0.12)" : "rgba(192,64,74,0.12)",
+        color: up ? "#138A60" : "#C0404A",
+        border: `1px solid ${up ? "rgba(19,138,96,0.2)" : "rgba(192,64,74,0.2)"}`,
       }}
     >
-      <Icon size={9} strokeWidth={3} />
+      <Icon size={9} strokeWidth={2.5} />
       {Math.abs(val).toFixed(1)}{suffix}
     </span>
   );
@@ -129,36 +129,33 @@ function KPICard({ k }: { k: KPI }) {
     <div
       className="kpi-card flex flex-col gap-4 p-5 rounded-[10px] relative overflow-hidden"
       style={{
-        background: "#0C1220",
-        border: "1px solid #1A2437",
-        borderLeft: `2px solid ${k.color}`,
-        boxShadow: "0 2px 12px rgba(0,0,0,0.22)",
+        background: "#0A1525",
+        border: "1px solid #162033",
       }}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-[11px] font-semibold" style={{ color: "#4E5E74" }}>{k.sub.toUpperCase()}</p>
-          <p className="text-[12px] font-medium mt-0.5 truncate" style={{ color: "#8B97AA" }}>{k.label}</p>
+          <p style={{ fontSize: 10, fontWeight: 600, color: "#263D55", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+            {k.sub}
+          </p>
+          <p style={{ fontSize: 12, color: "#3D5570", marginTop: 3 }} className="truncate">{k.label}</p>
         </div>
-        <Sparkline data={k.spark} color={k.color} />
+        <Sparkline data={k.spark} color="#2B5C8A" />
       </div>
 
-      <div>
-        <p
-          className="text-[28px] font-extrabold leading-none t-num"
-          style={{ color: "#E8ECF4", letterSpacing: "-0.03em" }}
-        >
-          {k.value}
-        </p>
-      </div>
+      <p
+        className="t-num"
+        style={{ fontSize: 26, fontWeight: 700, color: "#C0D2E4", letterSpacing: "-0.03em", lineHeight: 1 }}
+      >
+        {k.value}
+      </p>
 
       <div className="flex items-center gap-2">
         <Delta val={k.vsYoY} />
-        <span className="text-[11px]" style={{ color: "#4E5E74" }}>YoY</span>
-        <span className="text-[11px]" style={{ color: "#4E5E74" }}>·</span>
+        <span style={{ fontSize: 11, color: "#263D55" }}>YoY</span>
+        <span style={{ fontSize: 11, color: "#1D3048" }}>·</span>
         <span
-          className="text-[11px] font-semibold"
-          style={{ color: k.vsQoQ >= 0 ? "#00C896" : "#FF4F5B" }}
+          style={{ fontSize: 11, fontWeight: 600, color: k.vsQoQ >= 0 ? "#138A60" : "#C0404A" }}
         >
           {k.vsQoQ >= 0 ? "+" : ""}{k.vsQoQ.toFixed(1)}% QoQ
         </span>
@@ -170,7 +167,7 @@ function KPICard({ k }: { k: KPI }) {
 export default function KPICards() {
   return (
     <section aria-label="Key performance indicators">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {KPIS.map(k => <KPICard key={k.label} k={k} />)}
       </div>
     </section>

@@ -1,151 +1,185 @@
 import Header from "@/components/Header";
 import DemoBanner from "@/components/DemoBanner";
 import Link from "next/link";
-import { TrendingUp, DollarSign, Megaphone, Brain, ChevronRight, ArrowUpRight } from "lucide-react";
+import { BarChart2, DollarSign, Target, Cpu, ArrowRight, ArrowUpRight } from "lucide-react";
 
-const HERO_STATS = [
-  { label: "Q1 Viewers",      value: "16.4M",   delta: "+23.1%", color: "#00A8FF" },
-  { label: "Total Revenue",   value: "$12.8M",  delta: "+18.5%", color: "#00C896" },
-  { label: "New Subscribers", value: "342K",    delta: "+31.0%", color: "#FF9900" },
-  { label: "Avg Watch Time",  value: "127 min", delta: "+8.1%",  color: "#7C6FFF" },
+const STATS = [
+  { label: "Q1 Unique Viewers", value: "16.4M",   delta: "+23.1%" },
+  { label: "Total Revenue",     value: "$12.8M",  delta: "+18.5%" },
+  { label: "New Subscribers",   value: "342K",    delta: "+31.0%" },
+  { label: "Avg Session Length",value: "127 min", delta: "+8.1%"  },
 ];
 
-const NAV_SECTIONS = [
+const SECTIONS = [
   {
     href: "/viewership",
-    icon: TrendingUp,
+    icon: BarChart2,
     title: "Viewership Analytics",
-    sublabel: "Race trends · Demographics · Geographic breakdown · Race intelligence",
-    metrics: ["21.7M Q1 viewers", "+12.8% YoY growth", "8.2M Daytona 500 peak"],
-    color: "#00A8FF",
+    description: "Race-by-race audience trends, age and device demographics, geographic reach, and session depth analysis.",
+    kpis: [{ label: "Q1 viewers", value: "16.4M" }, { label: "YoY growth", value: "+23.1%" }, { label: "Daytona peak", value: "8.2M" }],
   },
   {
     href: "/revenue",
     icon: DollarSign,
     title: "Revenue Analytics",
-    sublabel: "Subscriptions · Ad revenue · ARPU · International markets",
-    metrics: ["$12.8M Q1 total", "+18% YoY", "$37.50 blended ARPU"],
-    color: "#00C896",
+    description: "Subscription, advertising, and international revenue streams with ARPU tracking and cohort analysis.",
+    kpis: [{ label: "Q1 revenue", value: "$12.8M" }, { label: "Sub revenue", value: "$8.7M" }, { label: "ARPU", value: "$37.42" }],
   },
   {
     href: "/marketing",
-    icon: Megaphone,
+    icon: Target,
     title: "Marketing Attribution",
-    sublabel: "Campaign performance · Channel mix · ROAS analysis",
-    metrics: ["210K conversions", "$5.01 blended CPA", "31.2× email ROAS"],
-    color: "#FF9900",
+    description: "Full-funnel campaign tracking, channel ROAS comparison, CPA by source, and budget optimization.",
+    kpis: [{ label: "Conversions", value: "210K" }, { label: "Blended CPA", value: "$5.01" }, { label: "Best ROAS", value: "31.2×" }],
   },
   {
     href: "/ai-insights",
-    icon: Brain,
-    title: "AI-Powered Insights",
-    sublabel: "Amazon Bedrock · Predictive signals · Churn analysis",
-    metrics: ["4/5 models healthy", "4 active signals", "$2.4M Q2 opportunity"],
-    color: "#7C6FFF",
+    icon: Cpu,
+    title: "AI Insights",
+    description: "Amazon Bedrock models for churn prediction, audience segmentation, and Q2 revenue forecasting.",
+    kpis: [{ label: "Active signals", value: "4" }, { label: "Q2 upside", value: "$2.4M" }, { label: "Churn rate", value: "2.3%" }],
   },
 ];
 
 export default function Page() {
   return (
-    <div style={{ minHeight: "100vh", background: "#060A12" }}>
+    <div style={{ minHeight: "100vh", background: "#06090F" }}>
       <Header />
       <DemoBanner />
 
-      <main className="max-w-[1600px] mx-auto px-4 md:px-8">
+      <main className="max-w-[1400px] mx-auto px-6 md:px-10">
 
-        {/* ── Hero: page title + 4 compact stat tiles ── */}
-        <div className="pt-10 pb-8">
-          <div className="mb-6">
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: "#E8ECF4", letterSpacing: "-0.02em", marginBottom: 4 }}>
-              Q1 2026 — NASCAR Cup Series
+        {/* Page heading */}
+        <div style={{ paddingTop: 44, paddingBottom: 32 }}>
+          <div className="flex items-baseline gap-3 mb-1">
+            <h1 style={{ fontSize: 20, fontWeight: 700, color: "#CBD8E8", letterSpacing: "-0.025em" }}>
+              NASCAR Cup Series
             </h1>
-            <p style={{ fontSize: 13, color: "#4E5E74" }}>
-              Amazon Prime Video · Performance overview · Feb–Mar 2026
-            </p>
+            <span style={{ fontSize: 13, color: "#2E4560", fontWeight: 500 }}>Q1 2026 · Feb – Mar</span>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {HERO_STATS.map(s => (
+          <p style={{ fontSize: 13, color: "#2E4560" }}>
+            Amazon Prime Video — Internal performance overview
+          </p>
+        </div>
+
+        {/* ── Stats bar ── */}
+        <div style={{
+          background: "#0A1525",
+          border: "1px solid #162033",
+          borderRadius: 10,
+          overflow: "hidden",
+          marginBottom: 40,
+        }}>
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {STATS.map((s, i) => (
               <div
                 key={s.label}
                 style={{
-                  background: "#0C1220",
-                  border: "1px solid #1A2437",
-                  borderLeft: `2px solid ${s.color}`,
-                  borderRadius: 10,
-                  padding: "16px 20px",
-                  boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
+                  padding: "22px 24px",
+                  borderRight: i < STATS.length - 1 ? "1px solid #162033" : "none",
+                  borderBottom: "none",
                 }}
               >
-                <p style={{ fontSize: 10, color: "#4E5E74", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 700 }}>
+                <p style={{
+                  fontSize: 10, fontWeight: 600, color: "#2E4560",
+                  textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 10,
+                }}>
                   {s.label}
                 </p>
-                <p style={{ fontSize: 26, fontWeight: 800, color: "#E8ECF4", letterSpacing: "-0.03em", fontVariantNumeric: "tabular-nums", lineHeight: 1 }}>
+                <p style={{
+                  fontSize: 28, fontWeight: 700, color: "#C8D8E8",
+                  fontVariantNumeric: "tabular-nums", letterSpacing: "-0.03em",
+                  lineHeight: 1, marginBottom: 8,
+                }}>
                   {s.value}
                 </p>
-                <div className="flex items-center gap-1 mt-2">
-                  <ArrowUpRight size={11} style={{ color: "#00C896" }} />
-                  <span style={{ fontSize: 11, fontWeight: 700, color: "#00C896" }}>{s.delta} YoY</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <ArrowUpRight size={11} style={{ color: "#138A60" }} />
+                  <span style={{ fontSize: 11, fontWeight: 600, color: "#138A60" }}>{s.delta}</span>
+                  <span style={{ fontSize: 11, color: "#233A52" }}>vs Q1 2025</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── Deep Dive Navigation ── */}
-        <div className="pb-10">
-          <div className="flex items-center gap-3 mb-5">
-            <div style={{ width: 2, height: 14, borderRadius: 2, background: "linear-gradient(180deg, #00A8FF 0%, #0047AB 100%)", flexShrink: 0 }} />
-            <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#00A8FF" }}>
-              Deep Dive Reports
-            </span>
-            <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, #1A2437 0%, transparent 100%)" }} />
-            <span style={{ fontSize: 10, color: "#4E5E74", fontStyle: "italic" }}>Select a section to explore</span>
-          </div>
+        {/* ── Analytics sections ── */}
+        <div style={{ paddingBottom: 52 }}>
+          <p style={{
+            fontSize: 10, fontWeight: 700, color: "#263D55",
+            textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 16,
+          }}>
+            Analytics Sections
+          </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {NAV_SECTIONS.map((section) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {SECTIONS.map((section) => {
               const Icon = section.icon;
               return (
-                <Link key={section.href} href={section.href} style={{ textDecoration: "none" }}>
+                <Link key={section.href} href={section.href} style={{ textDecoration: "none", display: "block" }}>
                   <div
-                    className="card-hover rounded-[12px] h-full"
+                    className="nav-card"
                     style={{
-                      background: "#0C1220",
-                      border: "1px solid #1A2437",
+                      background: "#0A1525",
+                      border: "1px solid #162033",
+                      borderRadius: 10,
+                      padding: "22px 22px 20px",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 14,
                       cursor: "pointer",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
-                      padding: "24px",
                     }}
                   >
-                    {/* Icon + chevron */}
-                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
+                    {/* Icon row */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                       <div style={{
-                        width: 42, height: 42, borderRadius: 11,
+                        width: 34, height: 34, borderRadius: 7,
                         display: "flex", alignItems: "center", justifyContent: "center",
-                        background: `${section.color}12`,
-                        border: `1px solid ${section.color}25`,
-                        flexShrink: 0,
+                        background: "#0F1D30", border: "1px solid #1A2E44",
                       }}>
-                        <Icon size={18} style={{ color: section.color }} />
+                        <Icon size={15} style={{ color: "#3D5A78" }} />
                       </div>
-                      <ChevronRight size={14} style={{ color: "#2E3F56", marginTop: 4 }} />
+                      <ArrowRight size={13} style={{ color: "#1E3248", marginTop: 3 }} />
                     </div>
 
-                    {/* Title + sublabel */}
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: "#E8ECF4", marginBottom: 6, letterSpacing: "-0.01em", lineHeight: 1.3 }}>
-                      {section.title}
-                    </h3>
-                    <p style={{ fontSize: 11, color: "#4E5E74", marginBottom: 20, lineHeight: 1.6 }}>
-                      {section.sublabel}
-                    </p>
+                    {/* Text */}
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{
+                        fontSize: 14, fontWeight: 600, color: "#C0D0E2",
+                        letterSpacing: "-0.01em", marginBottom: 8, lineHeight: 1.3,
+                      }}>
+                        {section.title}
+                      </h3>
+                      <p style={{ fontSize: 12, color: "#364E65", lineHeight: 1.6 }}>
+                        {section.description}
+                      </p>
+                    </div>
 
-                    {/* Metric bullets */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 8, borderTop: "1px solid #1A2437", paddingTop: 16 }}>
-                      {section.metrics.map((metric) => (
-                        <p key={metric} style={{ fontSize: 11, color: "#8B97AA", display: "flex", alignItems: "center", gap: 8, margin: 0 }}>
-                          <span style={{ width: 4, height: 4, borderRadius: "50%", background: section.color, flexShrink: 0, display: "inline-block", opacity: 0.75 }} />
-                          {metric}
-                        </p>
+                    {/* KPI strip */}
+                    <div style={{
+                      display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
+                      borderTop: "1px solid #12202F", paddingTop: 14, marginTop: "auto",
+                    }}>
+                      {section.kpis.map((k, i) => (
+                        <div
+                          key={k.label}
+                          style={{
+                            paddingRight: i < 2 ? 10 : 0,
+                            paddingLeft: i > 0 ? 10 : 0,
+                            borderRight: i < 2 ? "1px solid #12202F" : "none",
+                          }}
+                        >
+                          <p style={{
+                            fontSize: 14, fontWeight: 700, color: "#B0C4DA",
+                            fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em", lineHeight: 1,
+                          }}>
+                            {k.value}
+                          </p>
+                          <p style={{ fontSize: 10, color: "#253D55", marginTop: 4, lineHeight: 1.2 }}>
+                            {k.label}
+                          </p>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -155,14 +189,13 @@ export default function Page() {
           </div>
         </div>
 
-        <footer className="py-5" style={{ borderTop: "1px solid #1A2437" }}>
+        <footer style={{ borderTop: "1px solid #0F1D2E", paddingTop: 20, paddingBottom: 32 }}>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <p style={{ fontSize: 11, color: "#4E5E74" }}>
-              Amazon Prime Video · NASCAR Cup Series Analytics · Q1 2026 ·{" "}
-              <span style={{ color: "#2E3F56" }}>CONFIDENTIAL — INTERNAL USE ONLY</span>
+            <p style={{ fontSize: 11, color: "#1A2F45" }}>
+              Amazon Prime Video · NASCAR Cup Series Analytics · Q1 2026 · CONFIDENTIAL
             </p>
-            <p style={{ fontSize: 10, color: "#2E3F56", whiteSpace: "nowrap" }}>
-              Built by Prime Video Strategy Team · Amazon Bedrock AI · Build 2026.02.19
+            <p style={{ fontSize: 10, color: "#162535" }}>
+              Prime Video Strategy Team · Amazon Bedrock · Build 2026.02.19
             </p>
           </div>
         </footer>
