@@ -44,11 +44,12 @@ export async function GET() {
       send();
       const interval = setInterval(send, 4_000); // push every 4 seconds
 
-      // Clean up after 5 minutes (prevent runaway connections)
+      // Clean up after 50s on Vercel Hobby (60s function limit), longer on Pro
+      const MAX_MS = process.env.VERCEL_ENV === "production" ? 50_000 : 5 * 60 * 1000;
       const timeout = setTimeout(() => {
         clearInterval(interval);
         controller.close();
-      }, 5 * 60 * 1000);
+      }, MAX_MS);
 
       // Handle client disconnect
       return () => {

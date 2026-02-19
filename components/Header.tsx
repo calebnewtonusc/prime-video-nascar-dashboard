@@ -46,19 +46,41 @@ export default function Header() {
     }
   }, []);
 
-  // SSE for live race data
+  // SSE for live race data — auto-reconnects after Vercel 50s timeout
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
-    const es = new EventSource("/api/live");
-    eventSourceRef.current = es;
-    es.onmessage = (e) => {
-      try {
-        const data = JSON.parse(e.data as string) as LiveState;
-        setLiveState(data);
-        setLastRefresh(new Date());
-      } catch { /* ignore */ }
+    let stopped = false;
+
+    function connect() {
+      if (stopped) return;
+      const es = new EventSource("/api/live");
+      eventSourceRef.current = es;
+
+      es.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data as string) as LiveState;
+          setLiveState(data);
+          setLastRefresh(new Date());
+        } catch { /* ignore */ }
+      };
+
+      es.onerror = () => {
+        es.close();
+        if (!stopped) {
+          // Reconnect after 3s — handles Vercel Hobby 50s function timeout
+          reconnectTimerRef.current = setTimeout(connect, 3_000);
+        }
+      };
+    }
+
+    connect();
+
+    return () => {
+      stopped = true;
+      eventSourceRef.current?.close();
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
     };
-    es.onerror = () => { setLiveState({ status: "idle" }); };
-    return () => es.close();
   }, []);
 
   // Refresh age ticker

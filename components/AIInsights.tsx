@@ -1,6 +1,8 @@
 "use client";
-import { Brain, TrendingUp, AlertTriangle, Target, Zap, Users } from "lucide-react";
+import { Brain, TrendingUp, AlertTriangle, Target, Zap, Users, RefreshCw } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { useToast } from "@/components/Toast";
+import { useState } from "react";
 
 const models = [
   { name: "Churn Prediction",   acc: 94.2, f1: 91.8, drift: 0.8,  healthy: true  },
@@ -67,7 +69,35 @@ function ChurnTip({ active, payload }: TProps) {
   );
 }
 
+const ACTION_TOASTS: Record<string, { message: string; type: "success" | "info" | "warning" }> = {
+  "Launch retargeting": {
+    message: "Retargeting campaign queued for 280K post-Daytona viewers. Expected launch: 2h. Est. ROAS: 31×.",
+    type: "success",
+  },
+  "Activate retention flow": {
+    message: "Retention flow activated for 12,400 at-risk trial users. Push notification series starting in 15 min.",
+    type: "info",
+  },
+  "Queue email series": {
+    message: "Email series queued for 94,000 lapsed subscribers. Projected ARR uplift: $2.4M at 31× ROAS.",
+    type: "success",
+  },
+  "Trigger model retrain": {
+    message: "Ad Bid Optimizer retrain triggered. SageMaker job queued. ETA: 45 min. Projected CPM recovery: +$3.80.",
+    type: "warning",
+  },
+};
+
 export default function AIInsights() {
+  const { toast } = useToast();
+  const [firedActions, setFiredActions] = useState<Set<string>>(new Set());
+
+  function handleAction(action: string) {
+    const t = ACTION_TOASTS[action];
+    if (t) toast(t.message, t.type, 6000);
+    setFiredActions(prev => new Set(prev).add(action));
+  }
+
   return (
     <div className="space-y-4">
       {/* Model Health */}
@@ -152,8 +182,19 @@ export default function AIInsights() {
                         </div>
                         <span style={{ fontSize: 10, color: "#4E5E74" }}>Confidence {s.confidence}%</span>
                       </div>
-                      <button style={{ fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 4, background: `${s.color}15`, color: s.color, border: `1px solid ${s.color}30`, cursor: "pointer", letterSpacing: "0.03em" }}>
-                        {s.action} &rarr;
+                      <button
+                        onClick={() => handleAction(s.action)}
+                        style={{
+                          fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 4,
+                          background: firedActions.has(s.action) ? `${s.color}25` : `${s.color}15`,
+                          color: s.color, border: `1px solid ${s.color}30`,
+                          cursor: "pointer", letterSpacing: "0.03em",
+                          display: "inline-flex", alignItems: "center", gap: 4,
+                          opacity: firedActions.has(s.action) ? 0.7 : 1,
+                        }}
+                      >
+                        {firedActions.has(s.action) && <RefreshCw size={8} />}
+                        {firedActions.has(s.action) ? "Queued" : `${s.action} →`}
                       </button>
                     </div>
                   </div>
