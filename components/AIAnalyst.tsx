@@ -229,7 +229,7 @@ export default function AIAnalyst() {
           </div>
           <div>
             <span style={{ fontSize: 13, fontWeight: 800, color: "#E8ECF4" }}>AI Analyst</span>
-            <span style={{ fontSize: 10, color: "#4E5E74", marginLeft: 6 }}>Ollama · Local LLM</span>
+            <span style={{ fontSize: 10, color: "#4E5E74", marginLeft: 6 }}>Ollama Cloud</span>
           </div>
 
           {health.status === "checking" && (
@@ -326,20 +326,14 @@ export default function AIAnalyst() {
             <AlertCircle size={14} style={{ color: "#FF4F5B", flexShrink: 0, marginTop: 1 }} />
             <div>
               <p style={{ fontSize: 12, fontWeight: 700, color: "#E8ECF4", marginBottom: 4 }}>
-                Ollama not detected
+                Ollama Cloud API key not configured
               </p>
               <p style={{ fontSize: 11, color: "#8B97AA", lineHeight: 1.65 }}>
-                Run Ollama locally to enable real-time AI analysis powered by a local LLM.
-                The server must be reachable at{" "}
-                <code
-                  style={{
-                    fontSize: 10, background: "#060A12", padding: "1px 5px",
-                    borderRadius: 3, color: "#00A8FF", fontFamily: "monospace",
-                  }}
-                >
-                  localhost:11434
+                Add your{" "}
+                <code style={{ fontSize: 10, background: "#060A12", padding: "1px 5px", borderRadius: 3, color: "#00A8FF", fontFamily: "monospace" }}>
+                  OLLAMA_API_KEY
                 </code>
-                .
+                {" "}environment variable to enable real-time AI analysis.
               </p>
             </div>
           </div>
@@ -353,34 +347,23 @@ export default function AIAnalyst() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
               <Terminal size={11} style={{ color: "#4E5E74" }} />
-              <span
-                style={{
-                  fontSize: 9, fontWeight: 800, textTransform: "uppercase",
-                  letterSpacing: "0.1em", color: "#4E5E74",
-                }}
-              >
-                Quick setup
+              <span style={{ fontSize: 9, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#4E5E74" }}>
+                Setup
               </span>
             </div>
             {[
-              { step: "1. Install Ollama",         cmd: "curl -fsSL https://ollama.com/install.sh | sh" },
-              { step: "2. Pull a model",            cmd: "ollama pull llama3.2" },
-              { step: "3. Start the server",        cmd: "ollama serve" },
+              { step: "1. Get your API key at", cmd: "ollama.com/settings/api-keys" },
+              { step: "2. Add to Vercel environment variables", cmd: "OLLAMA_API_KEY=<your_key>" },
             ].map(({ step, cmd }) => (
               <div key={step} style={{ marginBottom: 8 }}>
                 <span style={{ fontSize: 10, color: "#4E5E74" }}>{step}</span>
-                <code
-                  style={{
-                    display: "block", fontSize: 11, color: "#00C896",
-                    fontFamily: "monospace", marginTop: 3, lineHeight: 1.5,
-                  }}
-                >
+                <code style={{ display: "block", fontSize: 11, color: "#00C896", fontFamily: "monospace", marginTop: 3, lineHeight: 1.5 }}>
                   {cmd}
                 </code>
               </div>
             ))}
             <p style={{ fontSize: 10, color: "#2E3F56", marginTop: 6 }}>
-              Works with any Ollama model: llama3.2, mistral, qwen2.5, phi3, deepseek-r1, …
+              Available models: gpt-oss:120b · deepseek-v3.1:671b · qwen3-coder:480b · llama3.2
             </p>
           </div>
 

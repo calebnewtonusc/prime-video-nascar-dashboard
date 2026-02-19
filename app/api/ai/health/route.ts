@@ -3,17 +3,26 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const OLLAMA_BASE = process.env.OLLAMA_BASE_URL ?? "http://localhost:11434";
+const API_KEY    = process.env.OLLAMA_API_KEY ?? "";
+const OLLAMA_BASE = process.env.OLLAMA_BASE_URL ?? "https://ollama.com";
 
 export async function GET() {
+  if (!API_KEY) {
+    return NextResponse.json(
+      { status: "error", message: "NO_API_KEY" },
+      { status: 503 }
+    );
+  }
+
   try {
     const res = await fetch(`${OLLAMA_BASE}/api/tags`, {
-      signal: AbortSignal.timeout(3_000),
+      headers: { Authorization: `Bearer ${API_KEY}` },
+      signal: AbortSignal.timeout(5_000),
     });
 
     if (!res.ok) {
       return NextResponse.json(
-        { status: "error", message: "Ollama returned non-200" },
+        { status: "error", message: "Ollama Cloud returned non-200" },
         { status: 503 }
       );
     }
@@ -21,16 +30,18 @@ export async function GET() {
     const data = (await res.json()) as { models?: { name: string }[] };
     const models = (data.models ?? []).map((m) => m.name);
     const defaultModel =
-      models.find((m) => m.startsWith("llama3")) ??
-      models.find((m) => m.startsWith("mistral")) ??
-      models.find((m) => m.startsWith("qwen")) ??
+      models.find((m) => m.includes("llama3")) ??
+      models.find((m) => m.includes("gpt-oss")) ??
+      models.find((m) => m.includes("deepseek")) ??
+      models.find((m) => m.includes("mistral")) ??
+      models.find((m) => m.includes("qwen")) ??
       models[0] ??
       "llama3.2";
 
     return NextResponse.json({ status: "ok", models, defaultModel });
   } catch {
     return NextResponse.json(
-      { status: "error", message: "OLLAMA_NOT_RUNNING" },
+      { status: "error", message: "CLOUD_UNREACHABLE" },
       { status: 503 }
     );
   }
