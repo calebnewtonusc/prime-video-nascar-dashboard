@@ -206,7 +206,7 @@ function RoasBar({ value, max }: { value: number; max: number }) {
         className="text-sm font-bold tabular-nums"
         style={{ color, minWidth: "42px" }}
       >
-        {value}\u00d7
+        {value}×
       </span>
       <div
         className="flex-1 h-1.5 rounded-full overflow-hidden"
@@ -696,7 +696,7 @@ function RoasByChannelChart() {
         ROAS by Channel
       </h3>
       <p className="text-[11px] mb-4" style={{ color: "#6B7280" }}>
-        Return on ad spend ranking · Avg 11.7\u00d7
+        Return on ad spend ranking · Avg 11.7×
       </p>
 
       <ResponsiveContainer width="100%" height={220}>

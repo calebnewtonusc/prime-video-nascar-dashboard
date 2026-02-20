@@ -366,7 +366,7 @@ function ChurnRiskChart() {
         <p className="text-[11px] leading-relaxed" style={{ color: "#9CA3AF" }}>
           <span className="font-semibold" style={{ color: "#F9FAFB" }}>Action required: </span>
           Cross-promote F1 Australian GP (Mar 16) to 42K at-risk subscribers in the{" "}
-          <span style={{ color: "#EF4444" }}>NASCAR Only</span> cohorts to reduce churn risk by an estimated 18\u201324 percentage points.
+          <span style={{ color: "#EF4444" }}>NASCAR Only</span> cohorts to reduce churn risk by an estimated 18–24 percentage points.
         </p>
       </div>
     </div>
