@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Send,
   RefreshCw,
@@ -503,11 +505,10 @@ export default function AIAnalyst() {
                       fontSize: 12,
                       color: "#C8D4E0",
                       lineHeight: 1.75,
-                      whiteSpace: "pre-wrap",
                       wordBreak: "break-word",
                     }}
                   >
-                    {m.content || (m.streaming && (
+                    {!m.content && m.streaming && (
                       <span
                         style={{
                           display: "inline-flex", gap: 3, alignItems: "center",
@@ -526,7 +527,61 @@ export default function AIAnalyst() {
                           />
                         ))}
                       </span>
-                    ))}
+                    )}
+                    {m.content && m.role === "user" && (
+                      <span style={{ whiteSpace: "pre-wrap" }}>{m.content}</span>
+                    )}
+                    {m.content && m.role === "assistant" && (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({ children }) => (
+                            <p style={{ margin: "0 0 8px", lineHeight: 1.75 }}>{children}</p>
+                          ),
+                          strong: ({ children }) => (
+                            <strong style={{ color: "#E8ECF4", fontWeight: 700 }}>{children}</strong>
+                          ),
+                          ul: ({ children }) => (
+                            <ul style={{ margin: "6px 0", paddingLeft: 18, listStyleType: "disc" }}>{children}</ul>
+                          ),
+                          ol: ({ children }) => (
+                            <ol style={{ margin: "6px 0", paddingLeft: 18 }}>{children}</ol>
+                          ),
+                          li: ({ children }) => (
+                            <li style={{ margin: "3px 0" }}>{children}</li>
+                          ),
+                          table: ({ children }) => (
+                            <div style={{ overflowX: "auto", margin: "8px 0" }}>
+                              <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 11 }}>{children}</table>
+                            </div>
+                          ),
+                          th: ({ children }) => (
+                            <th style={{ padding: "5px 10px", borderBottom: "1px solid #2A3A52", color: "#8B97AA", fontWeight: 700, textAlign: "left", whiteSpace: "nowrap" }}>{children}</th>
+                          ),
+                          td: ({ children }) => (
+                            <td style={{ padding: "5px 10px", borderBottom: "1px solid #1A2437", color: "#C8D4E0" }}>{children}</td>
+                          ),
+                          code: ({ children, className }) => {
+                            const isBlock = className?.startsWith("language-");
+                            return isBlock ? (
+                              <pre style={{ background: "#060A12", border: "1px solid #1A2437", borderRadius: 6, padding: "10px 12px", overflowX: "auto", margin: "8px 0" }}>
+                                <code style={{ fontSize: 11, color: "#00C896", fontFamily: "monospace" }}>{children}</code>
+                              </pre>
+                            ) : (
+                              <code style={{ background: "#060A12", padding: "1px 5px", borderRadius: 3, fontSize: 11, color: "#00A8FF", fontFamily: "monospace" }}>{children}</code>
+                            );
+                          },
+                          h1: ({ children }) => <h1 style={{ fontSize: 15, fontWeight: 800, color: "#E8ECF4", margin: "12px 0 6px" }}>{children}</h1>,
+                          h2: ({ children }) => <h2 style={{ fontSize: 13, fontWeight: 700, color: "#E8ECF4", margin: "10px 0 5px" }}>{children}</h2>,
+                          h3: ({ children }) => <h3 style={{ fontSize: 12, fontWeight: 700, color: "#E8ECF4", margin: "8px 0 4px" }}>{children}</h3>,
+                          blockquote: ({ children }) => (
+                            <blockquote style={{ borderLeft: "2px solid #00A8FF", paddingLeft: 10, margin: "8px 0", color: "#8B97AA" }}>{children}</blockquote>
+                          ),
+                        }}
+                      >
+                        {m.content}
+                      </ReactMarkdown>
+                    )}
                     {m.content && m.streaming && (
                       <span
                         className="ai-cursor"
