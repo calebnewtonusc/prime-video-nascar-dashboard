@@ -875,7 +875,7 @@ export default function MarketingPage() {
           />
           <KpiCard
             label="Best ROAS"
-            value="31.2\u00d7"
+            value="31.2×"
             sub="Race Day Email"
             color="#FF9900"
           />
