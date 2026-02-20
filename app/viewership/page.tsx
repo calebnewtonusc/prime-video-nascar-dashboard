@@ -22,17 +22,17 @@ const weekly = [
 ];
 
 const devices = [
-  { name: "Smart TV",      value: 42, color: "#1399FF" },
+  { name: "Smart TV",      value: 42, color: "#3A6FA8" },
   { name: "Mobile",        value: 28, color: "#4A7090" },
-  { name: "Desktop/Web",   value: 18, color: "#FF9900" },
+  { name: "Desktop/Web",   value: 18, color: "#9A7030" },
   { name: "Tablet",        value: 7,  color: "#4E5E74" },
   { name: "Other",         value: 5,  color: "#2E3D4F" },
 ];
 
 const demographics = [
   { group: "18–24", pct: 14, color: "#4E5E74" },
-  { group: "25–34", pct: 28, color: "#1399FF" },
-  { group: "35–44", pct: 26, color: "#1399FF" },
+  { group: "25–34", pct: 28, color: "#3A6FA8" },
+  { group: "35–44", pct: 26, color: "#3A6FA8" },
   { group: "45–54", pct: 19, color: "#4E5E74" },
   { group: "55+",   pct: 13, color: "#4E5E74" },
 ];
@@ -41,9 +41,9 @@ const sessions = [
   { duration: "<15 min", count: 8, color: "#3D5A78" },
   { duration: "15–30",   count: 12, color: "#3D5A78" },
   { duration: "30–60",   count: 18, color: "#3D5A78" },
-  { duration: "60–120",  count: 31, color: "#1399FF" },
-  { duration: "120–180", count: 22, color: "#1399FF" },
-  { duration: "180+",    count: 9,  color: "#FF9900" },
+  { duration: "60–120",  count: 31, color: "#3A6FA8" },
+  { duration: "120–180", count: 22, color: "#3A6FA8" },
+  { duration: "180+",    count: 9,  color: "#9A7030" },
 ];
 
 function SectionDivider({ label }: { label: string }) {
@@ -70,7 +70,7 @@ export default function ViewershipPage() {
         {/* Page title */}
         <div className="flex items-center gap-3">
           <h1 style={{ fontSize: 18, fontWeight: 700, color: "#E8ECF4" }}>Viewership Analytics</h1>
-          <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 3, background: "rgba(19,153,255,0.08)", color: "#1399FF", border: "1px solid rgba(19,153,255,0.18)", textTransform: "uppercase", letterSpacing: "0.07em" }}>Q1 2026</span>
+          <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 3, background: "rgba(58,111,168,0.08)", color: "#3A6FA8", border: "1px solid rgba(58,111,168,0.18)", textTransform: "uppercase", letterSpacing: "0.07em" }}>Q1 2026</span>
         </div>
 
         {/* ── Race-by-Race Viewership ── */}
@@ -92,7 +92,7 @@ export default function ViewershipPage() {
                 </div>
                 <div className="text-right">
                   <p style={{ fontSize: 11, color: "#4E5E74" }}>Peak</p>
-                  <p style={{ fontSize: 16, fontWeight: 800, color: "#1399FF", fontVariantNumeric: "tabular-nums" }}>{peakWeek.viewers}M</p>
+                  <p style={{ fontSize: 16, fontWeight: 800, color: "#3A6FA8", fontVariantNumeric: "tabular-nums" }}>{peakWeek.viewers}M</p>
                 </div>
               </div>
             </div>
@@ -101,8 +101,8 @@ export default function ViewershipPage() {
                 <AreaChart data={weekly} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                   <defs>
                     <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#00A8FF" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="#00A8FF" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#3A6FA8" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#3A6FA8" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid vertical={false} stroke="#1A2437" strokeDasharray="2 4" />
@@ -113,9 +113,9 @@ export default function ViewershipPage() {
                     labelStyle={{ color: "#E8ECF4", fontWeight: 700 }}
                     formatter={(v: number) => [`${v}M viewers`, "Viewership"]}
                   />
-                  <Area type="monotone" dataKey="viewers" stroke="#00A8FF" strokeWidth={2.5} fill="url(#wg)"
-                    dot={{ fill: "#00A8FF", r: 3, strokeWidth: 0 }}
-                    activeDot={{ r: 5, fill: "#00A8FF", stroke: "rgba(0,168,255,0.3)", strokeWidth: 4 }} />
+                  <Area type="monotone" dataKey="viewers" stroke="#3A6FA8" strokeWidth={2.5} fill="url(#wg)"
+                    dot={{ fill: "#3A6FA8", r: 3, strokeWidth: 0 }}
+                    activeDot={{ r: 5, fill: "#3A6FA8", stroke: "rgba(0,168,255,0.3)", strokeWidth: 4 }} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -173,7 +173,7 @@ export default function ViewershipPage() {
             <div className="mt-3 p-3 rounded-lg" style={{ background: "#060A12" }}>
               <p style={{ fontSize: 11, color: "#8B97AA" }}>
                 Core 25–44 demo: <strong style={{ color: "#E8ECF4" }}>54%</strong> of viewers ·{" "}
-                18–34 growing fastest at <strong style={{ color: "#1399FF" }}>+34% YoY</strong>
+                18–34 growing fastest at <strong style={{ color: "#3A6FA8" }}>+34% YoY</strong>
               </p>
             </div>
           </div>
@@ -200,7 +200,7 @@ export default function ViewershipPage() {
             <div className="mt-3 p-3 rounded-lg" style={{ background: "#060A12" }}>
               <p style={{ fontSize: 11, color: "#8B97AA" }}>
                 <strong style={{ color: "#E8ECF4" }}>62%</strong> of sessions exceed 60 min ·{" "}
-                Full-race viewers: <strong style={{ color: "#1399FF" }}>+8% YoY</strong>
+                Full-race viewers: <strong style={{ color: "#3A6FA8" }}>+8% YoY</strong>
               </p>
             </div>
           </div>

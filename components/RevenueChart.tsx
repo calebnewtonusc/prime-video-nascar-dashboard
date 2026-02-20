@@ -54,7 +54,7 @@ export default function RevenueChart() {
           <h2 style={{ fontSize: 14, fontWeight: 700, color: "#E8ECF4" }}>Revenue Breakdown</h2>
           <p style={{ fontSize: 11, color: "#4E5E74", marginTop: 2 }}>All streams · Q1 2026 · Feb–Mar</p>
         </div>
-        <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.07em", background: "rgba(255,153,0,0.1)", color: "#FF9900", border: "1px solid rgba(255,153,0,0.2)" }}>Q1 2026</span>
+        <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.07em", background: "rgba(154,112,48,0.1)", color: "#9A7030", border: "1px solid rgba(154,112,48,0.2)" }}>Q1 2026</span>
       </div>
 
       {isLoading || !data ? (

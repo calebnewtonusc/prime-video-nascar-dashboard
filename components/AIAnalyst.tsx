@@ -230,7 +230,7 @@ export default function AIAnalyst() {
               flexShrink: 0,
             }}
           >
-            <Sparkles size={14} style={{ color: "#00A8FF" }} />
+            <Sparkles size={14} style={{ color: "#3A6FA8" }} />
           </div>
           <div>
             <span style={{ fontSize: 13, fontWeight: 800, color: "#E8ECF4" }}>AI Analyst</span>
@@ -335,7 +335,7 @@ export default function AIAnalyst() {
               </p>
               <p style={{ fontSize: 11, color: "#8B97AA", lineHeight: 1.65 }}>
                 Add your{" "}
-                <code style={{ fontSize: 10, background: "#060A12", padding: "1px 5px", borderRadius: 3, color: "#00A8FF", fontFamily: "monospace" }}>
+                <code style={{ fontSize: 10, background: "#060A12", padding: "1px 5px", borderRadius: 3, color: "#3A6FA8", fontFamily: "monospace" }}>
                   OLLAMA_API_KEY
                 </code>
                 {" "}environment variable to enable real-time AI analysis.
@@ -376,7 +376,7 @@ export default function AIAnalyst() {
             onClick={checkHealth}
             style={{
               alignSelf: "flex-start", fontSize: 11, fontWeight: 700,
-              color: "#00A8FF", background: "rgba(0,168,255,0.08)",
+              color: "#3A6FA8", background: "rgba(0,168,255,0.08)",
               border: "1px solid rgba(0,168,255,0.2)", borderRadius: 6,
               padding: "6px 14px", cursor: "pointer",
               display: "flex", alignItems: "center", gap: 6,
@@ -419,7 +419,7 @@ export default function AIAnalyst() {
                     display: "flex", alignItems: "center", justifyContent: "center",
                   }}
                 >
-                  <Bot size={24} style={{ color: "#00A8FF" }} />
+                  <Bot size={24} style={{ color: "#3A6FA8" }} />
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <p style={{ fontSize: 13, fontWeight: 700, color: "#E8ECF4", marginBottom: 4 }}>
@@ -450,7 +450,7 @@ export default function AIAnalyst() {
                         transition: "all 0.15s",
                       }}
                     >
-                      <ChevronRight size={10} style={{ color: "#00A8FF", flexShrink: 0 }} />
+                      <ChevronRight size={10} style={{ color: "#3A6FA8", flexShrink: 0 }} />
                       {p.label}
                     </button>
                   ))}
@@ -484,7 +484,7 @@ export default function AIAnalyst() {
                     }}
                   >
                     {m.role === "user"
-                      ? <User size={12} style={{ color: "#00A8FF" }} />
+                      ? <User size={12} style={{ color: "#3A6FA8" }} />
                       : <Bot  size={12} style={{ color: "#00C896" }} />}
                   </div>
 
@@ -568,14 +568,14 @@ export default function AIAnalyst() {
                                 <code style={{ fontSize: 11, color: "#00C896", fontFamily: "monospace" }}>{children}</code>
                               </pre>
                             ) : (
-                              <code style={{ background: "#060A12", padding: "1px 5px", borderRadius: 3, fontSize: 11, color: "#00A8FF", fontFamily: "monospace" }}>{children}</code>
+                              <code style={{ background: "#060A12", padding: "1px 5px", borderRadius: 3, fontSize: 11, color: "#3A6FA8", fontFamily: "monospace" }}>{children}</code>
                             );
                           },
                           h1: ({ children }) => <h1 style={{ fontSize: 15, fontWeight: 800, color: "#E8ECF4", margin: "12px 0 6px" }}>{children}</h1>,
                           h2: ({ children }) => <h2 style={{ fontSize: 13, fontWeight: 700, color: "#E8ECF4", margin: "10px 0 5px" }}>{children}</h2>,
                           h3: ({ children }) => <h3 style={{ fontSize: 12, fontWeight: 700, color: "#E8ECF4", margin: "8px 0 4px" }}>{children}</h3>,
                           blockquote: ({ children }) => (
-                            <blockquote style={{ borderLeft: "2px solid #00A8FF", paddingLeft: 10, margin: "8px 0", color: "#8B97AA" }}>{children}</blockquote>
+                            <blockquote style={{ borderLeft: "2px solid #3A6FA8", paddingLeft: 10, margin: "8px 0", color: "#8B97AA" }}>{children}</blockquote>
                           ),
                         }}
                       >
@@ -682,7 +682,7 @@ export default function AIAnalyst() {
                   transition: "all 0.15s",
                 }}
               >
-                <Send size={14} style={{ color: "#00A8FF" }} />
+                <Send size={14} style={{ color: "#3A6FA8" }} />
               </button>
             )}
           </div>

@@ -15,7 +15,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
         <p className="text-sm" style={{ color: "#9CA3AF" }}>An error occurred while loading the dashboard. Try again or return to the overview.</p>
       </div>
       <div className="flex items-center gap-3">
-        <button onClick={reset} className="px-5 py-2 rounded-lg text-[13px] font-bold text-white" style={{ background: "linear-gradient(135deg, #1399FF, #0D7FCC)" }}>
+        <button onClick={reset} className="px-5 py-2 rounded-lg text-[13px] font-bold text-white" style={{ background: "linear-gradient(135deg, #3A6FA8, #0D7FCC)" }}>
           Try Again
         </button>
         <Link href="/" className="px-5 py-2 rounded-lg text-[13px] font-semibold" style={{ background: "#1F2937", color: "#9CA3AF" }}>

@@ -53,7 +53,7 @@ function Tip({ active, payload }: TipProps) {
   return (
     <div style={{ background: "#0C1220", border: "1px solid #243044", borderRadius: 6, padding: "8px 12px", fontSize: 11 }}>
       <p style={{ fontWeight: 700, color: "#E8ECF4", marginBottom: 4 }}>{d.label}</p>
-      <p style={{ color: "#8B97AA" }}>2026: <strong style={{ color: "#00A8FF" }}>{d.v}</strong></p>
+      <p style={{ color: "#8B97AA" }}>2026: <strong style={{ color: "#3A6FA8" }}>{d.v}</strong></p>
       <p style={{ color: "#8B97AA" }}>2025: <strong style={{ color: "#4E5E74" }}>{d.prev}</strong></p>
       <p style={{ color: "#8B97AA" }}>YoY: <strong style={{ color: delta >= 0 ? "#00C896" : "#FF4F5B" }}>{delta >= 0 ? "+" : ""}{delta.toFixed(1)}</strong></p>
     </div>
@@ -106,7 +106,7 @@ export default function KPIDetailModal({ metric, value, delta, invertDelta, onCl
                 <Tooltip content={<Tip />} cursor={{ fill: "rgba(255,255,255,0.02)" }} />
                 <Bar dataKey="prev" isAnimationActive={false} fill="#1A2437" radius={[2, 2, 0, 0]} maxBarSize={20} />
                 <Bar dataKey="v" isAnimationActive={false} radius={[2, 2, 0, 0]} maxBarSize={20}>
-                  {trend.map((_, i) => <Cell key={i} fill="#00A8FF" />)}
+                  {trend.map((_, i) => <Cell key={i} fill="#3A6FA8" />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>

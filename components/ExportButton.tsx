@@ -81,8 +81,8 @@ export default function ExportButton() {
         onClick={() => setOpen((prev) => !prev)}
         className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-[12px] font-bold text-white transition-all hover:brightness-110 active:scale-95"
         style={{
-          background: "linear-gradient(135deg, #1399FF, #0D7FCC)",
-          boxShadow: "0 0 14px rgba(19,153,255,0.3), 0 2px 6px rgba(0,0,0,0.4)",
+          background: "linear-gradient(135deg, #3A6FA8, #0D7FCC)",
+          boxShadow: "0 0 14px rgba(58,111,168,0.3), 0 2px 6px rgba(0,0,0,0.4)",
         }}
       >
         <Download size={13} strokeWidth={2.5} />
@@ -104,7 +104,7 @@ export default function ExportButton() {
             className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[12px] font-semibold text-left transition-colors hover:bg-[#374151]"
             style={{ color: "#D1D5DB" }}
           >
-            <FileText size={14} style={{ color: "#1399FF" }} />
+            <FileText size={14} style={{ color: "#3A6FA8" }} />
             Export CSV
           </button>
           <div style={{ height: "1px", background: "#374151" }} />

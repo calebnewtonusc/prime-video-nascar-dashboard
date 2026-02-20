@@ -58,15 +58,15 @@ export default function SessionWarning() {
         borderRadius: 12, padding: "28px 24px", boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
       }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,153,0,0.1)", border: "1px solid rgba(255,153,0,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Clock size={20} color="#FF9900" />
+          <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(154,112,48,0.1)", border: "1px solid rgba(154,112,48,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Clock size={20} color="#9A7030" />
           </div>
 
           <div>
             <h2 style={{ fontSize: 16, fontWeight: 700, color: "#E8ECF4", marginBottom: 6 }}>Session Expiring Soon</h2>
             <p style={{ fontSize: 12, color: "#8B97AA", lineHeight: 1.6 }}>
               Your Midway session expires in{" "}
-              <strong style={{ color: "#FF9900", fontVariantNumeric: "tabular-nums" }}>{countdown}</strong>.
+              <strong style={{ color: "#9A7030", fontVariantNumeric: "tabular-nums" }}>{countdown}</strong>.
               Unsaved work may be lost.
             </p>
           </div>
@@ -81,7 +81,7 @@ export default function SessionWarning() {
             <button
               onClick={extendSession}
               disabled={extending}
-              style={{ flex: 2, padding: "9px 0", borderRadius: 6, border: "none", background: "#FF9900", color: "#060A12", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
+              style={{ flex: 2, padding: "9px 0", borderRadius: 6, border: "none", background: "#9A7030", color: "#060A12", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
             >
               {extending ? <RefreshCw size={12} style={{ animation: "spin 1s linear infinite" }} /> : null}
               Extend Session

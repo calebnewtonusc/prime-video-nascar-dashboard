@@ -66,10 +66,10 @@ const MODEL_HEALTH: ModelHealth[] = [
 ];
 
 const TYPE_STYLES: Record<InsightType, { bg: string; text: string; border: string }> = {
-  PREDICTION: { bg: "rgba(19,153,255,0.10)", text: "#1399FF", border: "rgba(19,153,255,0.28)" },
+  PREDICTION: { bg: "rgba(58,111,168,0.10)", text: "#3A6FA8", border: "rgba(58,111,168,0.28)" },
   ALERT: { bg: "rgba(239,68,68,0.10)", text: "#EF4444", border: "rgba(239,68,68,0.28)" },
   RECOMMENDATION: { bg: "rgba(16,185,129,0.10)", text: "#10B981", border: "rgba(16,185,129,0.28)" },
-  OPPORTUNITY: { bg: "rgba(255,153,0,0.10)", text: "#FF9900", border: "rgba(255,153,0,0.28)" },
+  OPPORTUNITY: { bg: "rgba(154,112,48,0.10)", text: "#9A7030", border: "rgba(154,112,48,0.28)" },
 };
 
 const INSIGHTS: AIInsightExpanded[] = [
@@ -81,7 +81,7 @@ const INSIGHTS: AIInsightExpanded[] = [
     metricLabel: "Confidence",
     metricValue: "87%",
     metricBarPercent: 87,
-    accentColor: "#1399FF",
+    accentColor: "#3A6FA8",
     icon: <Zap className="w-4 h-4" />,
   },
   {
@@ -114,7 +114,7 @@ const INSIGHTS: AIInsightExpanded[] = [
     metricLabel: "Opportunity",
     metricValue: "$2.1M ARR",
     metricBarPercent: 68,
-    accentColor: "#FF9900",
+    accentColor: "#9A7030",
     icon: <Globe className="w-4 h-4" />,
   },
 ];
@@ -124,7 +124,7 @@ const CHURN_COHORTS: ChurnCohort[] = [
   { label: "NASCAR Only, 30\u201390 days", risk: 41, color: "#F97316", riskLevel: "Medium" },
   { label: "NASCAR + 1 other sport", risk: 22, color: "#F59E0B", riskLevel: "Low" },
   { label: "NASCAR + 2+ sports", risk: 8, color: "#10B981", riskLevel: "Very Low" },
-  { label: "Multi-content power user", risk: 3, color: "#1399FF", riskLevel: "Minimal" },
+  { label: "Multi-content power user", risk: 3, color: "#3A6FA8", riskLevel: "Minimal" },
 ];
 
 const MODEL_TABLE_ROWS: ModelRow[] = [
@@ -411,7 +411,7 @@ function ModelPerformanceTable() {
                 row.accuracyNum >= 90
                   ? "#10B981"
                   : row.accuracyNum >= 80
-                  ? "#FF9900"
+                  ? "#9A7030"
                   : "#F59E0B";
 
               return (
@@ -497,7 +497,7 @@ export default function AIInsightsPage() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2.5 mb-1">
-              <Brain className="w-5 h-5" style={{ color: "#1399FF" }} />
+              <Brain className="w-5 h-5" style={{ color: "#3A6FA8" }} />
               <h1 className="text-xl font-black tracking-tight" style={{ color: "#F9FAFB" }}>
                 AI-Powered Analytics
               </h1>
@@ -509,14 +509,14 @@ export default function AIInsightsPage() {
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-semibold flex-shrink-0"
             style={{
-              backgroundColor: "rgba(19,153,255,0.10)",
-              border: "1px solid rgba(19,153,255,0.25)",
-              color: "#1399FF",
+              backgroundColor: "rgba(58,111,168,0.10)",
+              border: "1px solid rgba(58,111,168,0.25)",
+              color: "#3A6FA8",
             }}
           >
             <span
               className="inline-block w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ backgroundColor: "#1399FF" }}
+              style={{ backgroundColor: "#3A6FA8" }}
             />
             Live Analysis
           </div>

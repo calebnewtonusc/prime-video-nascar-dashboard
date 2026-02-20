@@ -2,10 +2,10 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 const markets = [
-  { market: "Charlotte, NC",  region: "Southeast", viewers: 1840, share: 11.2, yoy: 28, color: "#00A8FF" },
-  { market: "Los Angeles, CA",region: "West",       viewers: 1620, share: 9.9,  yoy: 18, color: "#00A8FF" },
-  { market: "Atlanta, GA",    region: "Southeast",  viewers: 1490, share: 9.1,  yoy: 31, color: "#00A8FF" },
-  { market: "Dallas, TX",     region: "South",      viewers: 1280, share: 7.8,  yoy: 22, color: "#00A8FF" },
+  { market: "Charlotte, NC",  region: "Southeast", viewers: 1840, share: 11.2, yoy: 28, color: "#3A6FA8" },
+  { market: "Los Angeles, CA",region: "West",       viewers: 1620, share: 9.9,  yoy: 18, color: "#3A6FA8" },
+  { market: "Atlanta, GA",    region: "Southeast",  viewers: 1490, share: 9.1,  yoy: 31, color: "#3A6FA8" },
+  { market: "Dallas, TX",     region: "South",      viewers: 1280, share: 7.8,  yoy: 22, color: "#3A6FA8" },
   { market: "New York, NY",   region: "Northeast",  viewers: 1140, share: 6.9,  yoy: 19, color: "#7C6FFF" },
   { market: "Chicago, IL",    region: "Midwest",    viewers: 980,  share: 6.0,  yoy: 14, color: "#7C6FFF" },
   { market: "Phoenix, AZ",    region: "Southwest",  viewers: 870,  share: 5.3,  yoy: 41, color: "#00C896" },
@@ -26,7 +26,7 @@ function GeoTip({ active, payload }: TProps) {
   return (
     <div style={{ background: "#0C1220", border: "1px solid #243044", borderRadius: 8, padding: "10px 14px", fontSize: 12 }}>
       <p style={{ fontWeight: 700, color: "#E8ECF4", marginBottom: 6 }}>{d.market}</p>
-      <p style={{ color: "#8B97AA" }}>Viewers: <strong style={{ color: "#00A8FF" }}>{d.viewers.toLocaleString()}</strong></p>
+      <p style={{ color: "#8B97AA" }}>Viewers: <strong style={{ color: "#3A6FA8" }}>{d.viewers.toLocaleString()}</strong></p>
       <p style={{ color: "#8B97AA" }}>Market share: <strong style={{ color: "#E8ECF4" }}>{d.share}%</strong></p>
       <p style={{ color: "#8B97AA" }}>YoY growth: <strong style={{ color: "#00C896" }}>+{d.yoy}%</strong></p>
     </div>
@@ -58,7 +58,7 @@ export default function GeographicBreakdown() {
               <YAxis tick={{ fill: "#4E5E74", fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={v => `${v}`} />
               <Tooltip content={<GeoTip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
               <Bar isAnimationActive={false} dataKey="viewers" radius={[3, 3, 0, 0]} maxBarSize={32}>
-                {markets.map(m => <Cell key={m.market} fill={m.yoy > 40 ? "#00C896" : "#00A8FF"} />)}
+                {markets.map(m => <Cell key={m.market} fill={m.yoy > 40 ? "#00C896" : "#3A6FA8"} />)}
               </Bar>
             </BarChart>
           </ResponsiveContainer>

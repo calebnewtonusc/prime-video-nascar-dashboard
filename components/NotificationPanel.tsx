@@ -21,9 +21,9 @@ const NOTIFICATIONS: Notification[] = [
 
 const TYPE_CONFIG = {
   alert:     { icon: TrendingDown, color: "#FF4F5B", bg: "rgba(255,79,91,0.1)"  },
-  insight:   { icon: Zap,          color: "#00A8FF", bg: "rgba(0,168,255,0.1)"  },
+  insight:   { icon: Zap,          color: "#3A6FA8", bg: "rgba(0,168,255,0.1)"  },
   milestone: { icon: TrendingUp,   color: "#00C896", bg: "rgba(0,200,150,0.1)"  },
-  warning:   { icon: AlertTriangle,color: "#FF9900", bg: "rgba(255,153,0,0.1)"  },
+  warning:   { icon: AlertTriangle,color: "#9A7030", bg: "rgba(154,112,48,0.1)"  },
 };
 
 export default function NotificationPanel() {
@@ -60,7 +60,7 @@ export default function NotificationPanel() {
               </div>
               <div style={{ display: "flex", gap: 8 }}>
                 {unread > 0 && (
-                  <button onClick={markAllRead} style={{ fontSize: 11, color: "#00A8FF", background: "none", border: "none", cursor: "pointer" }}>
+                  <button onClick={markAllRead} style={{ fontSize: 11, color: "#3A6FA8", background: "none", border: "none", cursor: "pointer" }}>
                     Mark all read
                   </button>
                 )}
@@ -87,7 +87,7 @@ export default function NotificationPanel() {
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
                           <p style={{ fontSize: 12, fontWeight: 600, color: "#E8ECF4" }}>{n.title}</p>
-                          {!n.read && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00A8FF", flexShrink: 0, marginTop: 3 }} />}
+                          {!n.read && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#3A6FA8", flexShrink: 0, marginTop: 3 }} />}
                         </div>
                         <p style={{ fontSize: 11, color: "#8B97AA", lineHeight: 1.5 }}>{n.body}</p>
                         <p style={{ fontSize: 10, color: "#4E5E74", marginTop: 6 }}>{n.time}</p>

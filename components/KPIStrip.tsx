@@ -24,7 +24,7 @@ function KPISkeletonCell({ last }: { last: boolean }) {
 function AlertDot({ delta, invert }: { delta: number; invert?: boolean }) {
   const effectiveDelta = invert ? -delta : delta;
   if (effectiveDelta >= 5) return null;
-  const color = effectiveDelta < 0 ? "#FF4F5B" : "#FF9900";
+  const color = effectiveDelta < 0 ? "#FF4F5B" : "#9A7030";
   return (
     <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", background: color, marginLeft: 4, flexShrink: 0, marginBottom: 1 }} title={effectiveDelta < 0 ? "Below target" : "Near threshold"} />
   );

@@ -11,7 +11,7 @@ const RACES = [
 ];
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; border: string }> = {
-  Completed: { bg: "rgba(0,168,255,0.08)",  color: "#00A8FF", border: "rgba(0,168,255,0.2)" },
+  Completed: { bg: "rgba(0,168,255,0.08)",  color: "#3A6FA8", border: "rgba(0,168,255,0.2)" },
   Upcoming:  { bg: "rgba(245,158,11,0.08)", color: "#F59E0B", border: "rgba(245,158,11,0.2)" },
   Live:      { bg: "rgba(0,200,150,0.08)",  color: "#00C896", border: "rgba(0,200,150,0.2)" },
 };
@@ -53,7 +53,7 @@ export default function RaceSchedule() {
           </span>
           <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 10px", borderRadius: 6, background: "rgba(0,168,255,0.07)", border: "1px solid rgba(0,168,255,0.15)" }}>
             <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#4E5E74" }}>Next Race</span>
-            <span style={{ fontSize: 12, fontWeight: 800, color: "#00A8FF", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>{countdown}</span>
+            <span style={{ fontSize: 12, fontWeight: 800, color: "#3A6FA8", fontVariantNumeric: "tabular-nums", letterSpacing: "-0.02em" }}>{countdown}</span>
           </div>
         </div>
       </div>
@@ -89,9 +89,9 @@ export default function RaceSchedule() {
                     {r.streamShare ? (
                       <div className="flex items-center gap-2">
                         <div style={{ width: 40, height: 3, background: "#1A2437", borderRadius: 2, overflow: "hidden" }}>
-                          <div style={{ height: "100%", width: `${(r.streamShare / 55) * 100}%`, background: "#00A8FF", borderRadius: 2 }} />
+                          <div style={{ height: "100%", width: `${(r.streamShare / 55) * 100}%`, background: "#3A6FA8", borderRadius: 2 }} />
                         </div>
-                        <span style={{ color: "#00A8FF", fontWeight: 700, fontVariantNumeric: "tabular-nums", fontSize: 12 }}>{r.streamShare}%</span>
+                        <span style={{ color: "#3A6FA8", fontWeight: 700, fontVariantNumeric: "tabular-nums", fontSize: 12 }}>{r.streamShare}%</span>
                       </div>
                     ) : <span style={{ color: "#4E5E74" }}>—</span>}
                   </td>

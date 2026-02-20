@@ -142,7 +142,7 @@ function DrillDownModal({ driver, onClose }: DrillDownModalProps) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, borderBottom: "1px solid #1A2437" }}>
           {[
             { label: "Engagement Index", value: driver.index.toLocaleString(), sub: `${indexChange >= 0 ? "+" : ""}${pctChange}% vs last month`, color: "#00A8E0" },
-            { label: "Q1 Viewers", value: `${driver.viewers.toLocaleString()}K`, sub: "Unique viewers", color: "#FF9900" },
+            { label: "Q1 Viewers", value: `${driver.viewers.toLocaleString()}K`, sub: "Unique viewers", color: "#9A7030" },
             { label: "Favorited By", value: `${driver.favoritePercentage}%`, sub: "of NASCAR subscribers", color: "#00C896" },
           ].map((s, i) => (
             <div key={s.label} style={{ padding: "16px 18px", borderRight: i < 2 ? "1px solid #1A2437" : "none" }}>
@@ -197,7 +197,7 @@ function DrillDownModal({ driver, onClose }: DrillDownModalProps) {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginTop: 16 }}>
             {[
               { icon: Eye, label: "Profile Views", value: `${driver.profileViews.toLocaleString()}K`, color: "#7C6FFF" },
-              { icon: Share2, label: "Social Mentions", value: `${(driver.socialMentions / 1000).toFixed(0)}K`, color: "#FF9900" },
+              { icon: Share2, label: "Social Mentions", value: `${(driver.socialMentions / 1000).toFixed(0)}K`, color: "#9A7030" },
               { icon: Star, label: "Fan Favorite", value: `${driver.favoritePercentage}%`, color: "#F59E0B" },
             ].map(s => {
               const Icon = s.icon;

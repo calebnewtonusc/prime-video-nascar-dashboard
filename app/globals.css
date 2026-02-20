@@ -24,9 +24,9 @@
   /* Brand — Prime Video signature */
   --prime-blue:   #00A8E0;
   --prime-blue-d: #0076CC;
-  --prime-glow:   rgba(0,168,224,0.18);
-  --amz-orange:   #FF9900;
-  --amz-orange-d: #CC7A00;
+  --prime-glow:   rgba(0,168,224,0.10);
+  --amz-orange:   #9A7030;
+  --amz-orange-d: #7A5820;
 
   /* Semantic */
   --green:  #00C896;
@@ -38,7 +38,7 @@
 
   /* Data series colors */
   --series-1: #00A8E0;
-  --series-2: #FF9900;
+  --series-2: #9A7030;
   --series-3: #00C896;
   --series-4: #7C6FFF;
   --series-5: #FF4F5B;
@@ -87,8 +87,8 @@ body {
   padding: 2px 8px; border-radius: 4px;
   font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
 }
-.badge-blue   { background: rgba(0,168,255,0.12);  color: #00A8FF;  border: 1px solid rgba(0,168,255,0.25); }
-.badge-orange { background: rgba(255,153,0,0.12);  color: #FF9900;  border: 1px solid rgba(255,153,0,0.25); }
+.badge-blue   { background: rgba(58,111,168,0.10);  color: #3A6FA8;  border: 1px solid rgba(58,111,168,0.22); }
+.badge-orange { background: rgba(154,112,48,0.10);  color: #9A7030;  border: 1px solid rgba(154,112,48,0.22); }
 .badge-green  { background: rgba(0,200,150,0.12);  color: #00C896;  border: 1px solid rgba(0,200,150,0.25); }
 .badge-red    { background: rgba(255,79,91,0.12);   color: #FF4F5B;  border: 1px solid rgba(255,79,91,0.25); }
 .badge-muted  { background: rgba(139,151,170,0.1);  color: #8B97AA;  border: 1px solid rgba(139,151,170,0.18); }

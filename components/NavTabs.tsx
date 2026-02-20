@@ -25,7 +25,7 @@ export default function NavTabs() {
               fontSize: 12,
               fontWeight: active ? 600 : 500,
               color: active ? "#E8ECF4" : "#4E5E74",
-              borderBottom: active ? "2px solid #00A8FF" : "2px solid transparent",
+              borderBottom: active ? "2px solid #3A6FA8" : "2px solid transparent",
               marginBottom: -1,
               transition: "color 0.15s, border-color 0.15s",
               textDecoration: "none",

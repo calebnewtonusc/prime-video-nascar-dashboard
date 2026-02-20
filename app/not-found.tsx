@@ -8,7 +8,7 @@ export default function NotFound() {
         <h1 className="text-6xl font-black" style={{ color: "#1F2937" }}>404</h1>
         <p className="text-lg font-semibold mt-2" style={{ color: "#9CA3AF" }}>This section doesn&apos;t exist yet.</p>
       </div>
-      <Link href="/" className="flex items-center gap-2 px-5 py-2 rounded-lg text-[13px] font-bold text-white" style={{ background: "linear-gradient(135deg, #1399FF, #0D7FCC)" }}>
+      <Link href="/" className="flex items-center gap-2 px-5 py-2 rounded-lg text-[13px] font-bold text-white" style={{ background: "linear-gradient(135deg, #3A6FA8, #0D7FCC)" }}>
         ← Back to Dashboard
       </Link>
     </div>

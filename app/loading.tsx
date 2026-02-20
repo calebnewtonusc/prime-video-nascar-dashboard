@@ -3,7 +3,7 @@ export default function Loading() {
     <div className="min-h-screen" style={{ background: "#05080F" }}>
       {/* Header skeleton */}
       <div className="h-[89px] w-full border-b" style={{ background: "#05080F", borderColor: "#182035" }}>
-        <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, #00A8E0, #0047AB, #FF9900)" }} />
+        <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, #00A8E0, #0047AB, #9A7030)" }} />
         <div className="max-w-[1600px] mx-auto px-6 flex items-center gap-4 h-16 mt-0">
           <div className="h-9 w-28 rounded animate-skeleton" style={{ background: "#182035" }} />
           <div className="h-6 w-px" style={{ background: "#243044" }} />

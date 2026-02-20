@@ -29,8 +29,8 @@ const monthlyData = [
 ];
 
 const revenuePerRace = [
-  { race: "Daytona 500", revenue: 3.2, color: "#FF9900" },
-  { race: "Phoenix", revenue: 0.9, color: "#1399FF" },
+  { race: "Daytona 500", revenue: 3.2, color: "#9A7030" },
+  { race: "Phoenix", revenue: 0.9, color: "#3A6FA8" },
   { race: "Las Vegas", revenue: 0.9, color: "#4A7090" },
   { race: "Bristol", revenue: 0.8, color: "#4A7090" },
   { race: "COTA", revenue: 0.8, color: "#3D5A78" },
@@ -38,8 +38,8 @@ const revenuePerRace = [
 ];
 
 const adBreakdownData = [
-  { name: "Daytona 500", value: 1.2, color: "#FF9900" },
-  { name: "Las Vegas (proj)", value: 0.4, color: "#1399FF" },
+  { name: "Daytona 500", value: 1.2, color: "#9A7030" },
+  { name: "Las Vegas (proj)", value: 0.4, color: "#3A6FA8" },
   { name: "Phoenix (proj)", value: 0.4, color: "#4A7090" },
   { name: "Other Races", value: 0.8, color: "#3D5A78" },
   { name: "Non-race Content", value: 0.2, color: "#6B7280" },
@@ -143,7 +143,7 @@ function MonthlyRevenueTrend() {
         </div>
         <span
           className="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide"
-          style={{ background: "rgba(255,153,0,0.12)", color: "#FF9900", border: "1px solid rgba(255,153,0,0.25)" }}
+          style={{ background: "rgba(154,112,48,0.12)", color: "#9A7030", border: "1px solid rgba(154,112,48,0.25)" }}
         >
           Q1 2026
         </span>
@@ -171,8 +171,8 @@ function MonthlyRevenueTrend() {
                 <span style={{ color: "#9CA3AF" }}>{value}</span>
               )}
             />
-            <Bar dataKey="subs" name="Subscriptions" fill="#1399FF" radius={[4, 4, 0, 0]} opacity={0.9} />
-            <Bar dataKey="ads" name="Advertising" fill="#FF9900" radius={[4, 4, 0, 0]} opacity={0.9} />
+            <Bar dataKey="subs" name="Subscriptions" fill="#3A6FA8" radius={[4, 4, 0, 0]} opacity={0.9} />
+            <Bar dataKey="ads" name="Advertising" fill="#9A7030" radius={[4, 4, 0, 0]} opacity={0.9} />
             <Bar dataKey="intl" name="International" fill="#4E5E74" radius={[4, 4, 0, 0]} opacity={0.9} />
           </BarChart>
         </ResponsiveContainer>
@@ -280,7 +280,7 @@ function SubscriberWaterfall() {
         {waterfallData.map((item, idx) => {
           const isBase = item.isBase;
           const isPositive = item.isPositive;
-          const barColor = isBase ? "#1399FF" : isPositive ? "#10B981" : "#EF4444";
+          const barColor = isBase ? "#3A6FA8" : isPositive ? "#10B981" : "#EF4444";
           const barWidth = Math.abs(
             isBase ? (item.value / maxValue) * chartWidth : (item.value / maxValue) * chartWidth
           );
@@ -331,7 +331,7 @@ function SubscriberWaterfall() {
       >
         <div className="text-center">
           <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: "#6B7280" }}>Jan Base</p>
-          <p className="text-[16px] font-black metric-value" style={{ color: "#1399FF" }}>89K</p>
+          <p className="text-[16px] font-black metric-value" style={{ color: "#3A6FA8" }}>89K</p>
         </div>
         <div className="text-center">
           <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: "#6B7280" }}>Net Added</p>
@@ -339,7 +339,7 @@ function SubscriberWaterfall() {
         </div>
         <div className="text-center">
           <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: "#6B7280" }}>March Balance</p>
-          <p className="text-[16px] font-black metric-value" style={{ color: "#FF9900" }}>334K</p>
+          <p className="text-[16px] font-black metric-value" style={{ color: "#9A7030" }}>334K</p>
         </div>
       </div>
     </div>
@@ -467,9 +467,9 @@ function InternationalRevenue() {
                 <span
                   className="text-[10px] font-black px-2 py-0.5 rounded"
                   style={{
-                    background: isHigh ? "rgba(16,185,129,0.15)" : "rgba(19,153,255,0.12)",
-                    color: isHigh ? "#10B981" : "#1399FF",
-                    border: `1px solid ${isHigh ? "rgba(16,185,129,0.3)" : "rgba(19,153,255,0.25)"}`,
+                    background: isHigh ? "rgba(16,185,129,0.15)" : "rgba(58,111,168,0.12)",
+                    color: isHigh ? "#10B981" : "#3A6FA8",
+                    border: `1px solid ${isHigh ? "rgba(16,185,129,0.3)" : "rgba(58,111,168,0.25)"}`,
                   }}
                 >
                   {item.growth} YoY
@@ -488,9 +488,9 @@ function InternationalRevenue() {
 
       <div
         className="mt-4 pt-4 border-t rounded-lg p-3"
-        style={{ borderColor: "#1F2937", background: "rgba(19,153,255,0.05)", border: "1px solid rgba(19,153,255,0.15)" }}
+        style={{ borderColor: "#1F2937", background: "rgba(58,111,168,0.05)", border: "1px solid rgba(58,111,168,0.15)" }}
       >
-        <p className="text-[11px] font-semibold" style={{ color: "#1399FF" }}>
+        <p className="text-[11px] font-semibold" style={{ color: "#3A6FA8" }}>
           Opportunity Signal
         </p>
         <p className="text-[10px] mt-0.5" style={{ color: "#6B7280" }}>
@@ -533,19 +533,19 @@ export default function RevenuePage() {
             label="Q1 Revenue"
             value="$12.8M"
             sub="+18% YoY"
-            accent="#1399FF"
+            accent="#3A6FA8"
           />
           <KpiCard
             label="Prime Sub Revenue"
             value="$8.7M"
             sub="68% of total"
-            accent="#1399FF"
+            accent="#3A6FA8"
           />
           <KpiCard
             label="Ad Revenue"
             value="$2.8M"
             sub="+31% YoY"
-            accent="#FF9900"
+            accent="#9A7030"
           />
           <KpiCard
             label="ARPU"

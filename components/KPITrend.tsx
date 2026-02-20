@@ -36,7 +36,7 @@ const PROJECTED: Partial<MetricPoint>[] = [
 
 const METRICS = [
   { key: "viewers" as const, label: "Viewers", unit: "M", color: "#00A8E0", format: (v: number) => `${v}M` },
-  { key: "subs" as const, label: "New Subs", unit: "K", color: "#FF9900", format: (v: number) => `${v}K` },
+  { key: "subs" as const, label: "New Subs", unit: "K", color: "#9A7030", format: (v: number) => `${v}K` },
   { key: "revenue" as const, label: "Revenue", unit: "$M", color: "#00C896", format: (v: number) => `$${v}M` },
   { key: "watchTime" as const, label: "Avg Watch", unit: "min", color: "#7C6FFF", format: (v: number) => `${v}m` },
   { key: "streamShare" as const, label: "Stream Share", unit: "%", color: "#F59E0B", format: (v: number) => `${v}%` },
@@ -236,7 +236,7 @@ export default function KPITrend() {
           )}
           <div style={{ marginLeft: "auto" }}>
             <p style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#4E5E74", marginBottom: 2 }}>Daytona Premium</p>
-            <p style={{ fontSize: 13, fontWeight: 800, color: "#FF9900" }}>
+            <p style={{ fontSize: 13, fontWeight: 800, color: "#9A7030" }}>
               {activeMetric.format(RACE_DATA[0][activeMetric.key])} <span style={{ fontSize: 10, color: "#4E5E74" }}>({(RACE_DATA[0][activeMetric.key] / (totalCompleted / completedData.length) * 100).toFixed(0)}% of avg)</span>
             </p>
           </div>

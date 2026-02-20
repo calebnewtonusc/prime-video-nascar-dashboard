@@ -38,7 +38,7 @@ const RACES: Race[] = [
     predictedSubs: 310,
     confidence: 94,
     insight: "Beat viewership target by 9.3% — Daytona 500 halo effect drove 342K new subs.",
-    accentColor: "#FF9900",
+    accentColor: "#9A7030",
   },
   {
     id: "lasvegas",
@@ -128,7 +128,7 @@ const RACES: Race[] = [
     predictedSubs: 118,
     confidence: 87,
     insight: "Bristol Dirt predicted to be Q1's 2nd biggest race. Model confidence 87% — increase ad inventory 15%.",
-    accentColor: "#FF9900",
+    accentColor: "#9A7030",
   },
 ];
 

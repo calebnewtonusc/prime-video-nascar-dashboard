@@ -228,7 +228,7 @@ export default function Header() {
                         display: "block", width: "100%", textAlign: "left", padding: "8px 12px",
                         borderRadius: 5, border: "none", cursor: "pointer", fontSize: 12,
                         background: r.label === selectedRange.label ? "rgba(0,168,255,0.1)" : "transparent",
-                        color: r.label === selectedRange.label ? "#00A8FF" : "#8B97AA",
+                        color: r.label === selectedRange.label ? "#3A6FA8" : "#8B97AA",
                       }}
                     >
                       {r.label}
@@ -252,7 +252,7 @@ export default function Header() {
                 style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 6px md:8px", borderRadius: 6, border: "1px solid #1A2437", background: "#0A0F1E", cursor: "pointer" }}
               >
                 <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#0047AB", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <User size={11} color="#00A8FF" />
+                  <User size={11} color="#3A6FA8" />
                 </div>
                 <span className="hidden md:inline" style={{ fontSize: 11, color: "#8B97AA", maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {user?.name ?? "caleb.newton"}
@@ -278,7 +278,7 @@ export default function Header() {
                           display: "block", width: "100%", textAlign: "left", padding: "6px 8px",
                           borderRadius: 4, border: "none", cursor: "pointer", fontSize: 11, marginBottom: 2,
                           background: r.label === selectedRange.label ? "rgba(0,168,255,0.1)" : "transparent",
-                          color: r.label === selectedRange.label ? "#00A8FF" : "#8B97AA",
+                          color: r.label === selectedRange.label ? "#3A6FA8" : "#8B97AA",
                         }}
                       >
                         {r.label}

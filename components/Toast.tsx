@@ -12,8 +12,8 @@ export const useToast = () => useContext(ToastContext);
 const ICONS = { success: CheckCircle, warning: AlertTriangle, info: Info, error: AlertTriangle };
 const COLORS = {
   success: { bg: "rgba(0,200,150,0.12)", border: "rgba(0,200,150,0.25)", icon: "#00C896", text: "#E8ECF4" },
-  warning: { bg: "rgba(255,153,0,0.12)",  border: "rgba(255,153,0,0.25)",  icon: "#FF9900", text: "#E8ECF4" },
-  info:    { bg: "rgba(0,168,255,0.12)",  border: "rgba(0,168,255,0.25)",  icon: "#00A8FF", text: "#E8ECF4" },
+  warning: { bg: "rgba(154,112,48,0.12)",  border: "rgba(154,112,48,0.25)",  icon: "#9A7030", text: "#E8ECF4" },
+  info:    { bg: "rgba(0,168,255,0.12)",  border: "rgba(0,168,255,0.25)",  icon: "#3A6FA8", text: "#E8ECF4" },
   error:   { bg: "rgba(255,79,91,0.12)",  border: "rgba(255,79,91,0.25)",  icon: "#FF4F5B", text: "#E8ECF4" },
 };
 

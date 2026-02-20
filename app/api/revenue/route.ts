@@ -10,8 +10,8 @@ export interface RevenueStream {
 }
 
 const STREAMS: RevenueStream[] = [
-  { name: "Prime Subscriptions", value: 8.7,  pct: 68, color: "#00A8FF", mom:  0.8  },
-  { name: "Advertising",         value: 2.8,  pct: 22, color: "#FF9900", mom:  0.3  },
+  { name: "Prime Subscriptions", value: 8.7,  pct: 68, color: "#3A6FA8", mom:  0.8  },
+  { name: "Advertising",         value: 2.8,  pct: 22, color: "#9A7030", mom:  0.3  },
   { name: "International",       value: 1.1,  pct: 9,  color: "#00C896", mom:  0.1  },
   { name: "Merchandise",         value: 0.2,  pct: 1,  color: "#4E5E74", mom: -0.02 },
 ];

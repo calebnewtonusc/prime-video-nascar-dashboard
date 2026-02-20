@@ -110,8 +110,8 @@ const CAMPAIGNS: Campaign[] = [
 ];
 
 const CHANNEL_MIX = [
-  { name: "TV Spots", value: 41.8, color: "#1399FF" },
-  { name: "Social", value: 26.6, color: "#FF9900" },
+  { name: "TV Spots", value: 41.8, color: "#3A6FA8" },
+  { name: "Social", value: 26.6, color: "#9A7030" },
   { name: "Programmatic", value: 18.5, color: "#4A7090" },
   { name: "Influencer", value: 11.4, color: "#3D5A78" },
   { name: "Email", value: 1.7, color: "#6B7280" },
@@ -130,19 +130,19 @@ const RECOMMENDATIONS = [
     number: "01",
     title: "Reallocate TV Budget",
     body: "Shift $220K from TV Spots to Email + Influencer for estimated +960K conversions at same spend.",
-    accentColor: "#1399FF",
+    accentColor: "#3A6FA8",
   },
   {
     number: "02",
     title: "Scale Race Day Email",
     body: "31.2\u00d7 ROAS at $0.38 CPA — increase list size to 12M with NASCAR fan acquisition from Daytona 500 data.",
-    accentColor: "#1399FF",
+    accentColor: "#3A6FA8",
   },
   {
     number: "03",
     title: "Double Influencer for COTA & Phoenix",
     body: "Driver Fanbase outperformed by 2.3\u00d7 vs programmatic — book early for March races.",
-    accentColor: "#FF9900",
+    accentColor: "#9A7030",
   },
 ];
 
@@ -153,7 +153,7 @@ const BLENDED_CPA = (TOTAL_BUDGET * 1000) / (TOTAL_CONV * 1000);
 
 const STATUS_STYLE: Record<CampaignStatus, { bg: string; text: string }> = {
   COMPLETED: { bg: "rgba(16,185,129,0.12)", text: "#10B981" },
-  ACTIVE: { bg: "rgba(19,153,255,0.12)", text: "#1399FF" },
+  ACTIVE: { bg: "rgba(58,111,168,0.12)", text: "#3A6FA8" },
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -194,9 +194,9 @@ function RoasBar({ value, max }: { value: number; max: number }) {
   const pct = Math.min((value / max) * 100, 100);
   const color =
     pct >= 80
-      ? "#1399FF"
+      ? "#3A6FA8"
       : pct >= 50
-      ? "#FF9900"
+      ? "#9A7030"
       : pct >= 25
       ? "#4A7090"
       : "#6B7280";
@@ -250,7 +250,7 @@ function SortIcon({ field, sortField, sortDir }: { field: SortField; sortField: 
   return (
     <svg
       className="w-3 h-3 transition-opacity"
-      style={{ opacity: isActive ? 1 : 0.35, color: isActive ? "#1399FF" : "currentColor" }}
+      style={{ opacity: isActive ? 1 : 0.35, color: isActive ? "#3A6FA8" : "currentColor" }}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -403,9 +403,9 @@ function CampaignTable() {
             onClick={exportCSV}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:opacity-80"
             style={{
-              backgroundColor: "rgba(19,153,255,0.12)",
-              border: "1px solid rgba(19,153,255,0.3)",
-              color: "#1399FF",
+              backgroundColor: "rgba(58,111,168,0.12)",
+              border: "1px solid rgba(58,111,168,0.3)",
+              color: "#3A6FA8",
             }}
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -426,7 +426,7 @@ function CampaignTable() {
                   onClick={() => col.sortable !== "none" && handleSort(col.sortable)}
                   className="py-3 px-3 text-left text-[10px] font-semibold uppercase tracking-wider select-none"
                   style={{
-                    color: sortField === col.sortable && col.sortable !== "none" ? "#1399FF" : "#6B7280",
+                    color: sortField === col.sortable && col.sortable !== "none" ? "#3A6FA8" : "#6B7280",
                     cursor: col.sortable !== "none" ? "pointer" : "default",
                     whiteSpace: "nowrap",
                   }}
@@ -520,7 +520,7 @@ function CampaignTable() {
                         c.cpa <= 1
                           ? "#10B981"
                           : c.cpa <= 5
-                          ? "#FF9900"
+                          ? "#9A7030"
                           : "#9CA3AF",
                     }}
                   >
@@ -562,7 +562,7 @@ function CampaignTable() {
           {search && (
             <span
               className="ml-2 cursor-pointer underline underline-offset-2"
-              style={{ color: "#1399FF" }}
+              style={{ color: "#3A6FA8" }}
               onClick={() => setSearch("")}
             >
               Clear filter
@@ -734,13 +734,13 @@ function RoasByChannelChart() {
           />
           <ReferenceLine
             x={11.7}
-            stroke="#FF9900"
+            stroke="#9A7030"
             strokeDasharray="4 3"
             strokeOpacity={0.6}
             label={{
               value: "Avg 11.7\u00d7",
               position: "insideTopRight",
-              fill: "#FF9900",
+              fill: "#9A7030",
               fontSize: 9,
               dy: -4,
             }}
@@ -783,11 +783,11 @@ function RecommendationsCard() {
         <div
           className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{
-            backgroundColor: "rgba(19,153,255,0.12)",
-            border: "1px solid rgba(19,153,255,0.25)",
+            backgroundColor: "rgba(58,111,168,0.12)",
+            border: "1px solid rgba(58,111,168,0.25)",
           }}
         >
-          <svg className="w-3.5 h-3.5" style={{ color: "#1399FF" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-3.5 h-3.5" style={{ color: "#3A6FA8" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
           </svg>
         </div>
@@ -859,25 +859,25 @@ export default function MarketingPage() {
             label="Total Spend"
             value="$1.053M"
             sub="5 campaigns"
-            color="#1399FF"
+            color="#3A6FA8"
           />
           <KpiCard
             label="Total Conversions"
             value="210K"
             sub="subscribers acquired"
-            color="#1399FF"
+            color="#3A6FA8"
           />
           <KpiCard
             label="Blended CPA"
             value="$5.01"
             sub="average across all channels"
-            color="#FF9900"
+            color="#9A7030"
           />
           <KpiCard
             label="Best ROAS"
             value="31.2×"
             sub="Race Day Email"
-            color="#FF9900"
+            color="#9A7030"
           />
         </div>
 

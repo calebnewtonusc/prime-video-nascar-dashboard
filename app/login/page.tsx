@@ -69,7 +69,7 @@ function LoginForm() {
   return (
     <div style={{ minHeight: "100vh", background: "#060A12", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px" }}>
       {/* Top stripe */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #00A8FF 0%, #0047AB 100%)" }} />
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #3A6FA8 0%, #0047AB 100%)" }} />
 
       <div style={{ width: "100%", maxWidth: 420 }}>
         {/* Logo — matches Header.tsx branding exactly */}
@@ -82,7 +82,7 @@ function LoginForm() {
             <img src="/nascar-logo-white.png" alt="NASCAR" style={{ height: 56, width: "auto" }} />
           </div>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-            <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 8px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.08em", background: "rgba(255,153,0,0.1)", color: "#FF9900", border: "1px solid rgba(255,153,0,0.2)" }}>
+            <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 8px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.08em", background: "rgba(154,112,48,0.1)", color: "#9A7030", border: "1px solid rgba(154,112,48,0.2)" }}>
               Demo Environment
             </span>
             <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 8px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.08em", background: "rgba(255,79,91,0.12)", color: "#FF4F5B", border: "1px solid rgba(255,79,91,0.2)" }}>
@@ -94,10 +94,10 @@ function LoginForm() {
         {/* Demo credentials box — use this to sign in */}
         <div style={{ background: "rgba(0,168,255,0.05)", border: "1px solid rgba(0,168,255,0.15)", borderRadius: 10, padding: "14px 16px", marginBottom: 20 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: "#00A8FF", textTransform: "uppercase", letterSpacing: "0.07em" }}>Demo Access</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: "#3A6FA8", textTransform: "uppercase", letterSpacing: "0.07em" }}>Demo Access</p>
             <button
               onClick={fillDemo}
-              style={{ fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 4, background: "rgba(0,168,255,0.12)", color: "#00A8FF", border: "1px solid rgba(0,168,255,0.25)", cursor: "pointer", letterSpacing: "0.03em" }}
+              style={{ fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 4, background: "rgba(0,168,255,0.12)", color: "#3A6FA8", border: "1px solid rgba(0,168,255,0.25)", cursor: "pointer", letterSpacing: "0.03em" }}
             >
               Fill credentials →
             </button>
@@ -147,7 +147,7 @@ function LoginForm() {
                   border: "1px solid #243044", borderRadius: 6, color: "#E8ECF4",
                   fontSize: 13, outline: "none", boxSizing: "border-box",
                 }}
-                onFocus={(e) => (e.target.style.borderColor = "#00A8FF")}
+                onFocus={(e) => (e.target.style.borderColor = "#3A6FA8")}
                 onBlur={(e) => (e.target.style.borderColor = "#243044")}
               />
             </div>
@@ -168,7 +168,7 @@ function LoginForm() {
                   border: "1px solid #243044", borderRadius: 6, color: "#E8ECF4",
                   fontSize: 13, outline: "none", boxSizing: "border-box",
                 }}
-                onFocus={(e) => (e.target.style.borderColor = "#00A8FF")}
+                onFocus={(e) => (e.target.style.borderColor = "#3A6FA8")}
                 onBlur={(e) => (e.target.style.borderColor = "#243044")}
               />
             </div>
@@ -178,7 +178,7 @@ function LoginForm() {
               disabled={loading}
               style={{
                 marginTop: 4, padding: "10px 0", borderRadius: 6, border: "none",
-                background: loading ? "#0047AB" : "#00A8FF", color: "#060A12",
+                background: loading ? "#0047AB" : "#3A6FA8", color: "#060A12",
                 fontSize: 13, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                 transition: "background 0.15s",
@@ -218,7 +218,7 @@ export default function LoginPage() {
   return (
     <Suspense fallback={
       <div style={{ minHeight: "100vh", background: "#060A12", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#00A8FF" }} />
+        <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#3A6FA8" }} />
       </div>
     }>
       <LoginForm />

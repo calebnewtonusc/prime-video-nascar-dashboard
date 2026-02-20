@@ -22,7 +22,7 @@ const churnRisk = [
 
 const signals = [
   {
-    icon: TrendingUp, color: "#00A8FF",
+    icon: TrendingUp, color: "#3A6FA8",
     title: "Daytona 500 Halo Effect",
     value: "+41% subscribe intent",
     desc: "Chase Elliott viewers show 41% higher subscription intent in the 7 days post-Daytona. Recommend targeted re-engagement campaign for 280K non-subscribers who streamed the race.",

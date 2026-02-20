@@ -39,7 +39,7 @@ function Tip({ active, payload }: TProps) {
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
           <span style={{ color: "#4E5E74" }}>2026 Viewers</span>
-          <span style={{ fontWeight: 700, color: "#00A8FF" }}>{r.v26}M</span>
+          <span style={{ fontWeight: 700, color: "#3A6FA8" }}>{r.v26}M</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
           <span style={{ color: "#4E5E74" }}>2025 Viewers</span>
@@ -47,7 +47,7 @@ function Tip({ active, payload }: TProps) {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
           <span style={{ color: "#4E5E74" }}>Target</span>
-          <span style={{ color: "#FF9900" }}>{r.target}M</span>
+          <span style={{ color: "#9A7030" }}>{r.target}M</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 16, paddingTop: 4, marginTop: 4, borderTop: "1px solid #1A2437" }}>
           <span style={{ color: "#4E5E74" }}>YoY</span>
@@ -103,7 +103,7 @@ export default function ViewershipChart() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h2 style={{ fontSize: 15, fontWeight: 700, color: "#E8ECF4" }}>Q1 Race Viewership</h2>
-            <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 6px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.06em", background: "rgba(0,168,255,0.1)", color: "#00A8FF", border: "1px solid rgba(0,168,255,0.2)" }}>Live</span>
+            <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 6px", borderRadius: 3, textTransform: "uppercase", letterSpacing: "0.06em", background: "rgba(0,168,255,0.1)", color: "#3A6FA8", border: "1px solid rgba(0,168,255,0.2)" }}>Live</span>
           </div>
           <p style={{ fontSize: 11, color: "#4E5E74" }}>Unique viewers (M) · Q1 2026 vs Q1 2025 · Orange = Daytona peak</p>
         </div>
@@ -119,7 +119,7 @@ export default function ViewershipChart() {
             </div>
             <div style={{ textAlign: "right" }}>
               <p style={{ fontSize: 10, color: "#4E5E74" }}>vs Target</p>
-              <p style={{ fontSize: 18, fontWeight: 800, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.03em", color: data.summary.beatTarget >= 5 ? "#00C896" : "#FF9900" }}>
+              <p style={{ fontSize: 18, fontWeight: 800, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.03em", color: data.summary.beatTarget >= 5 ? "#00C896" : "#9A7030" }}>
                 {data.summary.beatTarget}/{data.summary.total}
               </p>
             </div>
@@ -151,7 +151,7 @@ export default function ViewershipChart() {
                 {data.races.map((r) => <Cell key={r.short} fill="#243044" />)}
               </Bar>
               <Bar dataKey="v26" name="2026" isAnimationActive={false} radius={[3, 3, 0, 0]} maxBarSize={28}>
-                {data.races.map((r, i) => <Cell key={r.short} fill={i === 0 ? "#FF9900" : "#00A8FF"} />)}
+                {data.races.map((r, i) => <Cell key={r.short} fill={i === 0 ? "#9A7030" : "#3A6FA8"} />)}
                 <LabelList dataKey="v26" position="top" style={{ fill: "#8B97AA", fontSize: 10, fontWeight: 600, fontVariantNumeric: "tabular-nums" }} formatter={(v: number) => `${v}M`} />
               </Bar>
             </BarChart>
@@ -163,17 +163,17 @@ export default function ViewershipChart() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 12, paddingTop: 12, borderTop: "1px solid #1A2437" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 11, color: "#4E5E74" }}>
           <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: "#00A8FF", display: "inline-block" }} />2026
+            <span style={{ width: 10, height: 10, borderRadius: 2, background: "#3A6FA8", display: "inline-block" }} />2026
           </span>
           <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ width: 10, height: 10, borderRadius: 2, background: "#243044", display: "inline-block" }} />2025
           </span>
           <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ width: 10, height: 2, background: "#FF9900", display: "inline-block" }} />Daytona (peak)
+            <span style={{ width: 10, height: 2, background: "#9A7030", display: "inline-block" }} />Daytona (peak)
           </span>
         </div>
         <p style={{ fontSize: 11, color: "#4E5E74" }}>
-          Daytona: <span style={{ color: "#FF9900", fontWeight: 700 }}>8.2M</span> viewers · 4× avg race
+          Daytona: <span style={{ color: "#9A7030", fontWeight: 700 }}>8.2M</span> viewers · 4× avg race
         </p>
       </div>
 

@@ -5,7 +5,7 @@ const priorities = [
     number: "01",
     icon: TrendingUp,
     tag: "HIGHEST ROI LEVER",
-    tagColor: "#00A8FF",
+    tagColor: "#3A6FA8",
     tagBg: "rgba(0,168,255,0.08)",
     tagBorder: "rgba(0,168,255,0.18)",
     headline: "Double down on marquee events",
@@ -24,9 +24,9 @@ const priorities = [
     number: "02",
     icon: DollarSign,
     tag: "BUDGET REALLOCATION",
-    tagColor: "#FF9900",
-    tagBg: "rgba(255,153,0,0.08)",
-    tagBorder: "rgba(255,153,0,0.18)",
+    tagColor: "#9A7030",
+    tagBg: "rgba(154,112,48,0.08)",
+    tagBorder: "rgba(154,112,48,0.18)",
     headline: "Shift $200K from TV to email & influencer",
     subhead: "Email ROAS is 7.6× higher than TV/CTV spend",
     body: "Email ROAS is 31.2× vs 4.1× for TV spend. Driver Fanbase campaign outperforms at $3.87 CPA. Reallocating 25% of TV budget to email and social drives an estimated +$680K in Q2 conversions.",
@@ -80,7 +80,7 @@ export default function ExecSummary() {
           <span style={{ fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 4, textTransform: "uppercase", letterSpacing: "0.07em", background: "rgba(0,200,150,0.1)", color: "#00C896", border: "1px solid rgba(0,200,150,0.2)" }}>
             Ready for Q2
           </span>
-          <span style={{ fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 4, textTransform: "uppercase", letterSpacing: "0.07em", background: "rgba(0,168,255,0.1)", color: "#00A8FF", border: "1px solid rgba(0,168,255,0.2)" }}>
+          <span style={{ fontSize: 9, fontWeight: 800, padding: "3px 8px", borderRadius: 4, textTransform: "uppercase", letterSpacing: "0.07em", background: "rgba(0,168,255,0.1)", color: "#3A6FA8", border: "1px solid rgba(0,168,255,0.2)" }}>
             Confidential
           </span>
         </div>

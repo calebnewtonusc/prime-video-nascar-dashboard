@@ -61,13 +61,13 @@ const INSIGHTS: Insight[] = [
   },
   {
     icon: TrendingUp,
-    color: "#FF9900",
+    color: "#9A7030",
     badge: "International",
-    badgeColor: "#FF9900",
+    badgeColor: "#9A7030",
     title: "International viewership up 41% YoY, led by Brazil (+89%) and UK (+74%). COTA race expected to spike.",
     detail: "Road-course format correlates with +34% international share. Spanish-language creatives recommended by Mar 15.",
     metric: "+41% intl YoY",
-    metricColor: "#FF9900",
+    metricColor: "#9A7030",
     priority: "medium",
   },
   {

@@ -1,8 +1,8 @@
 "use client";
 
 const funnel = [
-  { stage: "Impressions",        count: 31_200_000, pct: 100,   convRate: null,   color: "#00A8FF" },
-  { stage: "Landing Page Visits",count: 4_368_000,  pct: 14.0,  convRate: 14.0,   color: "#00A8FF" },
+  { stage: "Impressions",        count: 31_200_000, pct: 100,   convRate: null,   color: "#3A6FA8" },
+  { stage: "Landing Page Visits",count: 4_368_000,  pct: 14.0,  convRate: 14.0,   color: "#3A6FA8" },
   { stage: "Trial Starts",       count: 874_000,    pct: 2.80,  convRate: 20.0,   color: "#7C6FFF" },
   { stage: "Trial Completions",  count: 612_000,    pct: 1.96,  convRate: 70.0,   color: "#7C6FFF" },
   { stage: "Paid Conversions",   count: 342_000,    pct: 1.10,  convRate: 55.9,   color: "#00C896" },

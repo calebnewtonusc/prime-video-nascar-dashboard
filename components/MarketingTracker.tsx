@@ -34,16 +34,16 @@ type SortKey = keyof Campaign;
 
 const STATUS_STYLE: Record<string, { bg: string; color: string; border: string }> = {
   Active:    { bg: "rgba(0,200,150,0.1)",  color: "#00C896", border: "rgba(0,200,150,0.25)" },
-  Completed: { bg: "rgba(0,168,255,0.1)",  color: "#00A8FF", border: "rgba(0,168,255,0.25)" },
+  Completed: { bg: "rgba(0,168,255,0.1)",  color: "#3A6FA8", border: "rgba(0,168,255,0.25)" },
   Paused:    { bg: "rgba(245,158,11,0.1)", color: "#F59E0B", border: "rgba(245,158,11,0.25)" },
 };
 
 const CHANNEL_COLORS: Record<string, string> = {
-  "Email": "#00A8FF",
+  "Email": "#3A6FA8",
   "Social/Influencer": "#7C6FFF",
   "TV/CTV": "#FF4F5B",
   "App/Push": "#00C896",
-  "YouTube": "#FF9900",
+  "YouTube": "#9A7030",
   "Display/Prog": "#8B97AA",
   "Audio/Podcast": "#F59E0B",
 };
@@ -57,7 +57,7 @@ function BudgetBar({ spend, budget }: { spend: number; budget: number }) {
         <div style={{
           height: "100%", borderRadius: 2,
           width: `${pct}%`,
-          background: over ? "#FF4F5B" : "#00A8FF",
+          background: over ? "#FF4F5B" : "#3A6FA8",
           transition: "width 0.5s ease",
         }} />
       </div>
@@ -69,7 +69,7 @@ function BudgetBar({ spend, budget }: { spend: number; budget: number }) {
 }
 
 function RoasCell({ roas }: { roas: number }) {
-  const color = roas >= 20 ? "#1399FF" : roas >= 10 ? "#1399FF" : roas >= 5 ? "#4A7090" : "#4E5E74";
+  const color = roas >= 20 ? "#3A6FA8" : roas >= 10 ? "#3A6FA8" : roas >= 5 ? "#4A7090" : "#4E5E74";
   return (
     <div className="flex items-center gap-1.5">
       <div style={{ width: 28, height: 4, background: "#1A2437", borderRadius: 2, overflow: "hidden" }}>
@@ -82,7 +82,7 @@ function RoasCell({ roas }: { roas: number }) {
 
 function SortIcon({ k, sort }: { k: SortKey; sort: { key: SortKey; dir: number } }) {
   if (sort.key !== k) return <ArrowUpDown size={9} style={{ opacity: 0.4 }} />;
-  return sort.dir === -1 ? <ArrowDown size={9} style={{ color: "#00A8FF" }} /> : <ArrowUp size={9} style={{ color: "#00A8FF" }} />;
+  return sort.dir === -1 ? <ArrowDown size={9} style={{ color: "#3A6FA8" }} /> : <ArrowUp size={9} style={{ color: "#3A6FA8" }} />;
 }
 
 export default function MarketingTracker() {

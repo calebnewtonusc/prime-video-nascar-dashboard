@@ -21,14 +21,14 @@ const KPIS: KPI[] = [
     label: "Total Q1 Viewers", sub: "Unique viewers",
     value: "16.4M", raw: 16.4, unit: "M",
     vsYoY: 23.1, vsQoQ: 8.4,
-    color: "#00A8FF",
+    color: "#3A6FA8",
     spark: [{ v: 60 },{ v: 55 },{ v: 68 },{ v: 72 },{ v: 65 },{ v: 80 },{ v: 88 },{ v: 100 }],
   },
   {
     label: "New Subscribers", sub: "Q1 net adds",
     value: "342K", raw: 342, unit: "K",
     vsYoY: 31.0, vsQoQ: 12.5,
-    color: "#FF9900",
+    color: "#9A7030",
     spark: [{ v: 50 },{ v: 58 },{ v: 54 },{ v: 67 },{ v: 73 },{ v: 78 },{ v: 90 },{ v: 100 }],
   },
   {
@@ -49,14 +49,14 @@ const KPIS: KPI[] = [
     label: "Subscriber ARPU", sub: "Monthly avg",
     value: "$37.42", raw: 37.42, unit: "$",
     vsYoY: 5.8, vsQoQ: 2.1,
-    color: "#FF9900",
+    color: "#9A7030",
     spark: [{ v: 80 },{ v: 82 },{ v: 79 },{ v: 84 },{ v: 86 },{ v: 88 },{ v: 94 },{ v: 100 }],
   },
   {
     label: "Ad Revenue CPM", sub: "Effective CPM",
     value: "$22.40", raw: 22.40, unit: "$",
     vsYoY: 14.2, vsQoQ: 4.8,
-    color: "#00A8FF",
+    color: "#3A6FA8",
     spark: [{ v: 65 },{ v: 70 },{ v: 68 },{ v: 75 },{ v: 80 },{ v: 84 },{ v: 90 },{ v: 100 }],
   },
   {
