@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import Image from "next/image";
 import { Radio, ChevronDown, LogOut, User, RefreshCw, Menu, X } from "lucide-react";
 import NavTabs from "@/components/NavTabs";
@@ -22,16 +22,70 @@ interface LiveState {
   leader?: string;
 }
 
+interface HeaderState {
+  user: { name: string; email: string; role: string } | null;
+  showUserMenu: boolean;
+  showDateMenu: boolean;
+  showMobileMenu: boolean;
+  selectedRange: typeof DATE_RANGES[0];
+  liveState: LiveState;
+  lastRefresh: Date;
+  refreshAge: string;
+}
+
+type HeaderAction =
+  | { type: "SET_USER"; payload: { name: string; email: string; role: string } | null }
+  | { type: "TOGGLE_USER_MENU" }
+  | { type: "CLOSE_USER_MENU" }
+  | { type: "TOGGLE_DATE_MENU" }
+  | { type: "CLOSE_DATE_MENU" }
+  | { type: "TOGGLE_MOBILE_MENU" }
+  | { type: "SET_RANGE"; payload: typeof DATE_RANGES[0] }
+  | { type: "SET_LIVE_STATE"; payload: LiveState }
+  | { type: "SET_REFRESH"; payload: { lastRefresh: Date; refreshAge: string } }
+  | { type: "SET_REFRESH_AGE"; payload: string };
+
+const initialState: HeaderState = {
+  user: null,
+  showUserMenu: false,
+  showDateMenu: false,
+  showMobileMenu: false,
+  selectedRange: DATE_RANGES[0],
+  liveState: { status: "idle" },
+  lastRefresh: new Date(),
+  refreshAge: "just now",
+};
+
+function headerReducer(state: HeaderState, action: HeaderAction): HeaderState {
+  switch (action.type) {
+    case "SET_USER":
+      return { ...state, user: action.payload };
+    case "TOGGLE_USER_MENU":
+      return { ...state, showUserMenu: !state.showUserMenu };
+    case "CLOSE_USER_MENU":
+      return { ...state, showUserMenu: false };
+    case "TOGGLE_DATE_MENU":
+      return { ...state, showDateMenu: !state.showDateMenu };
+    case "CLOSE_DATE_MENU":
+      return { ...state, showDateMenu: false };
+    case "TOGGLE_MOBILE_MENU":
+      return { ...state, showMobileMenu: !state.showMobileMenu };
+    case "SET_RANGE":
+      return { ...state, selectedRange: action.payload, showDateMenu: false, showMobileMenu: false };
+    case "SET_LIVE_STATE":
+      return { ...state, liveState: action.payload, lastRefresh: new Date(), refreshAge: "just now" };
+    case "SET_REFRESH_AGE":
+      return { ...state, refreshAge: action.payload };
+    default:
+      return state;
+  }
+}
+
 export default function Header() {
   const router = useRouter();
-  const [user, setUser] = useState<{ name: string; email: string; role: string } | null>(null);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showDateMenu, setShowDateMenu] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [selectedRange, setSelectedRange] = useState(DATE_RANGES[0]);
-  const [liveState, setLiveState] = useState<LiveState>({ status: "idle" });
-  const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
-  const [refreshAge, setRefreshAge] = useState("just now");
+  const [state, dispatch] = useReducer(headerReducer, initialState);
+  const { user, showUserMenu, showDateMenu, selectedRange, liveState, lastRefresh, refreshAge } = state;
+
   const eventSourceRef = useRef<EventSource | null>(null);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -40,7 +94,7 @@ export default function Header() {
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem("amz_user") : null;
     if (stored) {
-      try { setUser(JSON.parse(stored) as { name: string; email: string; role: string }); }
+      try { dispatch({ type: "SET_USER", payload: JSON.parse(stored) as { name: string; email: string; role: string } }); }
       catch { /* ignore */ }
     }
   }, []);
@@ -55,8 +109,7 @@ export default function Header() {
       es.onmessage = (e) => {
         try {
           const data = JSON.parse(e.data as string) as LiveState;
-          setLiveState(data);
-          setLastRefresh(new Date());
+          dispatch({ type: "SET_LIVE_STATE", payload: data });
         } catch { /* ignore */ }
       };
       es.onerror = () => {
@@ -77,17 +130,19 @@ export default function Header() {
   useEffect(() => {
     const interval = setInterval(() => {
       const secs = Math.floor((Date.now() - lastRefresh.getTime()) / 1000);
-      if (secs < 10) setRefreshAge("just now");
-      else if (secs < 60) setRefreshAge(`${secs}s ago`);
-      else setRefreshAge(`${Math.floor(secs / 60)}m ago`);
+      let age: string;
+      if (secs < 10) age = "just now";
+      else if (secs < 60) age = `${secs}s ago`;
+      else age = `${Math.floor(secs / 60)}m ago`;
+      dispatch({ type: "SET_REFRESH_AGE", payload: age });
     }, 5000);
     return () => clearInterval(interval);
   }, [lastRefresh]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setShowUserMenu(false);
-      if (dateMenuRef.current && !dateMenuRef.current.contains(e.target as Node)) setShowDateMenu(false);
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) dispatch({ type: "CLOSE_USER_MENU" });
+      if (dateMenuRef.current && !dateMenuRef.current.contains(e.target as Node)) dispatch({ type: "CLOSE_DATE_MENU" });
     }
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
@@ -101,15 +156,13 @@ export default function Header() {
   }
 
   function selectRange(range: typeof DATE_RANGES[0]) {
-    setSelectedRange(range);
-    setShowDateMenu(false);
-    setShowMobileMenu(false);
+    dispatch({ type: "SET_RANGE", payload: range });
     window.dispatchEvent(new CustomEvent("dateRangeChange", { detail: { from: range.from, to: range.to } }));
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full" style={{ background: "#060A12", borderBottom: "1px solid #1A2437" }}>
-      <div style={{ height: 2, background: "linear-gradient(90deg, #00A8FF 0%, #0047AB 100%)" }} />
+    <header className="sticky top-0 z-50 w-full" style={{ background: "#05080F", borderBottom: "1px solid #182035" }}>
+      <div className="prime-topbar" />
       <div className="max-w-[1600px] mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between gap-3 md:gap-6" style={{ height: 48 }}>
 
@@ -159,7 +212,7 @@ export default function Header() {
             {/* Date range picker - desktop only */}
             <div className="hidden md:block relative" ref={dateMenuRef}>
               <button
-                onClick={() => setShowDateMenu(!showDateMenu)}
+                onClick={() => dispatch({ type: "TOGGLE_DATE_MENU" })}
                 className="flex items-center gap-1 rounded-md"
                 style={{ background: "#0A0F1E", border: "1px solid #1A2437", color: "#8B97AA", fontSize: 11, padding: "5px 9px", cursor: "pointer", whiteSpace: "nowrap" }}
               >
@@ -195,7 +248,7 @@ export default function Header() {
             {/* User menu */}
             <div className="relative" ref={userMenuRef}>
               <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
+                onClick={() => dispatch({ type: "TOGGLE_USER_MENU" })}
                 style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 6px md:8px", borderRadius: 6, border: "1px solid #1A2437", background: "#0A0F1E", cursor: "pointer" }}
               >
                 <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#0047AB", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

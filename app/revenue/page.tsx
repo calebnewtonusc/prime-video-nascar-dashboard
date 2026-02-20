@@ -277,7 +277,7 @@ function SubscriberWaterfall() {
       </div>
 
       <div className="space-y-3">
-        {waterfallData.map((item, idx) => {
+        {waterfallData.map((item) => {
           const isBase = item.isBase;
           const isPositive = item.isPositive;
           const barColor = isBase ? "#1399FF" : isPositive ? "#10B981" : "#EF4444";
@@ -287,7 +287,7 @@ function SubscriberWaterfall() {
           const displayValue = isBase ? item.value : Math.abs(item.value);
 
           return (
-            <div key={idx} className="flex items-center gap-3">
+            <div key={item.label} className="flex items-center gap-3">
               <div className="text-[11px] w-28 flex-shrink-0 text-right pr-2" style={{ color: "#9CA3AF" }}>
                 {item.label}
               </div>
@@ -505,9 +505,9 @@ function InternationalRevenue() {
 
 export default function RevenuePage() {
   return (
-    <div className="min-h-screen" style={{ background: "#080C14" }}>
+    <div className="min-h-screen" style={{ background: "#05080F" }}>
       <Header />
-      <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
+      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 space-y-6">
 
         {/* A) Page header */}
         <div className="flex items-start justify-between">

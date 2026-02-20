@@ -4,26 +4,27 @@
 
 /* ── Design Tokens ───────────────────────────────────── */
 :root {
-  /* Backgrounds */
-  --bg-base:    #060A12;
-  --bg-surface: #0C1220;
-  --bg-raised:  #111827;
-  --bg-overlay: #162032;
+  /* Backgrounds — Prime Video dark */
+  --bg-base:    #05080F;
+  --bg-surface: #0B1119;
+  --bg-raised:  #101822;
+  --bg-overlay: #141E2E;
 
   /* Borders */
-  --border-subtle:  #1A2437;
-  --border-default: #243044;
-  --border-strong:  #2E3F56;
+  --border-subtle:  #182035;
+  --border-default: #22304A;
+  --border-strong:  #2C3D58;
 
   /* Text */
   --text-primary:   #E8ECF4;
   --text-secondary: #8B97AA;
   --text-tertiary:  #4E5E74;
-  --text-inverse:   #060A12;
+  --text-inverse:   #05080F;
 
-  /* Brand */
-  --prime-blue:   #00A8FF;
+  /* Brand — Prime Video signature */
+  --prime-blue:   #00A8E0;
   --prime-blue-d: #0076CC;
+  --prime-glow:   rgba(0,168,224,0.18);
   --amz-orange:   #FF9900;
   --amz-orange-d: #CC7A00;
 
@@ -36,7 +37,7 @@
   --purple: #7C6FFF;
 
   /* Data series colors */
-  --series-1: #00A8FF;
+  --series-1: #00A8E0;
   --series-2: #FF9900;
   --series-3: #00C896;
   --series-4: #7C6FFF;
@@ -141,12 +142,31 @@ body {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
+@keyframes dataRefresh {
+  0%   { opacity: 1; }
+  30%  { opacity: 0.5; }
+  60%  { opacity: 1; }
+}
+@keyframes primeGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,168,224,0); }
+  50%       { box-shadow: 0 0 0 4px rgba(0,168,224,0.12); }
+}
+@keyframes liveRing {
+  0%    { transform: scale(1); opacity: 0.8; }
+  100%  { transform: scale(2.4); opacity: 0; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
 .ai-cursor { animation: blink 1s step-end infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .animate-fade-up  { animation: fadeUp  0.4s ease both; }
 .animate-fade-in  { animation: fadeIn  0.3s ease both; }
 .animate-fade-in-up { animation: fadeUp 0.4s ease both; }
+.animate-data-refresh { animation: dataRefresh 0.6s ease; }
+.animate-prime-glow { animation: primeGlow 3s ease-in-out infinite; }
 
 /* Stagger delays */
 .delay-75  { animation-delay: 75ms; }
@@ -190,6 +210,50 @@ body {
   50%       { opacity: 0.35; }
 }
 .animate-skeleton { animation: pulse 1.5s ease-in-out infinite; }
+
+/* ── Skeleton shimmer ───────────────────────────────── */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #1A2437 25%, #243044 50%, #1A2437 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* ── Prime branded top bar ──────────────────────────── */
+.prime-topbar {
+  height: 2px;
+  background: linear-gradient(90deg, #00A8E0 0%, #0047AB 50%, #FF9900 100%);
+}
+
+/* ── Real-time data pulse ───────────────────────────── */
+.data-live-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.data-live-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #00C896;
+  animation: liveRing 1.8s ease-out infinite;
+}
+
+/* ── Filter active highlight ────────────────────────── */
+.filter-active-glow {
+  box-shadow: 0 0 0 1px rgba(0,168,224,0.3), 0 0 12px rgba(0,168,224,0.08);
+}
+
+/* ── Mobile improvements ────────────────────────────── */
+@media (max-width: 640px) {
+  .mobile-stack { flex-direction: column !important; }
+  .mobile-hide  { display: none !important; }
+  .mobile-full  { width: 100% !important; grid-column: 1/-1 !important; }
+  .mobile-p-sm  { padding: 14px 14px !important; }
+  .mobile-text-sm { font-size: 11px !important; }
+  .mobile-overflow { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
 
 /* ── Section entry animation ────────────────────────── */
 @keyframes sectionIn {

@@ -490,33 +490,33 @@ function ModelPerformanceTable() {
 
 export default function AIInsightsPage() {
   return (
-    <div className="min-h-screen" style={{ background: "#080C14" }}>
+    <div className="min-h-screen" style={{ background: "#05080F" }}>
       <Header />
-      <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
+      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Page title */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2.5 mb-1">
-              <Brain className="w-5 h-5" style={{ color: "#1399FF" }} />
-              <h1 className="text-xl font-black tracking-tight" style={{ color: "#F9FAFB" }}>
+              <Brain className="w-5 h-5" style={{ color: "#00A8E0" }} />
+              <h1 className="text-xl font-black tracking-tight" style={{ color: "#E8ECF4" }}>
                 AI-Powered Analytics
               </h1>
             </div>
-            <p className="text-[12px]" style={{ color: "#6B7280" }}>
-              Powered by Amazon Bedrock &middot; Updated Feb 18, 2026
+            <p className="text-[12px]" style={{ color: "#4E5E74" }}>
+              Powered by Amazon Bedrock &middot; Claude 3 Sonnet &middot; Updated Feb 19, 2026
             </p>
           </div>
           <div
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-semibold flex-shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-semibold flex-shrink-0 w-fit"
             style={{
-              backgroundColor: "rgba(19,153,255,0.10)",
-              border: "1px solid rgba(19,153,255,0.25)",
-              color: "#1399FF",
+              backgroundColor: "rgba(0,168,224,0.10)",
+              border: "1px solid rgba(0,168,224,0.25)",
+              color: "#00A8E0",
             }}
           >
             <span
               className="inline-block w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ backgroundColor: "#1399FF" }}
+              style={{ backgroundColor: "#00A8E0" }}
             />
             Live Analysis
           </div>
@@ -544,13 +544,13 @@ export default function AIInsightsPage() {
         {/* Predictive signals + action buttons */}
         <AIInsights />
 
-        <footer className="text-center py-6 border-t" style={{ borderColor: "#1F2937" }}>
-          <p className="text-[11px]" style={{ color: "#4B5563" }}>
+        <footer className="text-center py-6 border-t" style={{ borderColor: "#182035" }}>
+          <p className="text-[11px]" style={{ color: "#2E4560" }}>
             Amazon Prime Video &middot; NASCAR Cup Series AI Analytics &middot; Q1 2026 &middot;{" "}
-            <span style={{ color: "#374151" }}>CONFIDENTIAL</span>
+            <span style={{ color: "#1A2F45" }}>CONFIDENTIAL</span>
           </p>
-          <p className="text-[11px] mt-1" style={{ color: "#374151" }}>
-            Powered by Amazon Bedrock &middot; Data as of Feb 18, 2026
+          <p className="text-[11px] mt-1" style={{ color: "#1A2F45" }}>
+            Powered by Amazon Bedrock &middot; Data as of Feb 19, 2026
           </p>
         </footer>
       </main>

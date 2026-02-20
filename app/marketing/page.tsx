@@ -264,7 +264,206 @@ function SortIcon({ field, sortField, sortDir }: { field: SortField; sortField: 
   );
 }
 
-// ─── Sortable Campaign Table (client component) ───────────────────────────────
+// ─── Column definitions ────────────────────────────────────────────────────────
+
+type ColDef = { key: string; label: string; sortable: SortField; };
+
+const COLS: ColDef[] = [
+  { key: "campaign", label: "Campaign", sortable: "none" },
+  { key: "channel", label: "Channel", sortable: "none" },
+  { key: "budget", label: "Budget", sortable: "budget" },
+  { key: "impressions", label: "Impressions", sortable: "impressions" },
+  { key: "clicks", label: "Clicks", sortable: "none" },
+  { key: "conv", label: "Conv.", sortable: "conv" },
+  { key: "cpa", label: "CPA", sortable: "cpa" },
+  { key: "roas", label: "ROAS", sortable: "roas" },
+  { key: "status", label: "Status", sortable: "none" },
+];
+
+// ─── CampaignTableToolbar ─────────────────────────────────────────────────────
+
+function CampaignTableToolbar({
+  search,
+  onSearch,
+  onExport,
+}: {
+  search: string;
+  onSearch: (v: string) => void;
+  onExport: () => void;
+}) {
+  return (
+    <div className="flex items-center justify-between mb-4 gap-4">
+      <div>
+        <h2 className="text-base font-bold" style={{ color: "#F9FAFB" }}>
+          Campaign Performance
+        </h2>
+        <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>
+          Q1 2026 · All campaigns · Click columns to sort
+        </p>
+      </div>
+      <div className="flex items-center gap-3">
+        <input
+          type="text"
+          placeholder="Search campaigns..."
+          value={search}
+          onChange={(e) => onSearch(e.target.value)}
+          className="rounded-lg px-3 py-1.5 text-xs outline-none placeholder-[#4B5563] transition-colors"
+          style={{ backgroundColor: "#0D1117", border: "1px solid #1F2937", color: "#F9FAFB", width: "180px" }}
+        />
+        <button
+          onClick={onExport}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:opacity-80"
+          style={{ backgroundColor: "rgba(19,153,255,0.12)", border: "1px solid rgba(19,153,255,0.3)", color: "#1399FF" }}
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Export CSV
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── CampaignTableGrid ────────────────────────────────────────────────────────
+
+function CampaignTableGrid({
+  rows,
+  sortField,
+  sortDir,
+  onSort,
+}: {
+  rows: Campaign[];
+  sortField: SortField;
+  sortDir: SortDir;
+  onSort: (f: SortField) => void;
+}) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr style={{ borderBottom: "1px solid #1F2937" }}>
+            {COLS.map((col) => (
+              <th
+                key={col.key}
+                onClick={() => col.sortable !== "none" && onSort(col.sortable)}
+                className="py-3 px-3 text-left text-[10px] font-semibold uppercase tracking-wider select-none"
+                style={{
+                  color: sortField === col.sortable && col.sortable !== "none" ? "#1399FF" : "#6B7280",
+                  cursor: col.sortable !== "none" ? "pointer" : "default",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span className="inline-flex items-center gap-1">
+                  {col.label}
+                  <SortIcon field={col.sortable} sortField={sortField} sortDir={sortDir} />
+                </span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((c, i) => {
+            const ss = STATUS_STYLE[c.status];
+            return (
+              <tr
+                key={c.name}
+                style={{
+                  borderBottom: i < rows.length - 1 ? "1px solid #1F2937" : undefined,
+                  backgroundColor: c.isBest ? "rgba(245,158,11,0.05)" : "transparent",
+                }}
+              >
+                <td className="py-3 px-3">
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    {c.isBest && (
+                      <span
+                        className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
+                        style={{ backgroundColor: "rgba(245,158,11,0.18)", color: "#F59E0B", border: "1px solid rgba(245,158,11,0.35)" }}
+                      >
+                        Best
+                      </span>
+                    )}
+                    <span className="font-semibold" style={{ color: "#F9FAFB" }}>{c.name}</span>
+                  </div>
+                </td>
+                <td className="py-3 px-3">
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    <span
+                      className="inline-flex items-center justify-center w-5 h-5 rounded text-[9px] font-bold"
+                      style={{ backgroundColor: "#1F2937", color: "#9CA3AF" }}
+                    >
+                      {c.channelKey}
+                    </span>
+                    <span className="text-xs" style={{ color: "#9CA3AF" }}>{c.channel}</span>
+                  </div>
+                </td>
+                <td className="py-3 px-3 font-medium whitespace-nowrap" style={{ color: "#F9FAFB" }}>${c.budget}K</td>
+                <td className="py-3 px-3 whitespace-nowrap" style={{ color: "#9CA3AF" }}>{c.impressions}</td>
+                <td className="py-3 px-3 whitespace-nowrap" style={{ color: "#9CA3AF" }}>{c.clicks}</td>
+                <td className="py-3 px-3 font-medium whitespace-nowrap" style={{ color: "#F9FAFB" }}>{c.conv}K</td>
+                <td
+                  className="py-3 px-3 font-semibold whitespace-nowrap"
+                  style={{ color: c.cpa <= 1 ? "#10B981" : c.cpa <= 5 ? "#FF9900" : "#9CA3AF" }}
+                >
+                  ${c.cpa.toFixed(2)}
+                </td>
+                <td className="py-3 px-3"><RoasBar value={c.roas} max={MAX_ROAS} /></td>
+                <td className="py-3 px-3">
+                  <span
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
+                    style={{ backgroundColor: ss.bg, color: ss.text }}
+                  >
+                    <span
+                      className={`inline-block w-1.5 h-1.5 rounded-full${c.status === "ACTIVE" ? " animate-pulse" : ""}`}
+                      style={{ backgroundColor: ss.text }}
+                    />
+                    {c.status}
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── CampaignTableFooter ──────────────────────────────────────────────────────
+
+function CampaignTableFooter({
+  shownCount,
+  totalCount,
+  hasSearch,
+  onClearSearch,
+}: {
+  shownCount: number;
+  totalCount: number;
+  hasSearch: boolean;
+  onClearSearch: () => void;
+}) {
+  return (
+    <div className="mt-4 pt-3 flex items-center justify-between" style={{ borderTop: "1px solid #1F2937" }}>
+      <p className="text-[11px]" style={{ color: "#6B7280" }}>
+        Showing {shownCount} of {totalCount} campaigns
+        {hasSearch && (
+          <button
+            className="ml-2 underline underline-offset-2"
+            style={{ color: "#1399FF", background: "none", border: "none", padding: 0, font: "inherit", cursor: "pointer" }}
+            onClick={onClearSearch}
+          >
+            Clear filter
+          </button>
+        )}
+      </p>
+      <p className="text-[10px]" style={{ color: "#4B5563" }}>
+        Data as of Feb 18, 2026 · Conversions = paid subscriptions (30-day attribution)
+      </p>
+    </div>
+  );
+}
+
+// ─── Sortable Campaign Table ──────────────────────────────────────────────────
 
 function CampaignTable() {
   const [sortField, setSortField] = useState<SortField>("none");
@@ -284,34 +483,12 @@ function CampaignTable() {
     let rows = [...CAMPAIGNS];
     if (search.trim()) {
       const q = search.toLowerCase();
-      rows = rows.filter(
-        (c) =>
-          c.name.toLowerCase().includes(q) ||
-          c.channel.toLowerCase().includes(q)
-      );
+      rows = rows.filter((c) => c.name.toLowerCase().includes(q) || c.channel.toLowerCase().includes(q));
     }
     if (sortField !== "none") {
       rows.sort((a, b) => {
-        const av =
-          sortField === "cpa"
-            ? a.cpa
-            : sortField === "roas"
-            ? a.roas
-            : sortField === "budget"
-            ? a.budget
-            : sortField === "conv"
-            ? a.conv
-            : a.impressionsRaw;
-        const bv =
-          sortField === "cpa"
-            ? b.cpa
-            : sortField === "roas"
-            ? b.roas
-            : sortField === "budget"
-            ? b.budget
-            : sortField === "conv"
-            ? b.conv
-            : b.impressionsRaw;
+        const av = sortField === "cpa" ? a.cpa : sortField === "roas" ? a.roas : sortField === "budget" ? a.budget : sortField === "conv" ? a.conv : a.impressionsRaw;
+        const bv = sortField === "cpa" ? b.cpa : sortField === "roas" ? b.roas : sortField === "budget" ? b.budget : sortField === "conv" ? b.conv : b.impressionsRaw;
         return sortDir === "asc" ? av - bv : bv - av;
       });
     }
@@ -319,28 +496,8 @@ function CampaignTable() {
   }, [sortField, sortDir, search]);
 
   function exportCSV() {
-    const headers = [
-      "Campaign",
-      "Channel",
-      "Budget ($K)",
-      "Impressions",
-      "Clicks",
-      "Conversions (K)",
-      "CPA ($)",
-      "ROAS (x)",
-      "Status",
-    ];
-    const rows = CAMPAIGNS.map((c) => [
-      c.name,
-      c.channel,
-      c.budget,
-      c.impressions,
-      c.clicks,
-      c.conv,
-      c.cpa,
-      c.roas,
-      c.status,
-    ]);
+    const headers = ["Campaign", "Channel", "Budget ($K)", "Impressions", "Clicks", "Conversions (K)", "CPA ($)", "ROAS (x)", "Status"];
+    const rows = CAMPAIGNS.map((c) => [c.name, c.channel, c.budget, c.impressions, c.clicks, c.conv, c.cpa, c.roas, c.status]);
     const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
@@ -351,228 +508,16 @@ function CampaignTable() {
     URL.revokeObjectURL(url);
   }
 
-  type ColDef = {
-    key: string;
-    label: string;
-    sortable: SortField;
-    align?: string;
-  };
-
-  const COLS: ColDef[] = [
-    { key: "campaign", label: "Campaign", sortable: "none" },
-    { key: "channel", label: "Channel", sortable: "none" },
-    { key: "budget", label: "Budget", sortable: "budget" },
-    { key: "impressions", label: "Impressions", sortable: "impressions" },
-    { key: "clicks", label: "Clicks", sortable: "none" },
-    { key: "conv", label: "Conv.", sortable: "conv" },
-    { key: "cpa", label: "CPA", sortable: "cpa" },
-    { key: "roas", label: "ROAS", sortable: "roas" },
-    { key: "status", label: "Status", sortable: "none" },
-  ];
-
   return (
-    <div
-      className="rounded-xl p-6"
-      style={{ backgroundColor: "#111827", border: "1px solid #1F2937" }}
-    >
-      {/* Table header row */}
-      <div className="flex items-center justify-between mb-4 gap-4">
-        <div>
-          <h2 className="text-base font-bold" style={{ color: "#F9FAFB" }}>
-            Campaign Performance
-          </h2>
-          <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>
-            Q1 2026 · All campaigns · Click columns to sort
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <input
-            type="text"
-            placeholder="Search campaigns..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="rounded-lg px-3 py-1.5 text-xs outline-none placeholder-[#4B5563] transition-colors"
-            style={{
-              backgroundColor: "#0D1117",
-              border: "1px solid #1F2937",
-              color: "#F9FAFB",
-              width: "180px",
-            }}
-          />
-          <button
-            onClick={exportCSV}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:opacity-80"
-            style={{
-              backgroundColor: "rgba(19,153,255,0.12)",
-              border: "1px solid rgba(19,153,255,0.3)",
-              color: "#1399FF",
-            }}
-          >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Export CSV
-          </button>
-        </div>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr style={{ borderBottom: "1px solid #1F2937" }}>
-              {COLS.map((col) => (
-                <th
-                  key={col.key}
-                  onClick={() => col.sortable !== "none" && handleSort(col.sortable)}
-                  className="py-3 px-3 text-left text-[10px] font-semibold uppercase tracking-wider select-none"
-                  style={{
-                    color: sortField === col.sortable && col.sortable !== "none" ? "#1399FF" : "#6B7280",
-                    cursor: col.sortable !== "none" ? "pointer" : "default",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <span className="inline-flex items-center gap-1">
-                    {col.label}
-                    <SortIcon field={col.sortable} sortField={sortField} sortDir={sortDir} />
-                  </span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((c, i) => {
-              const ss = STATUS_STYLE[c.status];
-              return (
-                <tr
-                  key={c.name}
-                  style={{
-                    borderBottom:
-                      i < filtered.length - 1 ? "1px solid #1F2937" : undefined,
-                    backgroundColor: c.isBest
-                      ? "rgba(245,158,11,0.05)"
-                      : "transparent",
-                  }}
-                >
-                  {/* Campaign */}
-                  <td className="py-3 px-3">
-                    <div className="flex items-center gap-2 whitespace-nowrap">
-                      {c.isBest && (
-                        <span
-                          className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
-                          style={{
-                            backgroundColor: "rgba(245,158,11,0.18)",
-                            color: "#F59E0B",
-                            border: "1px solid rgba(245,158,11,0.35)",
-                          }}
-                        >
-                          Best
-                        </span>
-                      )}
-                      <span className="font-semibold" style={{ color: "#F9FAFB" }}>
-                        {c.name}
-                      </span>
-                    </div>
-                  </td>
-
-                  {/* Channel */}
-                  <td className="py-3 px-3">
-                    <div className="flex items-center gap-2 whitespace-nowrap">
-                      <span
-                        className="inline-flex items-center justify-center w-5 h-5 rounded text-[9px] font-bold"
-                        style={{
-                          backgroundColor: "#1F2937",
-                          color: "#9CA3AF",
-                        }}
-                      >
-                        {c.channelKey}
-                      </span>
-                      <span className="text-xs" style={{ color: "#9CA3AF" }}>
-                        {c.channel}
-                      </span>
-                    </div>
-                  </td>
-
-                  {/* Budget */}
-                  <td className="py-3 px-3 font-medium whitespace-nowrap" style={{ color: "#F9FAFB" }}>
-                    ${c.budget}K
-                  </td>
-
-                  {/* Impressions */}
-                  <td className="py-3 px-3 whitespace-nowrap" style={{ color: "#9CA3AF" }}>
-                    {c.impressions}
-                  </td>
-
-                  {/* Clicks */}
-                  <td className="py-3 px-3 whitespace-nowrap" style={{ color: "#9CA3AF" }}>
-                    {c.clicks}
-                  </td>
-
-                  {/* Conv. */}
-                  <td className="py-3 px-3 font-medium whitespace-nowrap" style={{ color: "#F9FAFB" }}>
-                    {c.conv}K
-                  </td>
-
-                  {/* CPA */}
-                  <td
-                    className="py-3 px-3 font-semibold whitespace-nowrap"
-                    style={{
-                      color:
-                        c.cpa <= 1
-                          ? "#10B981"
-                          : c.cpa <= 5
-                          ? "#FF9900"
-                          : "#9CA3AF",
-                    }}
-                  >
-                    ${c.cpa.toFixed(2)}
-                  </td>
-
-                  {/* ROAS */}
-                  <td className="py-3 px-3">
-                    <RoasBar value={c.roas} max={MAX_ROAS} />
-                  </td>
-
-                  {/* Status */}
-                  <td className="py-3 px-3">
-                    <span
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
-                      style={{ backgroundColor: ss.bg, color: ss.text }}
-                    >
-                      <span
-                        className={`inline-block w-1.5 h-1.5 rounded-full${c.status === "ACTIVE" ? " animate-pulse" : ""}`}
-                        style={{ backgroundColor: ss.text }}
-                      />
-                      {c.status}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Pagination footer */}
-      <div
-        className="mt-4 pt-3 flex items-center justify-between"
-        style={{ borderTop: "1px solid #1F2937" }}
-      >
-        <p className="text-[11px]" style={{ color: "#6B7280" }}>
-          Showing {filtered.length} of {CAMPAIGNS.length} campaigns
-          {search && (
-            <span
-              className="ml-2 cursor-pointer underline underline-offset-2"
-              style={{ color: "#1399FF" }}
-              onClick={() => setSearch("")}
-            >
-              Clear filter
-            </span>
-          )}
-        </p>
-        <p className="text-[10px]" style={{ color: "#4B5563" }}>
-          Data as of Feb 18, 2026 · Conversions = paid subscriptions (30-day attribution)
-        </p>
-      </div>
+    <div className="rounded-xl p-6" style={{ backgroundColor: "#111827", border: "1px solid #1F2937" }}>
+      <CampaignTableToolbar search={search} onSearch={setSearch} onExport={exportCSV} />
+      <CampaignTableGrid rows={filtered} sortField={sortField} sortDir={sortDir} onSort={handleSort} />
+      <CampaignTableFooter
+        shownCount={filtered.length}
+        totalCount={CAMPAIGNS.length}
+        hasSearch={!!search}
+        onClearSearch={() => setSearch("")}
+      />
     </div>
   );
 }
@@ -840,9 +785,9 @@ function RecommendationsCard() {
 
 export default function MarketingPage() {
   return (
-    <div className="min-h-screen" style={{ background: "#080C14" }}>
+    <div className="min-h-screen" style={{ background: "#05080F" }}>
       <Header />
-      <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
+      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 space-y-6">
         {/* Page title */}
         <div>
           <h1 className="text-xl font-black tracking-tight" style={{ color: "#F9FAFB" }}>
