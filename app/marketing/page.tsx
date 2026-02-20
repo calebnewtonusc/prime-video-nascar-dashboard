@@ -112,9 +112,9 @@ const CAMPAIGNS: Campaign[] = [
 const CHANNEL_MIX = [
   { name: "TV Spots", value: 41.8, color: "#1399FF" },
   { name: "Social", value: 26.6, color: "#FF9900" },
-  { name: "Programmatic", value: 18.5, color: "#10B981" },
-  { name: "Influencer", value: 11.4, color: "#F59E0B" },
-  { name: "Email", value: 1.7, color: "#8B5CF6" },
+  { name: "Programmatic", value: 18.5, color: "#4A7090" },
+  { name: "Influencer", value: 11.4, color: "#3D5A78" },
+  { name: "Email", value: 1.7, color: "#6B7280" },
 ];
 
 const ROAS_BY_CHANNEL = [
@@ -136,7 +136,7 @@ const RECOMMENDATIONS = [
     number: "02",
     title: "Scale Race Day Email",
     body: "31.2\u00d7 ROAS at $0.38 CPA — increase list size to 12M with NASCAR fan acquisition from Daytona 500 data.",
-    accentColor: "#10B981",
+    accentColor: "#1399FF",
   },
   {
     number: "03",
@@ -865,7 +865,7 @@ export default function MarketingPage() {
             label="Total Conversions"
             value="210K"
             sub="subscribers acquired"
-            color="#10B981"
+            color="#1399FF"
           />
           <KpiCard
             label="Blended CPA"
@@ -877,7 +877,7 @@ export default function MarketingPage() {
             label="Best ROAS"
             value="31.2\u00d7"
             sub="Race Day Email"
-            color="#F59E0B"
+            color="#FF9900"
           />
         </div>
 

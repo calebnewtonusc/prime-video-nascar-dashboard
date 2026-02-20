@@ -31,17 +31,17 @@ const monthlyData = [
 const revenuePerRace = [
   { race: "Daytona 500", revenue: 3.2, color: "#FF9900" },
   { race: "Phoenix", revenue: 0.9, color: "#1399FF" },
-  { race: "Las Vegas", revenue: 0.9, color: "#10B981" },
-  { race: "Bristol", revenue: 0.8, color: "#8B5CF6" },
-  { race: "COTA", revenue: 0.8, color: "#EC4899" },
-  { race: "Atlanta", revenue: 0.7, color: "#F59E0B" },
+  { race: "Las Vegas", revenue: 0.9, color: "#4A7090" },
+  { race: "Bristol", revenue: 0.8, color: "#4A7090" },
+  { race: "COTA", revenue: 0.8, color: "#3D5A78" },
+  { race: "Atlanta", revenue: 0.7, color: "#3D5A78" },
 ];
 
 const adBreakdownData = [
   { name: "Daytona 500", value: 1.2, color: "#FF9900" },
   { name: "Las Vegas (proj)", value: 0.4, color: "#1399FF" },
-  { name: "Phoenix (proj)", value: 0.4, color: "#10B981" },
-  { name: "Other Races", value: 0.8, color: "#8B5CF6" },
+  { name: "Phoenix (proj)", value: 0.4, color: "#4A7090" },
+  { name: "Other Races", value: 0.8, color: "#3D5A78" },
   { name: "Non-race Content", value: 0.2, color: "#6B7280" },
 ];
 
@@ -173,7 +173,7 @@ function MonthlyRevenueTrend() {
             />
             <Bar dataKey="subs" name="Subscriptions" fill="#1399FF" radius={[4, 4, 0, 0]} opacity={0.9} />
             <Bar dataKey="ads" name="Advertising" fill="#FF9900" radius={[4, 4, 0, 0]} opacity={0.9} />
-            <Bar dataKey="intl" name="International" fill="#10B981" radius={[4, 4, 0, 0]} opacity={0.9} />
+            <Bar dataKey="intl" name="International" fill="#4E5E74" radius={[4, 4, 0, 0]} opacity={0.9} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -533,7 +533,7 @@ export default function RevenuePage() {
             label="Q1 Revenue"
             value="$12.8M"
             sub="+18% YoY"
-            accent="#10B981"
+            accent="#1399FF"
           />
           <KpiCard
             label="Prime Sub Revenue"
@@ -551,7 +551,7 @@ export default function RevenuePage() {
             label="ARPU"
             value="$37.50"
             sub="Per new subscriber"
-            accent="#8B5CF6"
+            accent="#9CA3AF"
           />
         </div>
 

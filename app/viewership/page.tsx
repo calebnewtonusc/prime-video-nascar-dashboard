@@ -22,35 +22,35 @@ const weekly = [
 ];
 
 const devices = [
-  { name: "Smart TV",      value: 42, color: "#00A8FF" },
-  { name: "Mobile",        value: 28, color: "#7C6FFF" },
-  { name: "Desktop/Web",   value: 18, color: "#00C896" },
-  { name: "Tablet",        value: 7,  color: "#FF9900" },
-  { name: "Other",         value: 5,  color: "#4E5E74" },
+  { name: "Smart TV",      value: 42, color: "#1399FF" },
+  { name: "Mobile",        value: 28, color: "#4A7090" },
+  { name: "Desktop/Web",   value: 18, color: "#FF9900" },
+  { name: "Tablet",        value: 7,  color: "#4E5E74" },
+  { name: "Other",         value: 5,  color: "#2E3D4F" },
 ];
 
 const demographics = [
-  { group: "18–24", pct: 14, color: "#7C6FFF" },
-  { group: "25–34", pct: 28, color: "#00A8FF" },
-  { group: "35–44", pct: 26, color: "#00A8FF" },
+  { group: "18–24", pct: 14, color: "#4E5E74" },
+  { group: "25–34", pct: 28, color: "#1399FF" },
+  { group: "35–44", pct: 26, color: "#1399FF" },
   { group: "45–54", pct: 19, color: "#4E5E74" },
   { group: "55+",   pct: 13, color: "#4E5E74" },
 ];
 
 const sessions = [
-  { duration: "<15 min", count: 8, color: "#FF4F5B" },
-  { duration: "15–30",   count: 12, color: "#FF9900" },
-  { duration: "30–60",   count: 18, color: "#F59E0B" },
-  { duration: "60–120",  count: 31, color: "#00A8FF" },
-  { duration: "120–180", count: 22, color: "#00C896" },
-  { duration: "180+",    count: 9,  color: "#00C896" },
+  { duration: "<15 min", count: 8, color: "#3D5A78" },
+  { duration: "15–30",   count: 12, color: "#3D5A78" },
+  { duration: "30–60",   count: 18, color: "#3D5A78" },
+  { duration: "60–120",  count: 31, color: "#1399FF" },
+  { duration: "120–180", count: 22, color: "#1399FF" },
+  { duration: "180+",    count: 9,  color: "#FF9900" },
 ];
 
 function SectionDivider({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div style={{ width: 2, height: 14, borderRadius: 2, background: "linear-gradient(180deg, #00A8FF 0%, #0047AB 100%)", flexShrink: 0 }} />
-      <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#00A8FF" }}>
+      <div style={{ width: 2, height: 14, borderRadius: 2, background: "#3D5A78", flexShrink: 0 }} />
+      <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#3D5A78" }}>
         {label}
       </span>
       <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, #1A2437 0%, transparent 100%)" }} />
@@ -70,7 +70,7 @@ export default function ViewershipPage() {
         {/* Page title */}
         <div className="flex items-center gap-3">
           <h1 style={{ fontSize: 18, fontWeight: 700, color: "#E8ECF4" }}>Viewership Analytics</h1>
-          <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 3, background: "rgba(0,168,255,0.1)", color: "#00A8FF", border: "1px solid rgba(0,168,255,0.2)", textTransform: "uppercase", letterSpacing: "0.07em" }}>Q1 2026</span>
+          <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 3, background: "rgba(19,153,255,0.08)", color: "#1399FF", border: "1px solid rgba(19,153,255,0.18)", textTransform: "uppercase", letterSpacing: "0.07em" }}>Q1 2026</span>
         </div>
 
         {/* ── Race-by-Race Viewership ── */}
@@ -92,7 +92,7 @@ export default function ViewershipPage() {
                 </div>
                 <div className="text-right">
                   <p style={{ fontSize: 11, color: "#4E5E74" }}>Peak</p>
-                  <p style={{ fontSize: 16, fontWeight: 800, color: "#00C896", fontVariantNumeric: "tabular-nums" }}>{peakWeek.viewers}M</p>
+                  <p style={{ fontSize: 16, fontWeight: 800, color: "#1399FF", fontVariantNumeric: "tabular-nums" }}>{peakWeek.viewers}M</p>
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@ export default function ViewershipPage() {
             <div className="mt-3 p-3 rounded-lg" style={{ background: "#060A12" }}>
               <p style={{ fontSize: 11, color: "#8B97AA" }}>
                 Core 25–44 demo: <strong style={{ color: "#E8ECF4" }}>54%</strong> of viewers ·{" "}
-                18–34 growing fastest at <strong style={{ color: "#00C896" }}>+34% YoY</strong>
+                18–34 growing fastest at <strong style={{ color: "#1399FF" }}>+34% YoY</strong>
               </p>
             </div>
           </div>
@@ -200,7 +200,7 @@ export default function ViewershipPage() {
             <div className="mt-3 p-3 rounded-lg" style={{ background: "#060A12" }}>
               <p style={{ fontSize: 11, color: "#8B97AA" }}>
                 <strong style={{ color: "#E8ECF4" }}>62%</strong> of sessions exceed 60 min ·{" "}
-                Full-race viewers: <strong style={{ color: "#00C896" }}>+8% YoY</strong>
+                Full-race viewers: <strong style={{ color: "#1399FF" }}>+8% YoY</strong>
               </p>
             </div>
           </div>
