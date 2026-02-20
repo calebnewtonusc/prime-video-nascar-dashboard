@@ -69,7 +69,7 @@ function BudgetBar({ spend, budget }: { spend: number; budget: number }) {
 }
 
 function RoasCell({ roas }: { roas: number }) {
-  const color = roas >= 20 ? "#00C896" : roas >= 10 ? "#00A8FF" : roas >= 5 ? "#F59E0B" : "#FF4F5B";
+  const color = roas >= 20 ? "#1399FF" : roas >= 10 ? "#1399FF" : roas >= 5 ? "#4A7090" : "#4E5E74";
   return (
     <div className="flex items-center gap-1.5">
       <div style={{ width: 28, height: 4, background: "#1A2437", borderRadius: 2, overflow: "hidden" }}>

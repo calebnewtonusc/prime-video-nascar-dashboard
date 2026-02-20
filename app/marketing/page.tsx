@@ -194,11 +194,11 @@ function RoasBar({ value, max }: { value: number; max: number }) {
   const pct = Math.min((value / max) * 100, 100);
   const color =
     pct >= 80
-      ? "#10B981"
+      ? "#1399FF"
       : pct >= 50
       ? "#FF9900"
       : pct >= 25
-      ? "#F59E0B"
+      ? "#4A7090"
       : "#6B7280";
   return (
     <div className="flex items-center gap-2 min-w-[130px]">
