@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 
 const RACES = [
   { name: "Daytona 500",         track: "Daytona Int'l",   date: "Feb 16", viewers: 8.2, tvRating: 4.1, streamShare: 38, status: "Completed", winner: "C. Elliott" },
@@ -17,16 +17,16 @@ const STATUS_COLORS: Record<string, { bg: string; color: string; border: string 
 };
 
 function useCountdown(targetDate: Date) {
-  const [timeLeft, setTimeLeft] = useState("");
+  const [timeLeft, dispatch] = useReducer((_: string, next: string) => next, "");
   useEffect(() => {
     function update() {
       const diff = targetDate.getTime() - Date.now();
-      if (diff <= 0) { setTimeLeft("LIVE"); return; }
+      if (diff <= 0) { dispatch("LIVE"); return; }
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
-      setTimeLeft(`${d}d ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`);
+      dispatch(`${d}d ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`);
     }
     update();
     const id = setInterval(update, 1000);

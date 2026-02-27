@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
-export interface FilterState {
+interface FilterState {
   selectedRace: string;       // race id or "all"
   selectedDriver: string;     // driver name or "all"
   selectedTeam: string;       // team name or "all"

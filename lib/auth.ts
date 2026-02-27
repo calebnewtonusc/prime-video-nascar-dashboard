@@ -7,7 +7,7 @@
 export const SESSION_COOKIE = "amz_nascar_session";
 export const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours (Amazon standard session)
 
-export interface SessionUser {
+interface SessionUser {
   email: string;
   name: string;
   team: string;
@@ -16,7 +16,7 @@ export interface SessionUser {
 }
 
 // Hardcoded demo credential — replace with Midway SSO in prod
-export const DEMO_CREDENTIALS = [
+const DEMO_CREDENTIALS = [
   { email: "analytics@amazon.com", password: "Prime2026!", name: "Analytics Team", team: "Prime Video Strategy", role: "Analyst" },
   { email: "caleb.newton@amazon.com", password: "Prime2026!", name: "Caleb Newton", team: "Prime Video Content", role: "PM" },
 ];

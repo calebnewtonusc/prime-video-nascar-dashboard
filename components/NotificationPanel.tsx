@@ -50,7 +50,14 @@ export default function NotificationPanel() {
       {open && (
         <>
           {/* Backdrop */}
-          <div style={{ position: "fixed", inset: 0, zIndex: 1000 }} onClick={() => setOpen(false)} />
+          <div
+            style={{ position: "fixed", inset: 0, zIndex: 1000 }}
+            onClick={() => setOpen(false)}
+            role="button"
+            tabIndex={0}
+            aria-label="Close notifications"
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " " || e.key === "Escape") setOpen(false); }}
+          />
           {/* Drawer */}
           <div style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: 360, background: "#0C1220", borderLeft: "1px solid #1A2437", zIndex: 1001, display: "flex", flexDirection: "column", boxShadow: "-8px 0 32px rgba(0,0,0,0.4)" }}>
             <div style={{ padding: "16px 20px", borderBottom: "1px solid #1A2437", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -79,6 +86,9 @@ export default function NotificationPanel() {
                     key={n.id}
                     style={{ padding: "14px 20px", borderBottom: "1px solid #1A2437", background: n.read ? "transparent" : "rgba(0,168,255,0.02)", cursor: "pointer" }}
                     onClick={() => setNotes((prev) => prev.map((x) => x.id === n.id ? { ...x, read: true } : x))}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setNotes((prev) => prev.map((x) => x.id === n.id ? { ...x, read: true } : x)); }}
                   >
                     <div style={{ display: "flex", gap: 12 }}>
                       <div style={{ width: 30, height: 30, borderRadius: 6, background: cfg.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>

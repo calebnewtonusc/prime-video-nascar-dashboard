@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import DemoBanner from "@/components/DemoBanner";
 import Link from "next/link";
 import { BarChart2, DollarSign, Target, Cpu, ArrowRight, ArrowUpRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Dashboard | NASCAR Analytics · Prime Video",
+  description: "Q1 2026 Go-To-Market Strategy — Performance & Audience Intelligence overview",
+};
 
 const STATS = [
   { label: "Q1 Unique Viewers", value: "16.4M",   delta: "+23.1%", sub: "vs Q1 2025" },

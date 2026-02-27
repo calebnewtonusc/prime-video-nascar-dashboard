@@ -1,8 +1,14 @@
 "use client";
 import useSWR from "swr";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import dynamic from "next/dynamic";
 import type { RevenueStream } from "@/app/api/revenue/route";
 import ErrorCard from "@/components/ErrorCard";
+
+const PieChart = dynamic(() => import("recharts").then((m) => ({ default: m.PieChart })), { ssr: false });
+const Pie = dynamic(() => import("recharts").then((m) => ({ default: m.Pie })), { ssr: false });
+const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
 
 interface ApiResponse {
   streams: RevenueStream[];
@@ -31,12 +37,14 @@ function Tip({ active, payload }: TProps) {
   );
 }
 
+const SKELETON_DELAYS = [80, 160, 240, 320];
+
 function Skeleton() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <div style={{ height: 220, borderRadius: 8, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite" }} />
-      {[0, 1, 2, 3].map((i) => (
-        <div key={`rev-skeleton-${i}`} style={{ height: 16, borderRadius: 3, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${i * 80}ms` }} />
+      {SKELETON_DELAYS.map((delay) => (
+        <div key={`rev-skeleton-${delay}`} style={{ height: 16, borderRadius: 3, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${delay}ms` }} />
       ))}
     </div>
   );

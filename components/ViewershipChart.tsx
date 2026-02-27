@@ -1,12 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Cell, LabelList,
-} from "recharts";
+import dynamic from "next/dynamic";
 import type { RaceViewershipRecord } from "@/app/api/viewership/route";
 import ErrorCard from "@/components/ErrorCard";
+
+const BarChart = dynamic(() => import("recharts").then((m) => ({ default: m.BarChart })), { ssr: false });
+const Bar = dynamic(() => import("recharts").then((m) => ({ default: m.Bar })), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then((m) => ({ default: m.XAxis })), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then((m) => ({ default: m.YAxis })), { ssr: false });
+const CartesianGrid = dynamic(() => import("recharts").then((m) => ({ default: m.CartesianGrid })), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
+const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
+const LabelList = dynamic(() => import("recharts").then((m) => ({ default: m.LabelList })), { ssr: false });
 
 interface ApiResponse {
   races: RaceViewershipRecord[];
@@ -70,11 +77,14 @@ function Tip({ active, payload }: TProps) {
   );
 }
 
+const SKELETON_HEIGHTS = [180, 60, 50, 70, 55, 65];
+const SKELETON_HEADER_LABELS = ["total", "yoy", "target"] as const;
+
 function ChartSkeleton() {
   return (
     <div style={{ height: 340, display: "flex", alignItems: "flex-end", gap: 12, padding: "28px 16px 20px 40px" }}>
-      {[180, 60, 50, 70, 55, 65].map((h, i) => (
-        <div key={`vs-skeleton-${i}`} className="animate-skeleton" style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animationDelay: `${i * 80}ms` }} />
+      {SKELETON_HEIGHTS.map((h, i) => (
+        <div key={`vs-skeleton-bar-${h}`} className="animate-skeleton" style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animationDelay: `${i * 80}ms` }} />
       ))}
     </div>
   );
@@ -126,8 +136,8 @@ export default function ViewershipChart() {
           </div>
         ) : (
           <div style={{ display: "flex", gap: 20 }}>
-            {[0, 1, 2].map((i) => (
-              <div key={`vs-skeleton-${i}`} style={{ textAlign: "right" }}>
+            {SKELETON_HEADER_LABELS.map((label) => (
+              <div key={`vs-skeleton-header-${label}`} style={{ textAlign: "right" }}>
                 <div style={{ height: 8, width: 40, borderRadius: 3, background: "#1A2437", marginBottom: 4 }} />
                 <div style={{ height: 18, width: 52, borderRadius: 3, background: "#243044" }} />
               </div>
@@ -148,10 +158,10 @@ export default function ViewershipChart() {
               <YAxis tick={{ fill: "#4E5E74", fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={(v: number) => `${v}M`} domain={[0, 10]} />
               <Tooltip content={<Tip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
               <Bar dataKey="v25" name="2025" isAnimationActive={false} radius={[3, 3, 0, 0]} maxBarSize={28}>
-                {data.races.map((r) => <Cell key={r.short} fill="#243044" />)}
+                {data.races.map((r) => <Cell key={`v25-${r.short}`} fill="#243044" />)}
               </Bar>
               <Bar dataKey="v26" name="2026" isAnimationActive={false} radius={[3, 3, 0, 0]} maxBarSize={28}>
-                {data.races.map((r, i) => <Cell key={r.short} fill={i === 0 ? "#9A7030" : "#3A6FA8"} />)}
+                {data.races.map((r, i) => <Cell key={`v26-${r.short}`} fill={i === 0 ? "#9A7030" : "#3A6FA8"} />)}
                 <LabelList dataKey="v26" position="top" style={{ fill: "#8B97AA", fontSize: 10, fontWeight: 600, fontVariantNumeric: "tabular-nums" }} formatter={(v: number) => `${v}M`} />
               </Bar>
             </BarChart>

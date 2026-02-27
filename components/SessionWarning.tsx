@@ -1,14 +1,38 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { Clock, RefreshCw } from "lucide-react";
 
 const SESSION_DURATION_MS = 8 * 60 * 60 * 1000;     // 8 hours
 const WARN_BEFORE_MS      = 15 * 60 * 1000;          // warn 15 min before
 
+interface WarningState {
+  showWarning: boolean;
+  countdown: string;
+  extending: boolean;
+}
+
+type WarningAction =
+  | { type: "TICK"; countdown: string }
+  | { type: "HIDE" }
+  | { type: "EXTEND_START" }
+  | { type: "EXTEND_DONE" };
+
+function warningReducer(state: WarningState, action: WarningAction): WarningState {
+  switch (action.type) {
+    case "TICK":    return { ...state, showWarning: true,  countdown: action.countdown };
+    case "HIDE":    return { ...state, showWarning: false, countdown: "" };
+    case "EXTEND_START": return { ...state, extending: true };
+    case "EXTEND_DONE":  return { ...state, extending: false, showWarning: false };
+    default: return state;
+  }
+}
+
 export default function SessionWarning() {
-  const [showWarning, setShowWarning] = useState(false);
-  const [countdown, setCountdown] = useState("");
-  const [extending, setExtending] = useState(false);
+  const [{ showWarning, countdown, extending }, dispatch] = useReducer(warningReducer, {
+    showWarning: false,
+    countdown: "",
+    extending: false,
+  });
   const loginTime = useRef<number>(Date.now()); // In prod: read from session cookie
 
   useEffect(() => {
@@ -23,12 +47,11 @@ export default function SessionWarning() {
       }
 
       if (remaining <= WARN_BEFORE_MS) {
-        setShowWarning(true);
         const mins = Math.floor(remaining / 60000);
         const secs = Math.floor((remaining % 60000) / 1000);
-        setCountdown(`${mins}:${String(secs).padStart(2, "0")}`);
+        dispatch({ type: "TICK", countdown: `${mins}:${String(secs).padStart(2, "0")}` });
       } else {
-        setShowWarning(false);
+        dispatch({ type: "HIDE" });
       }
     }, 1000);
 
@@ -36,15 +59,15 @@ export default function SessionWarning() {
   }, []);
 
   async function extendSession() {
-    setExtending(true);
+    dispatch({ type: "EXTEND_START" });
     try {
       const res = await fetch("/api/auth/extend", { method: "POST" });
       if (res.ok) {
         loginTime.current = Date.now(); // Reset timer
-        setShowWarning(false);
+        dispatch({ type: "EXTEND_DONE" });
       }
     } catch { /* ignore */ }
-    finally { setExtending(false); }
+    finally { dispatch({ type: "EXTEND_DONE" }); }
   }
 
   if (!showWarning) return null;
