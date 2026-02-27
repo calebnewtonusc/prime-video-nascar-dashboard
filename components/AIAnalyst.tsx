@@ -26,8 +26,6 @@ interface ChatMessage {
 
 interface HealthState {
   status: "checking" | "ok" | "error";
-  models: string[];
-  selectedModel: string;
 }
 
 // ── Suggested prompts ─────────────────────────────────────────────────────────
@@ -46,8 +44,6 @@ const PROMPTS = [
 export default function AIAnalyst() {
   const [health, setHealth] = useState<HealthState>({
     status: "checking",
-    models: [],
-    selectedModel: "llama3.2",
   });
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -66,12 +62,10 @@ export default function AIAnalyst() {
       const r    = await fetch("/api/ai/health");
       const data = await r.json();
       setHealth({
-        status:        data.status,
-        models:        data.models ?? [],
-        selectedModel: data.defaultModel ?? "llama3.2",
+        status: data.status,
       });
     } catch {
-      setHealth({ status: "error", models: [], selectedModel: "llama3.2" });
+      setHealth({ status: "error" });
     }
   }, []);
 
@@ -115,7 +109,6 @@ export default function AIAnalyst() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [...history, { role: "user", content: trimmed }],
-          model: health.selectedModel,
         }),
         signal: abortRef.current.signal,
       });
@@ -123,8 +116,8 @@ export default function AIAnalyst() {
       if (!res.ok) {
         const errData = await res.json().catch(() => ({ error: "Unknown error" }));
         const msg =
-          errData.error === "OLLAMA_NOT_RUNNING"
-            ? "Ollama does not appear to be running. Run `ollama serve` and try again."
+          errData.error === "NO_API_KEY"
+            ? "ANTHROPIC_API_KEY is not configured. Add it to your environment variables and try again."
             : `Error: ${errData.error}`;
         setMessages((prev) => [
           ...prev.slice(0, -1),
@@ -133,36 +126,20 @@ export default function AIAnalyst() {
         return;
       }
 
-      // Stream parsing — Ollama native NDJSON format from /api/chat
-      // Each line: {"message":{"role":"assistant","content":"..."},"done":false}
+      // Stream parsing — plain text chunks from Anthropic
       const reader  = res.body!.getReader();
       const decoder = new TextDecoder();
-      let buf  = "";
       let full = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        buf += decoder.decode(value, { stream: true });
-        const lines = buf.split("\n");
-        buf = lines.pop() ?? "";
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-          try {
-            const chunk = JSON.parse(trimmed);
-            const delta = chunk.message?.content ?? "";
-            full += delta;
-            setMessages((prev) => [
-              ...prev.slice(0, -1),
-              { role: "assistant", content: full, streaming: !chunk.done },
-            ]);
-          } catch {
-            // skip malformed chunk
-          }
-        }
+        full += decoder.decode(value, { stream: true });
+        setMessages((prev) => [
+          ...prev.slice(0, -1),
+          { role: "assistant", content: full, streaming: true },
+        ]);
       }
 
       // Mark done — remove streaming flag
@@ -174,7 +151,7 @@ export default function AIAnalyst() {
       if ((err as Error).name !== "AbortError") {
         setMessages((prev) => [
           ...prev.slice(0, -1),
-          { role: "assistant", content: "Request failed. Ensure Ollama is running (`ollama serve`) and try again." },
+          { role: "assistant", content: "Request failed. Ensure ANTHROPIC_API_KEY is configured and try again." },
         ]);
       }
     } finally {
@@ -234,7 +211,7 @@ export default function AIAnalyst() {
           </div>
           <div>
             <span style={{ fontSize: 13, fontWeight: 800, color: "#E8ECF4" }}>AI Analyst</span>
-            <span style={{ fontSize: 10, color: "#4E5E74", marginLeft: 6 }}>Ollama Cloud</span>
+            <span style={{ fontSize: 10, color: "#4E5E74", marginLeft: 6 }}>Claude AI</span>
           </div>
 
           {health.status === "checking" && (
@@ -252,7 +229,7 @@ export default function AIAnalyst() {
                 marginLeft: 4,
               }}
             >
-              ● {health.selectedModel.replace(/:latest$/, "")}
+              ● claude-sonnet-4-6
             </span>
           )}
           {health.status === "error" && (
@@ -272,23 +249,6 @@ export default function AIAnalyst() {
 
         {/* Right: controls */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {health.status === "ok" && health.models.length > 1 && (
-            <select
-              value={health.selectedModel}
-              onChange={(e) => setHealth((h) => ({ ...h, selectedModel: e.target.value }))}
-              style={{
-                fontSize: 11, background: "#0C1220",
-                border: "1px solid #1A2437", borderRadius: 5,
-                padding: "3px 7px", color: "#8B97AA", cursor: "pointer",
-                outline: "none",
-              }}
-            >
-              {health.models.map((m) => (
-                <option key={m} value={m}>{m.replace(/:latest$/, "")}</option>
-              ))}
-            </select>
-          )}
-
           {messages.length > 0 && !isLoading && (
             <button
               onClick={() => setMessages([])}
@@ -331,12 +291,12 @@ export default function AIAnalyst() {
             <AlertCircle size={14} style={{ color: "#FF4F5B", flexShrink: 0, marginTop: 1 }} />
             <div>
               <p style={{ fontSize: 12, fontWeight: 700, color: "#E8ECF4", marginBottom: 4 }}>
-                Ollama Cloud API key not configured
+                Anthropic API key not configured
               </p>
               <p style={{ fontSize: 11, color: "#8B97AA", lineHeight: 1.65 }}>
                 Add your{" "}
                 <code style={{ fontSize: 10, background: "#060A12", padding: "1px 5px", borderRadius: 3, color: "#3A6FA8", fontFamily: "monospace" }}>
-                  OLLAMA_API_KEY
+                  ANTHROPIC_API_KEY
                 </code>
                 {" "}environment variable to enable real-time AI analysis.
               </p>
@@ -357,8 +317,8 @@ export default function AIAnalyst() {
               </span>
             </div>
             {[
-              { step: "1. Get your API key at", cmd: "ollama.com/settings/api-keys" },
-              { step: "2. Add to Vercel environment variables", cmd: "OLLAMA_API_KEY=<your_key>" },
+              { step: "1. Get your API key at", cmd: "console.anthropic.com" },
+              { step: "2. Add to Vercel: ANTHROPIC_API_KEY=<your_key>", cmd: "" },
             ].map(({ step, cmd }) => (
               <div key={step} style={{ marginBottom: 8 }}>
                 <span style={{ fontSize: 10, color: "#4E5E74" }}>{step}</span>
@@ -368,7 +328,7 @@ export default function AIAnalyst() {
               </div>
             ))}
             <p style={{ fontSize: 10, color: "#2E3F56", marginTop: 6 }}>
-              Available models: gpt-oss:120b · deepseek-v3.1:671b · qwen3-coder:480b · llama3.2
+              Model: claude-sonnet-4-6
             </p>
           </div>
 
@@ -630,7 +590,7 @@ export default function AIAnalyst() {
               }}
               placeholder={
                 health.status === "checking"
-                  ? "Connecting to Ollama…"
+                  ? "Connecting to Claude AI…"
                   : "Ask about the data… (Enter to send, Shift+Enter for new line)"
               }
               disabled={health.status !== "ok" || isLoading}

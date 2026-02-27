@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const API_KEY    = process.env.OLLAMA_API_KEY ?? "";
-const OLLAMA_BASE = process.env.OLLAMA_BASE_URL ?? "https://api.ollama.com";
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // ── Full Q1 2026 NASCAR data context injected into every request ──────────────
 const SYSTEM_PROMPT = `You are an expert AI analytics assistant embedded in Amazon Prime Video's NASCAR Cup Series Q1 2026 analytics dashboard. You have deep knowledge of all the data below and act as a strategic advisor to Amazon's content & marketing teams.
@@ -81,12 +81,10 @@ Respond as a world-class strategy consultant. Be direct, data-driven, and concis
 
 export async function POST(req: NextRequest) {
   let messages: { role: string; content: string }[] = [];
-  let model = "llama3.2";
 
   try {
     const body = await req.json();
     messages = body.messages ?? [];
-    model = body.model ?? "llama3.2";
   } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
       status: 400,
@@ -94,42 +92,43 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Trim history to avoid context overflow on small models
-  const trimmedMessages = messages.slice(-16);
-
-  if (!API_KEY) {
+  if (!process.env.ANTHROPIC_API_KEY) {
     return new Response(JSON.stringify({ error: "NO_API_KEY" }), {
       status: 503, headers: { "Content-Type": "application/json" },
     });
   }
 
+  const trimmedMessages = messages.slice(-16) as Array<{ role: "user" | "assistant"; content: string }>;
+
   try {
-    const ollamaRes = await fetch(`${OLLAMA_BASE}/api/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...trimmedMessages],
-        stream: true,
-        options: { temperature: 0.65, num_predict: 512 },
-      }),
+    const stream = anthropic.messages.stream({
+      model: "claude-sonnet-4-6",
+      max_tokens: 512,
+      system: SYSTEM_PROMPT,
+      messages: trimmedMessages,
     });
 
-    if (!ollamaRes.ok) {
-      const text = await ollamaRes.text();
-      return new Response(JSON.stringify({ error: text }), {
-        status: ollamaRes.status,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            if (
+              chunk.type === "content_block_delta" &&
+              chunk.delta.type === "text_delta"
+            ) {
+              controller.enqueue(encoder.encode(chunk.delta.text));
+            }
+          }
+        } finally {
+          controller.close();
+        }
+      },
+    });
 
-    // Pipe the SSE stream straight back to the client
-    return new Response(ollamaRes.body, {
+    return new Response(readable, {
       headers: {
-        "Content-Type": "text/event-stream",
+        "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
         "X-Accel-Buffering": "no",
         "Connection": "keep-alive",
@@ -137,9 +136,8 @@ export async function POST(req: NextRequest) {
     });
   } catch (err: unknown) {
     const msg = String(err);
-    const isDown = msg.includes("ECONNREFUSED") || msg.includes("fetch failed") || msg.includes("ENOTFOUND");
     return new Response(
-      JSON.stringify({ error: isDown ? "OLLAMA_NOT_RUNNING" : msg }),
+      JSON.stringify({ error: msg }),
       { status: 503, headers: { "Content-Type": "application/json" } }
     );
   }
