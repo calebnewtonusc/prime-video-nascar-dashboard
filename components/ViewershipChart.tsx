@@ -82,10 +82,16 @@ const SKELETON_HEADER_LABELS = ["total", "yoy", "target"] as const;
 
 function ChartSkeleton() {
   return (
-    <div style={{ height: 340, display: "flex", alignItems: "flex-end", gap: 12, padding: "28px 16px 20px 40px" }}>
-      {SKELETON_HEIGHTS.map((h, i) => (
-        <div key={`vs-skeleton-bar-${h}`} className="animate-skeleton" style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animationDelay: `${i * 80}ms` }} />
-      ))}
+    <div style={{ height: 340, position: "relative" }}>
+      <div style={{ height: "100%", display: "flex", alignItems: "flex-end", gap: 12, padding: "28px 16px 20px 40px" }}>
+        {SKELETON_HEIGHTS.map((h, i) => (
+          <div key={`vs-skeleton-bar-${h}`} className="animate-skeleton" style={{ flex: 1, height: h, borderRadius: "3px 3px 0 0", background: "#1A2437", animationDelay: `${i * 80}ms` }} />
+        ))}
+      </div>
+      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", display: "flex", alignItems: "center", gap: 10 }}>
+        <div className="whirl-chart-spinner" aria-hidden="true" />
+        <span style={{ fontSize: 11, color: "var(--text-tertiary)" }}>Loading chart data…</span>
+      </div>
     </div>
   );
 }

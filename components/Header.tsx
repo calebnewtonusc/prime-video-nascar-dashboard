@@ -161,7 +161,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full" style={{ background: "#05080F", borderBottom: "1px solid #182035" }}>
+    <header className="sticky top-0 z-50 w-full" style={{ background: "rgba(5,8,15,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderBottom: "2px solid rgba(0,168,224,0.35)" }}>
       <div className="prime-topbar" />
       <div className="max-w-[1600px] mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between gap-3 md:gap-6" style={{ height: 48 }}>

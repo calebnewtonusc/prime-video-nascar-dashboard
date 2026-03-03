@@ -276,3 +276,53 @@ body {
 
 /* ── Selection ──────────────────────────────────────── */
 ::selection { background: rgba(0,168,255,0.25); color: #E8ECF4; }
+
+/* ── Whirl Spinner — Chart loading ────────────────────── */
+
+@keyframes whirl-spin {
+  to { transform: rotate(360deg); }
+}
+
+.whirl-chart-spinner {
+  --whirl-color: #00A8E0;
+  --whirl-secondary: #00C896;
+  --whirl-size: 36px;
+  --whirl-thickness: 3px;
+  display: block;
+  width: var(--whirl-size);
+  height: var(--whirl-size);
+  position: relative;
+}
+
+.whirl-chart-spinner::before {
+  content: '';
+  display: block;
+  width: var(--whirl-size);
+  height: var(--whirl-size);
+  border-radius: 100%;
+  border: var(--whirl-thickness) solid rgba(0, 168, 224, 0.12);
+  border-top-color: var(--whirl-color);
+  animation: whirl-spin 0.65s infinite linear;
+}
+
+.whirl-chart-spinner::after {
+  content: '';
+  display: block;
+  width: calc(var(--whirl-size) * 0.55);
+  height: calc(var(--whirl-size) * 0.55);
+  border-radius: 100%;
+  border: var(--whirl-thickness) solid rgba(0, 200, 150, 0.12);
+  border-bottom-color: var(--whirl-secondary);
+  animation: whirl-spin 0.45s infinite linear reverse;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ── Prime Video header teal gradient border ──────────── */
+.prime-topbar {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #00A8E0 20%, #00C896 50%, #00A8E0 80%, transparent 100%);
+  opacity: 0.7;
+}

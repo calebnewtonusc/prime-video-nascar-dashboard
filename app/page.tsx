@@ -80,6 +80,8 @@ export default function Page() {
             {STATS.map((s, i) => (
               <div
                 key={s.label}
+                data-aos="zoom-in"
+                data-aos-delay={String(i * 80)}
                 style={{
                   padding: "22px 24px",
                   borderRight: i < STATS.length - 1 ? "1px solid #162033" : "none",
@@ -118,10 +120,10 @@ export default function Page() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {SECTIONS.map((section) => {
+            {SECTIONS.map((section, idx) => {
               const Icon = section.icon;
               return (
-                <Link key={section.href} href={section.href} style={{ textDecoration: "none", display: "block" }}>
+                <Link key={section.href} href={section.href} data-aos="fade-up" data-aos-delay={String(idx * 80)} style={{ textDecoration: "none", display: "block" }}>
                   <div
                     className="nav-card"
                     style={{

@@ -41,8 +41,10 @@ const SKELETON_DELAYS = [80, 160, 240, 320];
 
 function Skeleton() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <div style={{ height: 220, borderRadius: 8, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite" }} />
+    <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "relative" }}>
+      <div style={{ height: 220, borderRadius: 8, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="whirl-chart-spinner" aria-hidden="true" />
+      </div>
       {SKELETON_DELAYS.map((delay) => (
         <div key={`rev-skeleton-${delay}`} style={{ height: 16, borderRadius: 3, background: "#1A2437", animation: "pulse 1.5s ease-in-out infinite", animationDelay: `${delay}ms` }} />
       ))}

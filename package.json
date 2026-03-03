@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.54.0",
+    "aos": "^2.3.4",
     "clsx": "^2.1.1",
     "lucide-react": "^0.396.0",
     "next": "14.2.29",
@@ -21,6 +22,7 @@
     "swr": "^2.4.0"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
