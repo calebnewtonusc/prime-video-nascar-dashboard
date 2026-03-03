@@ -3,16 +3,7 @@
 import Header from "@/components/Header";
 import AIAnalyst from "@/components/AIAnalyst";
 import AIInsights from "@/components/AIInsights";
-import dynamic from "next/dynamic";
-
-const BarChart = dynamic(() => import("recharts").then((m) => ({ default: m.BarChart })), { ssr: false });
-const Bar = dynamic(() => import("recharts").then((m) => ({ default: m.Bar })), { ssr: false });
-const XAxis = dynamic(() => import("recharts").then((m) => ({ default: m.XAxis })), { ssr: false });
-const YAxis = dynamic(() => import("recharts").then((m) => ({ default: m.YAxis })), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
-const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
-const LabelList = dynamic(() => import("recharts").then((m) => ({ default: m.LabelList })), { ssr: false });
+import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList } from "recharts";
 
 import { Zap, AlertTriangle, Lightbulb, Globe, Brain, Activity } from "lucide-react";
 
