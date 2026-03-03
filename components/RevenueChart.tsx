@@ -1,14 +1,8 @@
 "use client";
 import useSWR from "swr";
-import dynamic from "next/dynamic";
 import type { RevenueStream } from "@/app/api/revenue/route";
 import ErrorCard from "@/components/ErrorCard";
-
-const PieChart = dynamic(() => import("recharts").then((m) => ({ default: m.PieChart })), { ssr: false });
-const Pie = dynamic(() => import("recharts").then((m) => ({ default: m.Pie })), { ssr: false });
-const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 interface ApiResponse {
   streams: RevenueStream[];

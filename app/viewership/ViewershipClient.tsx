@@ -5,20 +5,7 @@ import RaceSchedule from "@/components/RaceSchedule";
 import DriverLeaderboard from "@/components/DriverLeaderboard";
 import GeographicBreakdown from "@/components/GeographicBreakdown";
 import EngagementFunnel from "@/components/EngagementFunnel";
-import dynamic from "next/dynamic";
-
-const AreaChart = dynamic(() => import("recharts").then((m) => ({ default: m.AreaChart })), { ssr: false });
-const Area = dynamic(() => import("recharts").then((m) => ({ default: m.Area })), { ssr: false });
-const BarChart = dynamic(() => import("recharts").then((m) => ({ default: m.BarChart })), { ssr: false });
-const Bar = dynamic(() => import("recharts").then((m) => ({ default: m.Bar })), { ssr: false });
-const XAxis = dynamic(() => import("recharts").then((m) => ({ default: m.XAxis })), { ssr: false });
-const YAxis = dynamic(() => import("recharts").then((m) => ({ default: m.YAxis })), { ssr: false });
-const CartesianGrid = dynamic(() => import("recharts").then((m) => ({ default: m.CartesianGrid })), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
-const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
-const PieChart = dynamic(() => import("recharts").then((m) => ({ default: m.PieChart })), { ssr: false });
-const Pie = dynamic(() => import("recharts").then((m) => ({ default: m.Pie })), { ssr: false });
+import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from "recharts";
 
 const weekly = [
   { week: "Feb 10", viewers: 1.1, minutes: 94 },

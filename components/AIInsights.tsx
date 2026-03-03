@@ -1,17 +1,8 @@
 "use client";
 import { Brain, TrendingUp, AlertTriangle, Target, Zap, Users, RefreshCw } from "lucide-react";
-import dynamic from "next/dynamic";
 import { useToast } from "@/components/Toast";
 import { useState } from "react";
-
-const BarChart = dynamic(() => import("recharts").then((m) => ({ default: m.BarChart })), { ssr: false });
-const Bar = dynamic(() => import("recharts").then((m) => ({ default: m.Bar })), { ssr: false });
-const XAxis = dynamic(() => import("recharts").then((m) => ({ default: m.XAxis })), { ssr: false });
-const YAxis = dynamic(() => import("recharts").then((m) => ({ default: m.YAxis })), { ssr: false });
-const CartesianGrid = dynamic(() => import("recharts").then((m) => ({ default: m.CartesianGrid })), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
-const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 const models = [
   { name: "Churn Prediction",   acc: 94.2, f1: 91.8, drift: 0.8,  healthy: true  },

@@ -3,19 +3,7 @@
 import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import MarketingTracker from "@/components/MarketingTracker";
-import dynamic from "next/dynamic";
-
-const PieChart = dynamic(() => import("recharts").then((m) => ({ default: m.PieChart })), { ssr: false });
-const Pie = dynamic(() => import("recharts").then((m) => ({ default: m.Pie })), { ssr: false });
-const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
-const BarChart = dynamic(() => import("recharts").then((m) => ({ default: m.BarChart })), { ssr: false });
-const Bar = dynamic(() => import("recharts").then((m) => ({ default: m.Bar })), { ssr: false });
-const XAxis = dynamic(() => import("recharts").then((m) => ({ default: m.XAxis })), { ssr: false });
-const YAxis = dynamic(() => import("recharts").then((m) => ({ default: m.YAxis })), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
-const ReferenceLine = dynamic(() => import("recharts").then((m) => ({ default: m.ReferenceLine })), { ssr: false });
-const LabelList = dynamic(() => import("recharts").then((m) => ({ default: m.LabelList })), { ssr: false });
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, LabelList } from "recharts";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

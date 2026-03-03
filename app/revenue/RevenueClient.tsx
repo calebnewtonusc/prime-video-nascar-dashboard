@@ -5,19 +5,7 @@ import Header from "@/components/Header";
 import RevenueChart from "@/components/RevenueChart";
 import CompetitorBenchmark from "@/components/CompetitorBenchmark";
 import { ArrowLeft, TrendingUp } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const BarChart = dynamic(() => import("recharts").then((m) => ({ default: m.BarChart })), { ssr: false });
-const Bar = dynamic(() => import("recharts").then((m) => ({ default: m.Bar })), { ssr: false });
-const XAxis = dynamic(() => import("recharts").then((m) => ({ default: m.XAxis })), { ssr: false });
-const YAxis = dynamic(() => import("recharts").then((m) => ({ default: m.YAxis })), { ssr: false });
-const CartesianGrid = dynamic(() => import("recharts").then((m) => ({ default: m.CartesianGrid })), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then((m) => ({ default: m.Tooltip })), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then((m) => ({ default: m.ResponsiveContainer })), { ssr: false });
-const Cell = dynamic(() => import("recharts").then((m) => ({ default: m.Cell })), { ssr: false });
-const Legend = dynamic(() => import("recharts").then((m) => ({ default: m.Legend })), { ssr: false });
-const PieChart = dynamic(() => import("recharts").then((m) => ({ default: m.PieChart })), { ssr: false });
-const Pie = dynamic(() => import("recharts").then((m) => ({ default: m.Pie })), { ssr: false });
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend, PieChart, Pie } from "recharts";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
